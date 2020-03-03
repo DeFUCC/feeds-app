@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>feeds</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="css/materialdesignicons.min.css" rel="stylesheet"/>
+    <link href="css/vuetify.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+    <div id="app">
+      <v-app>
+
+        <notify></notify>
+
+        <user-form v-if="$bus.auth && !$bus.loggedIn" ></user-form>
+
+        <user-drawer v-if="$user && $bus.loggedIn"></user-drawer>
+
+        <v-app-bar color="grey lighten-1" flat hide-on-scroll app>
+
+          <v-toolbar-title>{{title}}</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <app-buttons></app-buttons>
+
+          <template v-slot:extension>
+            <v-tabs grow v-model="$bus.tabs">
+              <v-tab>Суть</v-tab>
+              <v-tab>Слова</v-tab>
+              <v-tab>Значения</v-tab>
+            </v-tabs>
+          </template>
+        </v-app-bar>
+
+        <v-content>
+          <v-card color="#eee">
+
+          <search-form v-if="$bus.tabs!=0"></search-form>
+
+            <v-tabs-items style="background-color:#eee"  v-model="$bus.tabs">
+              <v-tab-item>
+                <game-info></game-info>
+              </v-tab-item>
+              <v-tab-item v-for="type in types">
+                <feed :type="type"></feed>
+              </v-tab-item>
+
+            </v-tabs-items>
+
+          </v-card>
+        </v-content>
+
+      <bottom-nav></bottom-nav>
+
+      <footer-info></footer-info>
+
+      </v-app>
+    </div>
+  </body>
+
+  <script src="js/assets/gun.js"></script>
+  <script src="js/lib/gun-synclist.js"></script>
+  <script src="js/lib/gun-tag.js"></script>
+  <script src="js/lib/webrtc.js"></script>
+  <script src="js/assets/sea.js"></script>
+  <script src="js/assets/vue.js"></script>
+  <script src="js/assets/vuetify.min.js"></script>
+  <script src="js/app.js" type="module"></script>
+</html>

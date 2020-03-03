@@ -1,0 +1,70 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif !important;
+
+    -webkit-hyphens: auto;
+    -webkit-hyphenate-limit-before: 3;
+    -webkit-hyphenate-limit-after: 3;
+    -webkit-hyphenate-limit-chars: 6 3 3;
+    -webkit-hyphenate-limit-lines: 2;
+    -webkit-hyphenate-limit-last: always;
+    -webkit-hyphenate-limit-zone: 8%;
+
+    -moz-hyphens: auto;
+    -moz-hyphenate-limit-chars: 6 3 3;
+    -moz-hyphenate-limit-lines: 2;
+    -moz-hyphenate-limit-last: always;
+    -moz-hyphenate-limit-zone: 8%;
+
+    -ms-hyphens: auto;
+    -ms-hyphenate-limit-chars: 6 3 3;
+    -ms-hyphenate-limit-lines: 2;
+    -ms-hyphenate-limit-last: always;
+    -ms-hyphenate-limit-zone: 8%;
+
+    hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+    hyphenate-limit-lines: 2;
+    hyphenate-limit-last: always;
+    hyphenate-limit-zone: 8%;
+
+}
+
+.draft {
+  background: repeating-linear-gradient(
+  -45deg,
+  transparent,
+  transparent 12px,
+  rgba(255,0,0,0.2) 12px,
+  rgba(255,0,0,0.2) 13px
+);
+}
+
+.the-word {
+  font-weight:300;
+  transform:translateY(3px);
+  cursor:pointer;
+}
+
+.turn45 {
+  transform: rotate(45deg);
+}
+
+.turn180 {
+  transform: rotate(-180deg);
+}
+
+
+
+.main-search .v-input__slot {
+  background-color: #fff !important;
+}
+
+
+
+.card.back {
+  background: url("assets/web-pattern.png");
+}
+
+.pointer {
+  cursor:pointer;
+}
