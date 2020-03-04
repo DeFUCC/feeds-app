@@ -66,6 +66,8 @@ Vue.prototype.$state = Gun.state;
 Vue.prototype.$getState = Gun.state.is;
 Vue.prototype.$soul = Gun.node.soul;
 Vue.prototype.$node = Gun.node.ify;
+Vue.prototype.$moment = moment;
+moment.locale('ru')
 
 // const app = gun.get('etovoteto')
 export default gun
