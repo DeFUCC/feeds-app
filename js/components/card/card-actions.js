@@ -1,8 +1,7 @@
-import gun from '../../gundb.js'
 
 export default {
   props: {
-    item:Object,
+    item:'Object',
     open:Object,
   },
   data() {
@@ -13,20 +12,20 @@ export default {
   template:`
   <v-expand-transition>
     <v-system-bar>
+      <v-btn small icon @click="$emit('add')">
+        <v-icon :class="{'turn45':open.add}" >mdi-plus</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
+
       <v-btn small @click="copy(item.type+': '+$soul(item))"  icon>
         <v-icon>mdi-link</v-icon>
       </v-btn>
        <v-btn small icon @click="ban(item)"><v-icon :style="{color: item.banned ? 'red' : 'grey'}">mdi-cancel</v-icon></v-btn>
-       <v-btn small icon  @click="deleteNode(item,getMode())"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+       <v-btn small icon  @click="deleteNode(item)"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
     </v-system-bar>
   </v-expand-transition>
   `,
   methods: {
-    getMode() {
-      if (this.$bus.tabs == 1) { return 'meanings' }
-      if (this.$bus.tabs == 0) { return 'words' }
-    },
     copy(soul) {
       if(navigator.clipboard) {
         navigator.clipboard.writeText(soul).then(() => {
@@ -52,9 +51,9 @@ export default {
       }
     },
     deleteNode(item, type) {
-      if (!type) {type = item.type }
-      let toDel = gun.get(type).get(this.$soul(item))
-      toDel.put(null,this.notify)
+      let toDel = this.$gun.get('idea').get(this.$soul(item));
+
+      toDel.put({VOID:true}, this.notify)
     },
   },
 }

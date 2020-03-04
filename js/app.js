@@ -1,7 +1,6 @@
 import gun from './gundb.js'
 import {cleanMap, stressedWord} from './help.js'
 
-
 import feed from './components/feed.js'
 import appInfo from './components/app-info.js'
 import appUi from './components/app/ui.js'
@@ -17,7 +16,6 @@ const app = new Vue({
   data:{
     title:'ЛЕНТЫ',
     peers:gun.back('opt.peers'),
-    types:['words','meanings']
   },
   created() {
     this.$user.recall({sessionStorage:true})

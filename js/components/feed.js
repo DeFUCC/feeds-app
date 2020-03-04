@@ -1,7 +1,6 @@
 import theCard from './card/the-card.js'
 import addForm from './card/add-form.js'
 import {cleanMap} from '../help.js'
-import gun from '../gundb.js'
 
 export default {
   props: {
@@ -20,20 +19,20 @@ export default {
     }
   },
   created() {
-    gun.get(this.type).map().on((data,key) => {
+    this.$gun.get(this.type).map().on((data,key) => {
       //  console.log(data, key)
         this.$set(this.items,key,data)
     })
   },
   template:`
   <v-container>
+
       <v-row >
         <v-col
-          
           cols="12"
-          v-for="(item,key) in items"
-          :key="item">
-            <the-card :id="$soul(item)"
+          v-for="(item,key) in filteredFeed"
+          :key="item.updatedAt">
+            <the-card
                :selected="$bus.selected==item"
                :item="item"
                :key="key" ></the-card>
@@ -67,21 +66,9 @@ export default {
       let feed = [];
       for (let key in this.items) {
         let item = this.items[key];
-        if(item && ( !item.banned || this.$bus.show.banned)) {
-          if (this.type=='words') {
-            if (item.letters.toLowerCase().includes(this.$bus.search)) {
-              feed.push(item)
-            }
-          }
-          if (this.type=='meanings') {
-            if (item.text.toLowerCase().includes(this.$bus.search)) {
-              feed.push(item)
-            }
-          }
+        if (item && (item.title || item.description)) {
+          feed.push(item)
         }
-      }
-      if (this.$bus.sort.byName && feed[0] && feed[0].type && this.$bus.types[feed[0].type]) {
-        feed.sort(this.sortFunc);
       }
       return feed
     },

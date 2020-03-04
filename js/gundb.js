@@ -5,7 +5,7 @@ const gun = new Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gu
 Vue.prototype.$bus = new Vue({
   data:{
     loggedIn:false,
-    edit:true,
+    edit:false,
     auth:false,
     userProfile:false,
     search:'',
@@ -32,8 +32,8 @@ Vue.prototype.$bus = new Vue({
         link:'words',
         field:'text',
       }, */
-      ideas: {
-        type:'ideas',
+      idea: {
+        type:'idea',
         title:'Идеи',
         description:'Мысль, предлагаемая к реализации'
       }
@@ -60,7 +60,7 @@ bus.$on('select', (item) => {
   }
 })
 
-Vue.prototype.$gun = gun;
+Vue.prototype.$gun = gun.get('feeds');
 Vue.prototype.$user = gun.user();
 Vue.prototype.$state = Gun.state;
 Vue.prototype.$getState = Gun.state.is;

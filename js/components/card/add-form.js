@@ -1,8 +1,10 @@
 const blankItem = {
     title:'',
     description:'',
-    createdAt:undefined,
-    createdBy:undefined,
+    createdAt:null,
+    updatedAt:null,
+    createdBy:null,
+    VOID:null,
   }
 
 export default {
@@ -42,6 +44,7 @@ export default {
   },
   methods: {
     createItem() {
+      this.item.type=this.type;
       this.item.createdAt = this.$state();
       if (this.$user.is) {
         this.item.createdBy = this.$user.is.pub;

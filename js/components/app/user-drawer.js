@@ -8,7 +8,7 @@ export default {
     <v-navigation-drawer
         v-model="$bus.userProfile"
         right app width="360px"
-        temporary
+        mini-variant
       >
       <v-list>
         <v-list-item>
