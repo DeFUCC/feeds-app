@@ -11,7 +11,7 @@ export default {
   <v-expand-transition>
     <v-footer class="flex-nowrap" dark app fixed v-if="$bus.selected">
         <v-btn icon small @click="findItem($bus.selected)"><v-icon>mdi-magnify</v-icon></v-btn>
-        <span>{{$bus.selected.letters || $bus.selected.text}}</span><v-spacer></v-spacer>
+        <span>{{$bus.selected.title || $bus.selected.description}}</span><v-spacer></v-spacer>
         <v-btn @click="$bus.$emit('select')" icon small><v-icon>mdi-close</v-icon></v-btn>
     </v-footer>
   </v-expand-transition>

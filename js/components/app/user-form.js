@@ -1,5 +1,3 @@
-import gun from '../gundb.js'
-
 export default {
 
   data() {
@@ -34,7 +32,7 @@ export default {
   `,
   watch: {
     username(name) {
-      gun.get("~@"+this.username).once((user) => {
+      this.$gun.get("~@"+this.username).once((user) => {
         this.userExists=user
       })
     },

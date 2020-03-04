@@ -14,26 +14,22 @@ export default {
     }
   },
   template:`
-  <v-expand-transition>
-    <v-form ref="form" v-model="valid" class="main-search">
+  <v-fade-transition>
+    <v-form transition="scroll-x-transition" ref="form" v-model="valid" class="main-search">
           <v-text-field
 
-            color="#fff"
             append-icon="mdi-close"
-            large outlined single-line
-            maxlength="21"
+            outlined single-line
             @blur="!search ? reset():''"
             @click:append="reset()"
             v-model="search"
-            :rules="rules"
-            label="Новое слово"  counter
-            hint="Найдите или предложите своё"></v-text-field>
+            label="Поиск"></v-text-field>
     </v-form>
-  </v-expand-transition>
+  </v-fade-transition>
   `,
   watch: {
     search(letters) {
-      if(this.$refs.form.validate()) {
+      if(letters && this.$refs.form.validate()) {
         this.$bus.search=letters.toLowerCase();
       } else {
         this.$bus.search=''
@@ -45,6 +41,7 @@ export default {
   },
   methods: {
     reset() {
+      this.$emit('reset');
       this.$refs.form.reset()
       this.$bus.search='';
       this.$refs.form.resetValidation()

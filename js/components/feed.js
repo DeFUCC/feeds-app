@@ -1,5 +1,5 @@
-import theCard from './the-card.js'
-import addForm from './add-form.js'
+import theCard from './card/the-card.js'
+import addForm from './card/add-form.js'
 import {cleanMap} from '../help.js'
 import gun from '../gundb.js'
 
@@ -27,11 +27,16 @@ export default {
   },
   template:`
   <v-container>
-
-      <v-row > 
-        <v-col :style="{marginTop:key, zIndex:$bus.selected==item ? 100 : 1}" style="position:sticky; top:4em" cols="12" v-for="(item,key) in filteredFeed" :key="item">
-            <the-card :id="$soul(item)" :selected="$bus.selected==item" :item="item" :key="key" ></the-card>
-
+      <v-row >
+        <v-col
+          
+          cols="12"
+          v-for="(item,key) in items"
+          :key="item">
+            <the-card :id="$soul(item)"
+               :selected="$bus.selected==item"
+               :item="item"
+               :key="key" ></the-card>
         </v-col>
       </v-row>
 

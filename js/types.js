@@ -119,7 +119,7 @@ t.publicFeed={
       t.design
     ]
 };
-t.personal={
+t.personalFeed={
     canHave: [
         t.persona,
         t.face,
@@ -322,4 +322,4 @@ t.question.canHave = [
     t.statement
 ];
 
-export default types;
+export default t;

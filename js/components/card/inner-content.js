@@ -1,5 +1,5 @@
-import gun from '../gundb.js'
-import {cleanMap, stressedWord} from '../help.js'
+import gun from '../../gundb.js'
+import {cleanMap, stressedWord} from '../../help.js'
 
 export default {
   name:'inner-content',

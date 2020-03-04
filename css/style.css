@@ -53,13 +53,13 @@ body {
   transform: rotate(-180deg);
 }
 
-
-
 .main-search .v-input__slot {
   background-color: #fff !important;
 }
 
-
+.main-search .v-text-field__details {
+  display:none;
+}
 
 .card.back {
   background: url("assets/web-pattern.png");

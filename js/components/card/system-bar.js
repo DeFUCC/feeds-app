@@ -1,4 +1,4 @@
-import gun from '../gundb.js'
+import gun from '../../gundb.js'
 
 export default {
   props: {

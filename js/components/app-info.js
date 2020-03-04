@@ -1,10 +1,12 @@
 import gun from '../gundb.js'
+import types from '../types.js'
 
 export default {
   props: [],
   data() {
     return{
       gun:gun,
+      types:types,
       peers:gun.back('opt.peers'),
     }
   },
@@ -20,12 +22,33 @@ export default {
         Программа представляет собой сеть взаимосвязанных утверждений и обсуждений, формирующих общественное понимания
       </p>
 
+      <v-card v-for="type in types">
+        {{type.title}}
+        <v-card dark v-if="type.canHave" v-for="subType in type.canHave">
+          {{subType.title}}
+        </v-card>
+      </v-card>
+
     <p>При поддержке <a href="https://frkt.ru" target="_blank">Фонда ФРУКТ</a></p>
 
     </v-container>
   `,
   methods: {
+    decycle(obj, stack = []) {
+        if (!obj || typeof obj !== 'object')
+            return obj;
 
+        if (stack.includes(obj))
+            return null;
+
+        let s = stack.concat([obj]);
+
+        return Array.isArray(obj)
+            ? obj.map(x => this.decycle(x, s))
+            : Object.fromEntries(
+                Object.entries(obj)
+                    .map(([k, v]) => [k, this.decycle(v, s)]));
+    }
   },
 
 }

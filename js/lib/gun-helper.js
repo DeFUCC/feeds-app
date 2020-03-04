@@ -1,9 +1,54 @@
-/**
- * get and put encrypted material to paths in Gun
+**
+ * get and put encrypted and/or signed material to paths in Gun
  * FIXME: Investigate why root level put doesn't work
- * TODO: Add signing to make objects unwritable by others
- https://gist.github.com/jabis/a3b7d5b475ef23fb859d3acabe9325cb#file-gun-helper-js-L24-L52
+ *
+ * DONE: Add signing to make objects unwritable by others
+ * Changes:
+ * - 25.02.2020
+ * - added mergedeep to better merge deeper objects between themselves
+ * - added pair.osign option to only sign not encrypt when passing existing pairs
  **/
+(async function(){
+var Nug = this.Nug = null;
+
+var atoob = this.atoob = function atoob(arr){
+  var obj = {};
+  Gun.list.map(arr, function(v,f,t){
+    if(Gun.list.is(v) || Gun.obj.is(v)){
+      obj[f] = atoob(v);
+      return;
+    }
+    obj[f] = v;
+  });
+  return obj;
+};
+const getNug = this.getNug = function(){
+  if(Nug) return Nug.back(-1);
+  if(Gun) Nug = new Gun(location.protocol+"//"+location.host+"/gun");
+  return Nug.back(-1);
+}
+const mrgdeep = this.mrgdeep = function mrgdeep(...objects) {
+  const isObject = obj => obj && typeof obj === 'object';
+
+  return objects.reduce((prev, obj) => {
+    Object.keys(obj).forEach(key => {
+      const pVal = prev[key];
+      const oVal = obj[key];
+
+      if (Array.isArray(pVal) && Array.isArray(oVal)) {
+        prev[key] = [...pVal, ...oVal].filter((element, index, array) => array.indexOf(element) === index);
+      }
+      else if (isObject(pVal) && isObject(oVal)) {
+        prev[key] = mrgdeep(pVal, oVal);
+      }
+      else {
+        prev[key] = oVal;
+      }
+    });
+
+    return prev;
+  }, {});
+}
 
 const decEnc = this.decEnc = async(...args)=> {
   console.log(args);
@@ -16,12 +61,6 @@ const decEnc = this.decEnc = async(...args)=> {
   return it;
 };
 
-const getNug = function(){
-  Nug = Nug ? Nug : false;
-  if(gun && !Nug) Nug = new Gun({peers:Object.keys(gun._.opt.peers)});
-  return Nug.back(-1);
-}
-// TODO: make compatible with putenc
 const createRWEResource = this.createRWEResource = async(...args)=> {
   let key = args.shift();
   let data = args.shift();
@@ -29,7 +68,12 @@ const createRWEResource = this.createRWEResource = async(...args)=> {
   let addUuid = args.length>0 ? args.shift() : false;
   const uuid = gun._.opt.uuid();
   let pair = await SEA.pair();
-  if(typeof encIt === "object" && encIt.priv) pair = encIt;
+  if(typeOf(encIt) == "object" && encIt.priv) {
+    pair = encIt;
+    var onlysign = pair.osign? true:false;
+    if(pair.hasOwnProperty('osign')) delete pair["osign"];
+    if(onlysign) encIt = false;
+  }
   let id = "~"+pair.pub;
   if(addUuid) id = id + "." + uuid;
   let nug = getNug();
@@ -37,49 +81,52 @@ const createRWEResource = this.createRWEResource = async(...args)=> {
     let datax = {"#":id,'.':key,':':data,'>':Gun.state()}
     let signed = await SEA.sign(datax,pair);
     let putsi = await nug.get(id).get(key).put(signed).then();
-    //console.log("putsi",putsi);
+    console.log("putsi",putsi);
     return {id:id,key:key,ref:nug.get(id).get(key),pair:pair};
   }
   else {
     return await decEnc(data,pair,"encrypt").then(async(enc)=>{
       let datax = {"#":id,'.':key,':':'a'+enc,'>':Gun.state()}
       let signed = await SEA.sign(datax,pair);
-      //console.log(pair,signed);
+      console.log(pair,signed);
       let putsi = await nug.get(id).get(key).put(signed).then()
-      //console.log("putsi",putsi);
+      console.log("putsi",putsi);
       return {id:id,key:key,ref:nug.get(id).get(key),pair:pair};
     });
   }
 };
-
-
 
 Gun.chain.putsenc = async function(){
   let args = Array.from(arguments);
   let self = this;
   let gun = this.back(-1);
   let data = args.shift();
-  let pair = args.length > 0 ? args.shift() : (gun.user().is ? gun.user()._.sea : null)
+  let pair = args.length > 0 ? args.shift() : (gun.user().is ? gun.user()._.sea : null);
+  let genuuid = args.length > 0 ? args.shift() : false;
+  let onlysign = args.length > 0 ? args.shift() : false;
   if(!pair) return Promise.reject("No keypair provided or not logged in");
-  return await decEnc(data, pair, 'encrypt').then(async (d)=>{
-    return await self.put("a"+d).then();
-  }).catch((err)=>{
-    console.log("whoops",err);
-    return self;
-  })
+  if(onlysign) pair.osign=true;
+  return self.once(async function(olddata,key) {
+    return await createRWEResource(key, data, pair, genuuid);
+  });
 };
+
 Gun.chain.putenc = async function() {
   let args = Array.from(arguments);
   let self = this;
   let gun = this.back(-1);
   let nug = getNug();
   let data = args.shift();
-  let pair =
-    args.length > 0 ? args.shift() : gun.user().is ? gun.user()._.sea : null;
+  let me = gun.user().is;
+  let pair = args.length > 0 ? args.shift() : me ? gun.user()._.sea : null;
+  let onlysign = args.length > 0 ? args.shift() : false;
+
   //TODO: Implement checking with old pair as well as throw if error
   if (!pair) return Promise.reject("No keypair provided or not logged in");
+  if(onlysign) pair.osign = true;
   return this.once(async function(olddata, key) {
     console.log("old data", olddata);
+    //TODO: Check the onlysign and skip decrypt and encrypt in that case
     if(typeof olddata === "string" && /^(aSEA)/.test(olddata)) olddata = olddata.slice(1)
     return await decEnc(olddata, pair)
       .then(async old => {
@@ -88,9 +135,9 @@ Gun.chain.putenc = async function() {
         if (!old) {
           nd = data;
         } else {
-          if (typeof old === "object") {
+          if (typeof old === "object" && data && typeof data ==="object") {
             // trying to simulate regular put
-            nd = Object.assign({}, old, data);
+            nd = mrgdeep(old, data);
           } else {
             nd = data;
           }
@@ -98,19 +145,22 @@ Gun.chain.putenc = async function() {
         console.log("new data", nd);
         return await decEnc(nd, pair, "encrypt").then(async (enc) => {
           console.log("encrypted", enc);
-/*          if (pair && pair.priv) {
-            enc = await Gun.SEA.sign(
+          if (!me && pair && pair.priv) {
+            let id = "~"+pair.pub;
+            let signed = await SEA.sign(
               {
-                "#": "~"+pair.pub+"|"+key,
+                "#": id,
                 ".": key,
-                ":": enc,
+                ":": "a"+enc,
                 ">": Gun.state()
               },
               pair
             );
             console.log("signed",signed);
-          }*/
-          return await self.put("a"+enc).then();
+            return await nug.get(id).get(key).put(signed).then();
+          } else {
+            return await self.put("a"+enc).then();
+          }
         });
       })
       .catch(err => {
@@ -131,7 +181,7 @@ Gun.chain.getenc = async function(){
   //console.log(data,pair,path);
   if(typeof data === "string" && /^(aSEA)/.test(data)) data = data.slice(1)
   let dec = await decEnc(data, pair);
-  return dec ? dec : self;
+  return dec ? dec : null;
 };
 
 const putMyDataEnc = this.putMyDataEnc = async (...args) => {
@@ -166,8 +216,6 @@ const putMyDataEnc = this.putMyDataEnc = async (...args) => {
     return Promise.reject("Not authenticated");
   }
 };
-
-
 const getMyDataEnc = this.getMyDataEnc = async (...args)=>{
   console.log(args);
   let path = args.shift(); // path as first argument
