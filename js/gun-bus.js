@@ -15,26 +15,52 @@ Vue.prototype.$bus = new Vue({
     show:{
       banned:false,
       bottom:true,
+      user:false,
+      nav:false,
     },
     sort:{
       byName:true,
     },
     types:{
-  /*    words: {
-        type:'words',
+      word: {
+        type:'word',
         title:'Слова',
-        link:'meanings',
-        field:'letters',
+        name:'Слово',
+        links:{
+          meaning: {
+            type:'meaning',
+            multiple:true
+          }
+        },
+        fields: {
+          title: {
+            input:'text'
+          },
+          stress: {
+            input:'number'
+          }
+        }
       },
-      meanings: {
-        type:'meanings',
+      meaning: {
+        type:'meaning',
         title:'Значения',
-        link:'words',
-        field:'text',
-      }, */
+        name:'Значение',
+        fields: {
+          description: {
+            input:'textarea'
+          }
+        },
+        links:{
+          word: {
+            type:'word',
+            multiple:true
+          }
+        }
+      },
       idea: {
         type:'idea',
         title:'Идеи',
+        name:'Идея',
         description:'Мысль, предлагаемая к реализации'
       }
     }
@@ -60,7 +86,7 @@ bus.$on('select', (item) => {
   }
 })
 
-Vue.prototype.$gun = gun.get('feeds');
+Vue.prototype.$gun = gun.get('feeds2');
 Vue.prototype.$user = gun.user();
 Vue.prototype.$state = Gun.state;
 Vue.prototype.$getState = Gun.state.is;

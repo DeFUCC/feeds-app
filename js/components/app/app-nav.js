@@ -6,8 +6,8 @@ export default {
   },
   template: `
     <v-navigation-drawer
-        v-model="$bus.show.user"
-        right app width="300px"
+        v-model="$bus.show.nav"
+        left app width="300px"
       >
       <v-list>
         <v-list-item>
@@ -16,12 +16,12 @@ export default {
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{$user.is.alias}}
+            <v-list-item-title>
 
             </v-list-item-title>
           </v-list-item-content>
             <v-list-item-action>
-                <v-btn icon  @click="$bus.show.user=false">
+                <v-btn icon  @click="$bus.show.nav=false">
                 <v-icon>mdi-chevron-right</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>
@@ -45,7 +45,7 @@ export default {
 
           <v-list-item-content >
             <v-list-item-title >Ваш публичный ключ</v-list-item-title>
-            <v-list-item-subtitle style="font-size:0.7em;">{{$user.is.pub}}</v-list-item-subtitle>
+            <v-list-item-subtitle style="font-size:0.7em;"></v-list-item-subtitle>
           </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -61,7 +61,7 @@ export default {
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item @click="$user.leave();checkLeave()" link>
+          <v-list-item >
             <v-list-item-icon>
               <v-icon>mdi-logout-variant</v-icon>
             </v-list-item-icon>
@@ -73,21 +73,9 @@ export default {
       </v-navigation-drawer>
   `,
   watch: {
-    username(name) {
-      this.$gun.get("~@"+this.username).once((user) => {
-        this.userExists=user
-      })
-    }
+
   },
   methods: {
-    checkLeave() {
-      setTimeout(() => {
-        if(!this.$user._.sea) {
-          this.$bus.$emit('notify', 'Вы вышли!');
-          this.$bus.loggedIn=false;
-          this.$bus.auth=false;
-        }
-      },1000)
-    },
+
   }
 }

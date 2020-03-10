@@ -66,8 +66,12 @@ export default {
       let feed = [];
       for (let key in this.items) {
         let item = this.items[key];
+
         if (item && (item.title || item.description)) {
-          feed.push(item)
+
+            if ((this.$bus.show.banned && item.banned) ||(!this.$bus.show.banned && !item.banned) ) {
+              feed.push(item)
+            }
         }
       }
       return feed

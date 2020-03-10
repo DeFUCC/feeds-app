@@ -4,6 +4,7 @@ import userDrawer from './user-drawer.js'
 import appBar from './app-bar.js'
 import footerInfo from './footer-info.js'
 import bottomNav from './bottom-nav.js'
+import appNav from './app-nav.js'
 
 export default {
   components: {
@@ -13,6 +14,7 @@ export default {
     appBar,
     footerInfo,
     bottomNav,
+    appNav,
   },
   data() {
     return {
@@ -21,17 +23,19 @@ export default {
   },
   template: `
     <div>
-      <notify></notify>
+      <notify />
 
-      <user-form v-if="$bus.auth && !$bus.loggedIn" ></user-form>
+      <user-form v-if="$bus.auth && !$bus.loggedIn" />
 
-      <user-drawer v-if="$user && $bus.loggedIn"></user-drawer>
+      <user-drawer v-if="$user && $bus.loggedIn" />
 
-      <app-bar></app-bar>
+      <app-nav />
 
-      <footer-info></footer-info>
+      <app-bar />
 
-      <bottom-nav></bottom-nav>
+      <footer-info />
+
+      <bottom-nav />
     </div>
 
   `,

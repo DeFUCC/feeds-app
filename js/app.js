@@ -1,4 +1,4 @@
-import gun from './gundb.js'
+import gun from './gun-bus.js'
 import {cleanMap, stressedWord} from './help.js'
 
 import feed from './components/feed.js'

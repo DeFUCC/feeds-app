@@ -12,7 +12,7 @@ export default {
   },
   template: `
   <v-app-bar color="grey lighten-1" flat hide-on-scroll app>
-
+    <v-btn icon @click="$bus.show.nav=true"><v-icon>mdi-menu</v-icon></v-btn>
     <v-toolbar-title>{{title}}</v-toolbar-title>
 
     <v-spacer ></v-spacer>
@@ -20,7 +20,7 @@ export default {
 
     <v-item-group>
       <v-btn @click="search=true" icon v-if="!search"><v-icon right>mdi-magnify</v-icon></v-btn>
-      <v-btn @click="$bus.userProfile=true" text v-if="$bus.loggedIn">{{$user.is.alias}} <v-icon right>mdi-dots-vertical</v-icon></v-btn>
+      <v-btn @click="$bus.show.user=true" text v-if="$bus.loggedIn">{{$user.is.alias}} <v-icon right>mdi-dots-vertical</v-icon></v-btn>
 
       <v-btn icon v-if="!$bus.loggedIn" @click="$bus.auth=true">
         <v-icon>mdi-login-variant</v-icon>

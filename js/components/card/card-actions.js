@@ -45,9 +45,9 @@ export default {
     },
     ban(item) {
       if (!item.banned) {
-        let banned = gun.get(item.type).get(this.$soul(item)).proptag('banned',this.notify)
+        let banned = this.$gun.get(item.type).get(this.$soul(item)).proptag('banned',this.notify)
       } else {
-        gun.get(item.type).get(this.$soul(item)).untag('banned',this.notify)
+        this.$gun.get(item.type).get(this.$soul(item)).untag('banned',this.notify)
       }
     },
     deleteNode(item, type) {

@@ -26,9 +26,21 @@ export default {
     }
   },
   created() {
-    this.$gun.user(this.item.createdBy).once((user) =>{
-      this.creator = user.alias
-    })
+    if(this.item.createdBy) {
+      this.$gun.user(this.item.createdBy).once((user) =>{
+        this.creator = user.alias
+      });
+    }
+    this.item.links = this.item.links || {};
+
+    for (let link of this.links) {
+      this.item.links[link]={};
+      this.$gun.get(this.item.type)
+               .get(this.$soul(this.item))
+               .get(link).map().on( ( lnk, key ) => {
+                  this.item.links[link][key] = lnk
+                })
+    }
   },
   template:`
         <v-card
@@ -37,50 +49,71 @@ export default {
           :outlined="!selected">
 
             <v-card-title
-
-              v-if="item.description"
-              @click="$bus.$emit('select',item)">
+              v-if="item.title || $bus.edit"
+              >
                   <editable
-                    class="pointer title font-weight-regular"
+                    class="title font-weight-regular"
                     :item="item"
                     property="title"
                     :selected="selected"
-                    ></editable>
+                  />
+                    <v-spacer/>
+                    <v-btn @click="$bus.$emit('select',item)" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
             </v-card-title>
 
             <v-card-text
-              v-if="item.description">
+              v-if="item.description || $bus.edit">
+
                 <editable
                   class="body-1 font-weight-regular"
                   :item="item"
                   property="description"
                   :selected="selected"
                   ></editable>
+                  <v-btn v-if="!item.title" @click="$bus.$emit('select',item)" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+            </v-card-text>
+            <v-card-text
+              v-if="item.links">
+                  <v-row v-for="links in item.links">
+                    <v-col v-for="link in links">
+                      {{link.title || link.description}}
+                    </v-col>
+                  </v-row>
             </v-card-text>
 
             <v-expand-transition>
               <v-card-text
-                style="padding-top:0" v-if="open.add">
-                  <add-form @added="open.add=false"></add-form>
+                style="padding-top:0" v-if="open.add && selected">
+                  <add-form :hostid="$soul(item)" :hosttype="item.type" v-for="link in links" :type="link" :key="link" @added="open.add=false"></add-form>
               </v-card-text>
             </v-expand-transition>
-            
+
             <v-card-actions v-if="selected" style="background-color:#f9f9f9" class="overline">
-              Автор: {{creator}}<br>
-              Создано {{$moment(item.createdAt).fromNow()}}<br>
-            Отредактировано  {{$moment(item.editedAt).fromNow()}}
+              Автор: {{creator || 'Аноним'}}<br/>
+              Создано {{$moment(item.createdAt).fromNow()}}
+              <span v-if="item.editedAt"><br/>
+            Отредактировано  {{$moment(item.editedAt).fromNow()}}</span><br/>
+
           </v-card-actions>
 
             <card-actions
               :open="open"
               @add="open.add=!open.add"
-              v-show="$bus.loggedIn && selected"
+              v-show=" selected"
               :item="item"></card-actions>
 
         </v-card>
   `,
   computed: {
-
+    links() {
+      let linksList=[];
+      let type = this.item.type;
+      let links = this.$bus.types[type].links
+      for (let l in links) {
+        linksList.push(l)
+      }
+      return linksList
+    }
   },
   methods: {
 

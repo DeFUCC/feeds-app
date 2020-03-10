@@ -1,13 +1,11 @@
-import gun from '../gundb.js'
 import types from '../types.js'
 
 export default {
   props: [],
   data() {
     return{
-      gun:gun,
       types:types,
-      peers:gun.back('opt.peers'),
+      peers:this.$gun.back('opt.peers'),
     }
   },
   mounted() {

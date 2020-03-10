@@ -32,7 +32,7 @@ export default {
   `,
   watch: {
     username(name) {
-      this.$gun.get("~@"+this.username).once((user) => {
+      this.$gun.back().get("~@"+this.username).once((user) => {
         this.userExists=user
       })
     },
