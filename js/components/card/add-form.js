@@ -5,7 +5,6 @@ const blankItem = {
     updatedAt:null,
     createdBy:null,
     VOID:null,
-    links:{},
   }
 
 export default {
@@ -53,7 +52,6 @@ export default {
       let {host, item, type, $gun, $soul, $user} = this;
       let it = {...item}
       it.createdAt = this.$state();
-      console.log(it)
       if ($user.is) {
         it.createdBy = $user.is.pub;
         it = await $user.get(type).set(it)
@@ -62,22 +60,21 @@ export default {
        it = await $gun.get(type).set(it);
 
        if (host) {
-        await this.interlink(host.type,$soul(host),type,$soul(it))
+        it = await this.interlink(host.type,$soul(host),type,$soul(it))
        }
        this.reset(it);
-       return it
     },
     async interlink (hostType, host, itemType, item) {
       let hoster =  this.$gunroot.get(host);
       let theitem = this.$gunroot.get(item);
       let itm = await hoster.get(itemType).set(theitem);
       let hstr = await theitem.get(hostType).set(hoster)
+      return {hstr,itm}
     },
     reset(status) {
       console.log(status)
       this.$emit('added')
       this.$forceUpdate();
-      this.$root.$forceUpdate();
       this.item={...blankItem};
       this.$root.selected=''
     }

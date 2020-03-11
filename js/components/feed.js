@@ -28,7 +28,6 @@ export default {
       gun = $gun
     }
     gun.get(this.type).map().on((data,key) => {
-        console.log(data,key)
         this.$set(this.items,key,data)
     })
   },
