@@ -10,13 +10,11 @@ const blankItem = {
 
 export default {
   props: {
-    hostid: String,
-    hosttype:String,
+    host: Object,
     type:{
       type: String,
       default:'idea',
     },
-    base: Boolean,
   },
   data() {
     return{
@@ -29,14 +27,13 @@ export default {
   },
   template:`
     <v-container style="padding-top:0">
-      {{hostid}} !!! {{hosttype}} === {{type}} +++ {{item}}
       <v-form ref="form" v-model="valid">
         <v-row>
           <v-col cols="12" v-for="field in linkType.fields">
-            <v-text-field v-if="field.input=='text'"
-              v-model="item.title"
-              label="Название"></v-text-field>
-            <v-textarea v-if="field.input=='textarea'"  rows="2" v-model="item.description" label="Описание"></v-textarea>
+            <v-text-field v-if="field.type=='text'"
+              v-model="item[field.name]"
+              :label="field.label"></v-text-field>
+            <v-textarea v-if="field.type=='textarea'"  rows="2" v-model="item.description" label="Описание"></v-textarea>
           </v-col>
           <v-col>
             <v-btn :disabled="!item.title && !item.description" @click="createItem()">Добавить</v-btn>
@@ -46,45 +43,43 @@ export default {
     </v-container>
   `,
   computed: {
-    hostType() {
-
-    },
     linkType() {
-      let type = this.type;
-       return this.$bus.types[type]
+      let linkType = this.$bus.types[this.type]
+       return linkType;
     }
   },
   methods: {
     async createItem() {
-      let {hostid,hosttype,item,type} = this;
-
-
-      item.createdAt = this.$state();
-
-      if (this.$user.is) {
-        item.createdBy = this.$user.is.pub;
-        item = await this.$user.get(type).set(item)
-        console.log(item)
+      let {host, item, type, $gun, $soul, $user} = this;
+      let it = {...item}
+      it.createdAt = this.$state();
+      console.log(it)
+      if ($user.is) {
+        it.createdBy = $user.is.pub;
+        it = await $user.get(type).set(it)
       }
 
-       item = await this.$gun.get(type).set(item);
-       console.log(item)
-       let itemid = this.$soul(item);
-       console.log(hostid,hosttype,itemid,type)
+       it = await $gun.get(type).set(it);
 
-       if (hostid) {
-         let host =  this.$gun.get(hosttype).get(hostid);
-         let theitem = this.$gun.get(type).get(itemid);
-         let hosted = await host.get(type).set(theitem);
-         let linked = await theitem.get(hosttype).set(host)
+       if (host) {
+        await this.interlink(host.type,$soul(host),type,$soul(it))
        }
-       this.reset(item);
-       return item
+       this.reset(it);
+       return it
+    },
+    async interlink (hostType, host, itemType, item) {
+      console.log(hostType, host, itemType, item);
+      let hoster =  this.$gunroot.get(host);
+      let theitem = this.$gunroot.get(item);
+      let itm = await hoster.get(itemType).set(theitem);
+      let hstr = await theitem.get(hostType).set(hoster)
+      console.log(hstr, itm)
     },
     reset(status) {
       console.log(status)
-      this.$emit('notify',status)
-      this.item=blankItem;
+      this.$emit('added')
+      this.item={...blankItem};
+      this.$bus.selected=''
     }
   },
 }

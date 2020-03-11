@@ -5,6 +5,8 @@ import feed from './components/feed.js'
 import appInfo from './components/app-info.js'
 import appUi from './components/app/ui.js'
 
+Vue.component('feed',feed)
+
 const app = new Vue({
   el:'#app',
   vuetify: new Vuetify(),

@@ -1,5 +1,5 @@
 const gun = new Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gun')
-
+import {types} from './types.js'
 //
 
 Vue.prototype.$bus = new Vue({
@@ -7,7 +7,6 @@ Vue.prototype.$bus = new Vue({
     loggedIn:false,
     edit:false,
     auth:false,
-    userProfile:false,
     search:'',
     selected:null,
     isSelected:false,
@@ -21,49 +20,7 @@ Vue.prototype.$bus = new Vue({
     sort:{
       byName:true,
     },
-    types:{
-      word: {
-        type:'word',
-        title:'Слова',
-        name:'Слово',
-        links:{
-          meaning: {
-            type:'meaning',
-            multiple:true
-          }
-        },
-        fields: {
-          title: {
-            input:'text'
-          },
-          stress: {
-            input:'number'
-          }
-        }
-      },
-      meaning: {
-        type:'meaning',
-        title:'Значения',
-        name:'Значение',
-        fields: {
-          description: {
-            input:'textarea'
-          }
-        },
-        links:{
-          word: {
-            type:'word',
-            multiple:true
-          }
-        }
-      },
-      idea: {
-        type:'idea',
-        title:'Идеи',
-        name:'Идея',
-        description:'Мысль, предлагаемая к реализации'
-      }
-    }
+    types,
   },
   watch: {
     isSelected(val) {
@@ -86,7 +43,8 @@ bus.$on('select', (item) => {
   }
 })
 
-Vue.prototype.$gun = gun.get('feeds2');
+Vue.prototype.$gun = gun.get('feeds783');
+Vue.prototype.$gunroot= gun;
 Vue.prototype.$user = gun.user();
 Vue.prototype.$state = Gun.state;
 Vue.prototype.$getState = Gun.state.is;

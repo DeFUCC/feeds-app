@@ -1,3 +1,49 @@
+export const types = {
+  word: {
+    type:'word',
+    name:'word',
+    title:'Слова',
+    oneTitle:'Слово',
+    links:['meaning'],
+    fields: {
+      title: {
+        type:'text',
+        name:'title',
+        label:'Слово',
+        placeholder:'Любой читаемый набор букв'
+      },
+      stress: {
+        type:'text',
+        name:'stress',
+        label:'Ударение',
+      }
+    }
+  },
+
+  meaning: {
+    type:'meaning',
+    name:'meaning',
+    title:'Значения',
+    oneTitle:'Значение',
+    fields: {
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Определение'
+      }
+    },
+    links:['word'],
+  },
+  idea: {
+    type:'idea',
+    name:'idea',
+    title:'Идеи',
+    oneTitle:'Идея',
+    description:'Мысль, предлагаемая к реализации'
+  }
+}
+
+
 const t = {
     design:{
         type:'design',
