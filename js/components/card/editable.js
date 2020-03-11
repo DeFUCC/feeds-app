@@ -24,9 +24,9 @@ export default {
   template: `
     <span class="font-weight-regular" :class="{title:property=='title', 'body-1':property=='description'}">
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
-        @click="$bus.edit ? edit(item[property]) : false">
+        @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}
-      </span> <v-btn v-if="$bus.edit && selected && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
+      </span> <v-btn v-if="$root.edit && selected && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
     </span>
   `,
   methods: {

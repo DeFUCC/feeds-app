@@ -4,6 +4,7 @@ import {cleanMap, stressedWord} from './help.js'
 import feed from './components/feed.js'
 import appInfo from './components/app-info.js'
 import appUi from './components/app/ui.js'
+import {types} from './types.js'
 
 Vue.component('feed',feed)
 
@@ -18,19 +19,30 @@ const app = new Vue({
   data:{
     title:'ЛЕНТЫ',
     peers:gun.back('opt.peers'),
+    loggedIn:false,
+    edit:false,
+    auth:false,
+    search:'',
+    selected:null,
+    isSelected:false,
+    tabs:1,
+    show:{
+      banned:false,
+      bottom:true,
+      user:false,
+      nav:false,
+    },
+    sort:{
+      byName:true,
+    },
+    types,
   },
   created() {
     this.$user.recall({sessionStorage:true})
 
     gun.on('auth', (user) => {
-      this.$bus.loggedIn=true;
-      this.$bus.auth=false;
+      this.loggedIn=true;
+      this.auth=false;
     })
   },
-  methods: {
-
-  },
-  beforeDestroy() {
-
-  }
 })

@@ -44,7 +44,7 @@ export default {
   `,
   computed: {
     linkType() {
-      let linkType = this.$bus.types[this.type]
+      let linkType = this.$root.types[this.type]
        return linkType;
     }
   },
@@ -68,18 +68,18 @@ export default {
        return it
     },
     async interlink (hostType, host, itemType, item) {
-      console.log(hostType, host, itemType, item);
       let hoster =  this.$gunroot.get(host);
       let theitem = this.$gunroot.get(item);
       let itm = await hoster.get(itemType).set(theitem);
       let hstr = await theitem.get(hostType).set(hoster)
-      console.log(hstr, itm)
     },
     reset(status) {
       console.log(status)
       this.$emit('added')
+      this.$forceUpdate();
+      this.$root.$forceUpdate();
       this.item={...blankItem};
-      this.$bus.selected=''
+      this.$root.selected=''
     }
   },
 }

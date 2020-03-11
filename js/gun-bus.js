@@ -4,23 +4,7 @@ import {types} from './types.js'
 
 Vue.prototype.$bus = new Vue({
   data:{
-    loggedIn:false,
-    edit:false,
-    auth:false,
-    search:'',
-    selected:null,
     isSelected:false,
-    tabs:1,
-    show:{
-      banned:false,
-      bottom:true,
-      user:false,
-      nav:false,
-    },
-    sort:{
-      byName:true,
-    },
-    types,
   },
   watch: {
     isSelected(val) {
@@ -29,21 +13,20 @@ Vue.prototype.$bus = new Vue({
       }
     }
   },
+  created() {
+    this.$on('select', (item) => {
+      if(this.selected==item) {
+        this.selected=''
+        this.isSelected=false
+      } else {
+        this.selected=item;
+        this.isSelected=true
+      }
+    })
+  }
 });
 
-const bus = Vue.prototype.$bus
-
-bus.$on('select', (item) => {
-  if(bus.selected==item) {
-    bus.selected=''
-    bus.isSelected=false
-  } else {
-    bus.selected=item;
-    bus.isSelected=true
-  }
-})
-
-Vue.prototype.$gun = gun.get('feeds783');
+Vue.prototype.$gun = gun.get('feeds79');
 Vue.prototype.$gunroot= gun;
 Vue.prototype.$user = gun.user();
 Vue.prototype.$state = Gun.state;

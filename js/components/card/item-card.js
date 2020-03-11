@@ -34,7 +34,7 @@ export default {
           :raised="selected"
           :outlined="!selected">
             <v-card-title
-              v-if="item.title || $bus.edit"
+              v-if="item.title || $root.edit"
               >
                   <editable
                     :item="item"
@@ -46,7 +46,7 @@ export default {
             </v-card-title>
 
             <v-card-title
-              v-if="item.description || $bus.edit">
+              v-if="item.description || $root.edit">
                 <editable
                   :item="item"
                   property="description"
@@ -85,10 +85,10 @@ export default {
   computed: {
     linkTypes() {
       let links=[];
-      let {item,$bus} = this;
+      let {item,$root} = this;
       let type = this.item.type;
-      if ($bus.types[item.type]) {
-        links = $bus.types[item.type].links
+      if ($root.types[item.type]) {
+        links = $root.types[item.type].links
       }
       return links
     }

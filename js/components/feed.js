@@ -27,9 +27,8 @@ export default {
     } else {
       gun = $gun
     }
-    console.log(this.host, await gun, this.type)
     gun.get(this.type).map().on((data,key) => {
-      //  console.log(data, key)
+        console.log(data,key)
         this.$set(this.items,key,data)
     })
   },
@@ -57,8 +56,6 @@ export default {
         </v-col>
       </v-row>
 
-
-
   </v-container>
   `,
   methods: {
@@ -67,15 +64,15 @@ export default {
       return num
     },
     getLinkDesc(link) {
-      if(this.$bus.types[link]) {
-        return this.$bus.types[link].title
+      if(this.$root.types[link]) {
+        return this.$root.types[link].title
       }
     },
     cleanMap(obj) {
         return Object.entries(obj).reduce((a,[k,v]) => (v === null ? a : {...a, [k]:v}), {})
     },
     sortFunc(a,b) {
-      let field = this.$bus.types[a.type].field;
+      let field = this.$root.types[a.type].field;
       let aField = a[field].toLowerCase();
       let bField = b[field].toLowerCase();
       if ( aField > bField ) {
@@ -95,7 +92,7 @@ export default {
 
         if (item && (item.title || item.description)) {
 
-            if ((this.$bus.show.banned && item.banned) ||(!this.$bus.show.banned && !item.banned) ) {
+            if ((this.$root.show.banned && item.banned) ||(!this.$root.show.banned && !item.banned) ) {
               feed[key]=item
             }
         }

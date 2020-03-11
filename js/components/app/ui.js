@@ -25,9 +25,9 @@ export default {
     <div>
       <notify />
 
-      <user-form v-if="$bus.auth && !$bus.loggedIn" />
+      <user-form v-if="$root.auth && !$root.loggedIn" />
 
-      <user-drawer v-if="$user && $bus.loggedIn" />
+      <user-drawer v-if="$user && $root.loggedIn" />
 
       <app-nav />
 

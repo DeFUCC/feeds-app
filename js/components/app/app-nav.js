@@ -6,7 +6,7 @@ export default {
   },
   template: `
     <v-navigation-drawer
-        v-model="$bus.show.nav"
+        v-model="$root.show.nav"
         left app width="300px"
       >
       <v-list>
@@ -21,7 +21,7 @@ export default {
             </v-list-item-title>
           </v-list-item-content>
             <v-list-item-action>
-                <v-btn icon  @click="$bus.show.nav=false">
+                <v-btn icon  @click="$root.show.nav=false">
                 <v-icon>mdi-chevron-right</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>
@@ -52,12 +52,12 @@ export default {
         <v-divider></v-divider>
         <v-list>
 
-          <v-list-item @click="$bus.show.bottom=!$bus.show.bottom">
+          <v-list-item @click="$root.show.bottom=!$root.show.bottom">
             <v-list-item-icon >
-              <v-icon :style="{color:$bus.show.bottom ? 'orange' : 'grey'}">mdi-dock-bottom</v-icon>
+              <v-icon :style="{color:$root.show.bottom ? 'orange' : 'grey'}">mdi-dock-bottom</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title :style="{color:$bus.show.bottom ? 'orange' : ''}">Меню управления</v-list-item-title>
+              <v-list-item-title :style="{color:$root.show.bottom ? 'orange' : ''}">Меню управления</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 

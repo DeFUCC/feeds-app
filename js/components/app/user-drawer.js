@@ -6,7 +6,7 @@ export default {
   },
   template: `
     <v-navigation-drawer
-        v-model="$bus.show.user"
+        v-model="$root.show.user"
         right app width="300px"
       >
       <v-list>
@@ -21,7 +21,7 @@ export default {
             </v-list-item-title>
           </v-list-item-content>
             <v-list-item-action>
-                <v-btn icon  @click="$bus.show.user=false">
+                <v-btn icon  @click="$root.show.user=false">
                 <v-icon>mdi-chevron-right</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>
@@ -52,12 +52,12 @@ export default {
         <v-divider></v-divider>
         <v-list>
 
-          <v-list-item @click="$bus.show.bottom=!$bus.show.bottom">
+          <v-list-item @click="$root.show.bottom=!$root.show.bottom">
             <v-list-item-icon >
-              <v-icon :style="{color:$bus.show.bottom ? 'orange' : 'grey'}">mdi-dock-bottom</v-icon>
+              <v-icon :style="{color:$root.show.bottom ? 'orange' : 'grey'}">mdi-dock-bottom</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title :style="{color:$bus.show.bottom ? 'orange' : ''}">Меню управления</v-list-item-title>
+              <v-list-item-title :style="{color:$root.show.bottom ? 'orange' : ''}">Меню управления</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -84,8 +84,8 @@ export default {
       setTimeout(() => {
         if(!this.$user._.sea) {
           this.$bus.$emit('notify', 'Вы вышли!');
-          this.$bus.loggedIn=false;
-          this.$bus.auth=false;
+          this.$root.loggedIn=false;
+          this.$root.auth=false;
         }
       },1000)
     },
