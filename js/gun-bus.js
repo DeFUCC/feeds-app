@@ -1,6 +1,4 @@
 const gun = new Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gun')
-import {types} from './types.js'
-//
 
 Vue.prototype.$bus = new Vue({
   data:{

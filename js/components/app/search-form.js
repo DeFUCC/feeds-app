@@ -22,6 +22,7 @@ export default {
             outlined single-line
             @blur="!search ? reset():''"
             @click:append="reset()"
+            @keydown.enter.prevent=""
             v-model="search"
             label="Поиск"></v-text-field>
     </v-form>

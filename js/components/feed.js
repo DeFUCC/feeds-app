@@ -92,7 +92,10 @@ export default {
         if (item && (item.title || item.description)) {
 
             if ((this.$root.show.banned && item.banned) ||(!this.$root.show.banned && !item.banned) ) {
+
+              if (!this.$root.search || (item.title.includes(this.$root.search) || item.description.includes(this.$root.search)))
               feed[key]=item
+
             }
         }
       }
