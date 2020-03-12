@@ -11,7 +11,7 @@ export default {
     }
   },
   template: `
-  <v-app-bar color="grey lighten-1" flat hide-on-scroll app>
+  <v-app-bar color="grey lighten-1" flat  app>
     <v-btn icon @click="$root.show.nav=true"><v-icon>mdi-menu</v-icon></v-btn>
     <v-toolbar-title>{{title}}</v-toolbar-title>
 

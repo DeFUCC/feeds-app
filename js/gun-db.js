@@ -1,5 +1,6 @@
 const gun = new Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gun')
 
+
 Vue.prototype.$gun = gun.get('feeds79');
 Vue.prototype.$gunroot= gun;
 Vue.prototype.$user = gun.user();
@@ -9,5 +10,9 @@ Vue.prototype.$soul = Gun.node.soul;
 Vue.prototype.$node = Gun.node.ify;
 Vue.prototype.$moment = moment;
 moment.locale('ru')
+Vue.prototype.$color = new ColorHash({
+  saturation:[0.25, 0.35, 0.5],
+  lightness: [0.65, 0.75, 0.85]
+});
 
 export default gun

@@ -5,6 +5,7 @@ export default {
   props: {
     type:String,
     host:Object,
+    base:Boolean,
   },
   components:{
     itemCard,
@@ -32,7 +33,7 @@ export default {
     })
   },
   template:`
-  <v-container>
+  <v-container :class="{'pa-0':!base}">
     <v-row>
       <v-col cols="10">
         <h3>{{getLinkDesc(type)}}</h3>
@@ -41,17 +42,14 @@ export default {
           <v-btn :class="{turn45:add}" @click="add=!add" icon><v-icon>mdi-plus</v-icon></v-btn>
       </v-col>
     </v-row>
-    <v-expand-transition>
-    <v-row v-if="add">
-      <v-col >
 
-          <add-form @added="add=false" :host="host" :type="type"></add-form>
-
-      </v-col>
-    </v-row>
-    </v-expand-transition>
-      <v-row style="max-height:75vh; overflow-y:scroll; ">
-        <v-col
+      <v-row style="max-height:65vh; overflow-y:scroll; ">
+        <v-expand-transition>
+          <v-col v-if="add">
+              <add-form @added="add=false" :host="host" :type="type"></add-form>
+          </v-col>
+        </v-expand-transition>
+        <v-col class="py-1"
           cols="12"
           v-for="(item,key) in filteredFeed"
           :key="$state(item)">

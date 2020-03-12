@@ -18,9 +18,7 @@ export default {
   `,
   methods: {
     findItem(item) {
-      if(item.type=='words') {this.$root.tabs=1};
-      if(item.type=='meanings') {this.$root.tabs=2};
-      setTimeout(this.goTo, 500);
+      setTimeout(this.goTo, 300);
     },
     goTo() {
       this.$vuetify.goTo('#'+ this.$soul(this.$root.selected))

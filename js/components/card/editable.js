@@ -22,7 +22,7 @@ export default {
     }
   },
   template: `
-    <span class="font-weight-regular" :class="{title:property=='title', 'body-1':property=='description'}">
+    <span class="font-weight-regular" style="max-width:85%" :class="{title:property=='title', 'body-1':property=='description'}">
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
         @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}
@@ -44,7 +44,8 @@ export default {
       this.editing=false;
       let prop = val.target.textContent.trim();
       val.target.innerHtml=prop;
-      this.$gun.get(this.item.type).get(this.$soul(this.item)).put({[this.property]:prop, updatedAt:this.$state()}, (msg) => {
+
+      this.$gunroot.get(this.$soul(this.item)).put({[this.property]:prop, updatedAt:this.$state()}, (msg) => {
         this.$root.$emit('notify', msg)
       })
     },

@@ -1,6 +1,5 @@
 import gun from './gun-db.js'
 import {cleanMap, stressedWord} from './help.js'
-
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
@@ -39,12 +38,26 @@ const app = new Vue({
   created() {
     this.$user.recall({sessionStorage:true})
 
+  /*  window.addEventListener('beforeunload', (event) => {
+  // Cancel the event as stated by the standard.
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = '';
+    });
+*/
     gun.on('auth', (user) => {
       this.loggedIn=true;
       this.auth=false;
     })
   },
   methods: {
-    log:console.log
+    log:console.log,
+    select(item) {
+      if(item==this.selected) {
+        this.selected='';
+      } else {
+        this.selected=item;
+      }
+    }
   }
 })

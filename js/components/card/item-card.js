@@ -7,6 +7,7 @@ export default {
   props: {
     item:Object,
     selected:Boolean,
+    more:Boolean,
   },
   components:{
     cardActions,
@@ -28,12 +29,18 @@ export default {
       creator:null,
     }
   },
+  mounted() {
+    if(this.more) {
+      this.open.more=true;
+    }
+  },
   template:`
         <v-card
           :id="$soul(item)"
           :raised="selected"
-          :outlined="!selected">
-            <v-card-title class="py-1 px-2" @click="$root.selected = item"
+          :outlined="!selected"
+          :style="{borderLeft: '4px solid ' + $color.hex($soul(item))}">
+            <v-card-title class="py-1 px-2 pointer"
               >
                   <editable
                     v-if="item.title || $root.edit"
@@ -48,12 +55,27 @@ export default {
                     :selected="selected"
                     ></editable>
                     <v-spacer/>
+                    <v-btn @click="$root.select(item)"  icon><v-icon>mdi-link</v-icon></v-btn>
                     <v-btn @click="open.more = !open.more" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
             </v-card-title>
+            <v-card-actions v-if="open.more"  class="overline">
+              Автор: {{creator || 'Аноним'}}<br/>
+              Создано {{$moment(item.createdAt).fromNow()}}
+              <br/>
+              <span v-if="item.updatedAt">
+            Отредактировано  {{$moment(item.updatedAt).fromNow()}}</span><br/>
+
+          </v-card-actions>
+            <card-actions
+              :open="open"
+              @add="open.add=!open.add"
+              v-show="open.more"
+              :item="item"></card-actions>
+
             <v-expand-transition>
 
               <v-container v-if="links && open.more">
-                <v-card-text
+                <v-card-text class="ma-0 pa-0"
                    v-for="(linked,linksKey) in links">
                       <feed :host="item" :type="linksKey" />
                 </v-card-text>
@@ -61,19 +83,6 @@ export default {
 
             </v-expand-transition>
 
-            <v-card-actions v-if="open.more" style="background-color:#f9f9f9" class="overline">
-              Автор: {{creator || 'Аноним'}}<br/>
-              Создано {{$moment(item.createdAt).fromNow()}}
-              <span v-if="item.editedAt"><br/>
-            Отредактировано  {{$moment(item.editedAt).fromNow()}}</span><br/>
-
-          </v-card-actions>
-
-            <card-actions
-              :open="open"
-              @add="open.add=!open.add"
-              v-show="open.more"
-              :item="item"></card-actions>
 
         </v-card>
   `,
@@ -100,7 +109,7 @@ export default {
         if (user && user.alias) {
           this.creator = user.alias
         }
-        
+
       }
     },
     getLinks() {

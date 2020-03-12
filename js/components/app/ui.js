@@ -5,6 +5,7 @@ import appBar from './app-bar.js'
 import footerInfo from './footer-info.js'
 import bottomNav from './bottom-nav.js'
 import appNav from './app-nav.js'
+import bottomSheet from './bottom-sheet.js'
 
 export default {
   components: {
@@ -15,6 +16,7 @@ export default {
     footerInfo,
     bottomNav,
     appNav,
+    bottomSheet,
   },
   data() {
     return {
@@ -34,6 +36,7 @@ export default {
       <app-bar />
 
       <footer-info />
+      <bottom-sheet />
 
       <bottom-nav />
     </div>
