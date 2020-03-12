@@ -4,6 +4,7 @@ import {cleanMap, stressedWord} from './help.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
+import appInfo from './components/app/app-info.js'
 
 Vue.component('feed',feed)
 
@@ -12,6 +13,7 @@ const app = new Vue({
   vuetify: new Vuetify(),
   components:{
     appUi,
+    appInfo
   },
   data:{
     title:'ЛЕНТЫ',
@@ -41,7 +43,8 @@ const app = new Vue({
       this.loggedIn=true;
       this.auth=false;
     })
-
-
   },
+  methods: {
+    log:console.log
+  }
 })

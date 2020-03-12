@@ -27,12 +27,6 @@ export default {
       </v-btn>
     </v-item-group>
 
-    <template v-slot:extension>
-      <v-tabs center-active show-arrows v-model="$root.tabs">
-        <v-tab>ФРУКТ</v-tab>
-        <v-tab v-for="type in $root.types">{{type.title}}</v-tab>
-      </v-tabs>
-    </template>
   </v-app-bar>
   `,
 }

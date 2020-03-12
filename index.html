@@ -11,13 +11,20 @@
   </head>
 
   <body>
-    <div id="app">
+    <div id="app" v-touch="{
+      left:(e) => {
+        log(e)
+      }
+    }">
       <v-app>
         <app-ui></app-ui>
         <v-content>
           <v-card color="#eee">
-            <v-row class="flex-nowrap" style="overflow:scroll;background-color:#eee"  v-model="tabs" :key="">
-              <v-col style="flex:1 1 400px; min-width:300px" v-for="type in types" :key="type.type">
+            <v-row class="flex-nowrap" style="overflow:scroll;background-color:#eee; scroll-snap-type: x mandatory;"  v-model="tabs" :key="">
+              <v-col style="flex:1 1 400px; min-width:320px; scroll-snap-align: start;">
+                <app-info></app-info>
+              </v-col>
+              <v-col style="flex:1 1 400px; min-width:320px; scroll-snap-align: start;" v-for="type in types" :key="type.type">
                 <feed :type="type.type"></feed>
               </v-col>
             </v-row>

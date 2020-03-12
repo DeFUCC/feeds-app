@@ -19,7 +19,7 @@ export default {
       add:false,
     }
   },
-  async created() {
+  mounted() {
     let {$gunroot, $gun, $soul} = this
     let gun
     if (this.host) {
@@ -54,7 +54,7 @@ export default {
         <v-col
           cols="12"
           v-for="(item,key) in filteredFeed"
-          :key="item.updatedAt">
+          :key="$state(item)">
             <item-card
                :selected="selected==item"
                :item="item"
@@ -113,7 +113,6 @@ export default {
 
         feed[key]=item
       }
-
 
       return feed
     },

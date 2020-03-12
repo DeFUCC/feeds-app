@@ -20,7 +20,7 @@ export default {
         Программа представляет собой сеть взаимосвязанных утверждений и обсуждений, формирующих общественное понимания
       </p>
 
-      <v-card v-for="type in types">
+      <v-car v-if="false" v-for="type in types">
         {{type.title}}
         <v-card dark v-if="type.canHave" v-for="subType in type.canHave">
           {{subType.title}}

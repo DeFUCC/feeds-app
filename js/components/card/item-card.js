@@ -94,10 +94,13 @@ export default {
   },
   methods: {
     async getCreator() {
-      let soul = this.item.createdBy;
-      if (soul) {
-        let user = await this.$gun.user(soul)
-        this.creator = user.alias
+      if (this.item.createdBy) {
+        let user = await this.$gun.user(this.item.createdBy)
+
+        if (user && user.alias) {
+          this.creator = user.alias
+        }
+        
       }
     },
     getLinks() {
