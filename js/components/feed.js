@@ -50,7 +50,7 @@ export default {
       </v-col>
     </v-row>
     </v-expand-transition>
-      <v-row >
+      <v-row style="max-height:75vh; overflow-y:scroll; ">
         <v-col
           cols="12"
           v-for="(item,key) in filteredFeed"
