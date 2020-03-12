@@ -45,11 +45,11 @@ export default {
       this.$user.create(this.username,this.password,this.signedUp)
     },
     loggedIn(ack) {
-      this.$bus.$emit('notify', 'Вы вошли в систему!')
+      this.$root.$emit('notify', 'Вы вошли в систему!')
       this.$user.get('profile').put({username:this.username})
     },
     signedUp(ack) {
-      this.$bus.$emit('notify', 'Новый пользователь создан!')
+      this.$root.$emit('notify', 'Новый пользователь создан!')
     },
   }
 }

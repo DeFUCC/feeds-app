@@ -33,6 +33,23 @@ export default {
   },
   template:`
   <v-container>
+    <v-row>
+      <v-col cols="10">
+        <h3>{{getLinkDesc(type)}}</h3>
+      </v-col>
+      <v-col class="text-center" cols="2">
+          <v-btn :class="{turn45:add}" @click="add=!add" icon><v-icon>mdi-plus</v-icon></v-btn>
+      </v-col>
+    </v-row>
+    <v-expand-transition>
+    <v-row v-if="add">
+      <v-col >
+
+          <add-form @added="add=false" :host="host" :type="type"></add-form>
+
+      </v-col>
+    </v-row>
+    </v-expand-transition>
       <v-row >
         <v-col
           cols="12"
@@ -44,16 +61,7 @@ export default {
                :key="key"></item-card>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col class="text-center" cols="2">
-            <v-btn :class="{turn45:add}" x-large fab @click="add=!add" icon><v-icon>mdi-plus</v-icon></v-btn>
-        </v-col>
-        <v-col cols="10">
-          <v-expand-transition>
-            <add-form @added="add=false" v-if="add" :host="host" :type="type"></add-form>
-          </v-expand-transition>
-        </v-col>
-      </v-row>
+
 
   </v-container>
   `,
@@ -89,16 +97,24 @@ export default {
       for (let key in this.items) {
         let item = this.items[key];
 
-        if (item && (item.title || item.description)) {
+        if (!item) { continue }
 
-            if ((this.$root.show.banned && item.banned) ||(!this.$root.show.banned && !item.banned) ) {
-
-              if (!this.$root.search || (item.title.includes(this.$root.search) || item.description.includes(this.$root.search)))
-              feed[key]=item
-
-            }
+        if(!(item.title || item.description)) {
+          continue
         }
+
+        if ((this.$root.show.banned && !item.banned) ||(!this.$root.show.banned && item.banned)) {
+          continue
+        }
+
+        if (this.$root.search && !(item.title.includes(this.$root.search) || item.description.includes(this.$root.search))) {
+          continue
+        }
+
+        feed[key]=item
       }
+
+
       return feed
     },
   },

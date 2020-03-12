@@ -45,7 +45,7 @@ export default {
       let prop = val.target.textContent.trim();
       val.target.innerHtml=prop;
       this.$gun.get(this.item.type).get(this.$soul(this.item)).put({[this.property]:prop, updatedAt:this.$state()}, (msg) => {
-        this.$bus.$emit('notify', msg)
+        this.$root.$emit('notify', msg)
       })
     },
     focus(ref) {

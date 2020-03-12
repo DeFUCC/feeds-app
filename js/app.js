@@ -1,8 +1,7 @@
-import gun from './gun-bus.js'
+import gun from './gun-db.js'
 import {cleanMap, stressedWord} from './help.js'
 
 import feed from './components/feed.js'
-import appInfo from './components/app-info.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
 
@@ -13,8 +12,6 @@ const app = new Vue({
   vuetify: new Vuetify(),
   components:{
     appUi,
-    feed,
-    appInfo,
   },
   data:{
     title:'ЛЕНТЫ',
@@ -44,5 +41,7 @@ const app = new Vue({
       this.loggedIn=true;
       this.auth=false;
     })
+
+
   },
 })

@@ -33,27 +33,22 @@ export default {
           :id="$soul(item)"
           :raised="selected"
           :outlined="!selected">
-            <v-card-title
-              v-if="item.title || $root.edit"
+            <v-card-title class="py-1 px-2" @click="$root.selected = item"
               >
                   <editable
+                    v-if="item.title || $root.edit"
                     :item="item"
                     property="title"
                     :selected="selected"
                   />
+                  <editable
+                    v-if="item.description || $root.edit"
+                    :item="item"
+                    property="description"
+                    :selected="selected"
+                    ></editable>
                     <v-spacer/>
                     <v-btn @click="open.more = !open.more" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
-            </v-card-title>
-
-            <v-card-title
-              v-if="item.description || $root.edit">
-                <editable
-                  :item="item"
-                  property="description"
-                  :selected="selected"
-                  ></editable>
-                  <v-spacer/>
-                  <v-btn v-if="!item.title" @click="open.more = !open.more" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
             </v-card-title>
             <v-expand-transition>
 

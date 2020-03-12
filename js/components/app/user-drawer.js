@@ -83,7 +83,7 @@ export default {
     checkLeave() {
       setTimeout(() => {
         if(!this.$user._.sea) {
-          this.$bus.$emit('notify', 'Вы вышли!');
+          this.$root.$emit('notify', 'Вы вышли!');
           this.$root.loggedIn=false;
           this.$root.auth=false;
         }

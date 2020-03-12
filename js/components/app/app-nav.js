@@ -1,5 +1,9 @@
-export default {
+import appInfo from './app-info.js'
 
+export default {
+  components:{
+    appInfo
+  },
   data() {
     return {
     }
@@ -50,6 +54,7 @@ export default {
           </v-list-item>
         </v-list>
         <v-divider></v-divider>
+        <app-info></app-info>
         <v-list>
 
           <v-list-item @click="$root.show.bottom=!$root.show.bottom">
@@ -70,6 +75,7 @@ export default {
             </v-list-item-content>
           </v-list-item>
         </v-list>
+
       </v-navigation-drawer>
   `,
   watch: {

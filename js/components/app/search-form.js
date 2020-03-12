@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('search-reset', this.reset)
+    this.$root.$on('search-reset', this.reset)
   },
   methods: {
     reset() {
@@ -49,6 +49,6 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$bus.$off('search-reset', this.reset)
+    this.$root.$off('search-reset', this.reset)
   },
 }

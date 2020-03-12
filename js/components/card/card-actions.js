@@ -30,18 +30,18 @@ export default {
       if(navigator.clipboard) {
         navigator.clipboard.writeText(soul).then(() => {
           let copied = 'Key copied: '+ soul;
-          this.$bus.$emit('notify', copied)
+          this.$root.$emit('notify', copied)
         }, (err) => {
           console.error('Error copying ', err);
         });
       } else {
-        this.$bus.$emit('notify','can not copy')
+        this.$root.$emit('notify','can not copy')
       }
 
     },
     notify(message) {
       console.log(message)
-      this.$bus.$emit('notify', message)
+      this.$root.$emit('notify', message)
     },
     ban(item) {
       if (!item.banned) {

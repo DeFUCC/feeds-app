@@ -16,14 +16,11 @@
         <app-ui></app-ui>
         <v-content>
           <v-card color="#eee">
-            <v-tabs-items  style="background-color:#eee"  v-model="tabs" :key="">
-              <v-tab-item>
-                <app-info></app-info>
-              </v-tab-item>
-              <v-tab-item v-for="type in types" :key="type.type">
+            <v-row class="flex-nowrap" style="overflow:scroll;background-color:#eee"  v-model="tabs" :key="">
+              <v-col style="flex:1 1 400px; min-width:300px" v-for="type in types" :key="type.type">
                 <feed :type="type.type"></feed>
-              </v-tab-item>
-            </v-tabs-items>
+              </v-col>
+            </v-row>
           </v-card>
         </v-content>
       </v-app>

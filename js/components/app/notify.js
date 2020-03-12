@@ -7,7 +7,7 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('notify', (message) => {
+    this.$root.$on('notify', (message) => {
       this.snackbar=true;
       this.message=message;
     })
@@ -24,6 +24,6 @@ export default {
 
   },
   beforeDestroy() {
-    this.$bus.$off('notify')
+    this.$root.$off('notify')
   },
 }

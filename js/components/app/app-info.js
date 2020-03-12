@@ -1,4 +1,4 @@
-import types from '../types.js'
+import types from '../../types.js'
 
 export default {
   props: [],
