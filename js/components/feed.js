@@ -47,7 +47,7 @@ export default {
 
       </v-col>
       <v-col cols="6" class="text-end">
-        <v-btn :disabled="!$root.loggedIn" :color="!$root.show.banned ? 'green':'red'" @click="$root.show.banned=!$root.show.banned" icon><v-icon>mdi-cancel</v-icon></v-btn>
+        <v-btn v-if="$root.loggedIn" :color="$root.show.seen ? 'black':'grey'" @click="$root.show.seen=!$root.show.seen" icon><v-icon v-if="$root.show.seen">mdi-eye</v-icon><v-icon v-if="!$root.show.seen">mdi-eye-off</v-icon></v-btn>
         <v-btn class="caption" icon><span>
           {{page.end}}/{{page.total}}
         </span></v-btn>
@@ -119,7 +119,7 @@ export default {
         return -1;
       }
       return 0;
-    }
+    },
   },
   computed: {
     typeField() {
@@ -128,7 +128,8 @@ export default {
   },
   asyncComputed: {
     async filteredFeed() {
-      let {items, search, page, sort, type, $root} = this
+
+      let {items, search, page, sort, type, $root, $soul} = this
       let feed = {};
       let clean=0;
       let entries = Object.entries(this.cleanMap(items));
@@ -142,6 +143,10 @@ export default {
 
         if (!item || item.VOID) { continue }
 
+        if ($root.seen[key] && !$root.show.seen) {
+          continue
+        }
+
         if(!item[this.typeField]) {
           continue
         }
@@ -150,11 +155,11 @@ export default {
           continue
         }
 
-        if ($root.search && !item[this.typeField].includes($root.search)) {
+        if ($root.search && !item[this.typeField].toLowerCase().includes($root.search.toLowerCase())) {
           continue
         }
 
-        if (search && !item[this.typeField].includes(search)) {
+        if (search && !item[this.typeField].toLowerCase().includes(search.toLowerCase())) {
           continue
         }
 
@@ -163,18 +168,15 @@ export default {
           continue
         }
 
-        if (Object.entries(feed).length>this.page.end) {
+        if (Object.entries(feed).length>page.end) {
           this.more=true;
           break
         } else {
           this.more=false;
+          page.end=page.total
         }
 
         feed[key]=item
-      }
-
-      if (this.page.total && this.page.total<this.page.end) {
-        this.page.end = this.page.total;
       }
 
       return feed

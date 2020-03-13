@@ -8,6 +8,11 @@ export default {
       peers:this.$gun.back('opt.peers'),
     }
   },
+  watch: {
+    user() {
+
+    }
+  },
   mounted() {
 
   },
@@ -19,6 +24,7 @@ export default {
       <p>
         Программа представляет собой сеть взаимосвязанных утверждений и обсуждений, формирующих общественное понимания
       </p>
+
 
       <v-car v-if="false" v-for="type in types">
         {{type.title}}
