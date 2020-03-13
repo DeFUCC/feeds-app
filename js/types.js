@@ -6,7 +6,7 @@ export const types = {
     oneTitle:'Слово',
     links:['meaning'],
     fields: {
-      title: {
+      default: {
         type:'text',
         name:'title',
         label:'Слово',
@@ -26,7 +26,7 @@ export const types = {
     title:'Значения',
     oneTitle:'Значение',
     fields: {
-      description: {
+      default: {
         type:'textarea',
         name:'description',
         label:'Определение'

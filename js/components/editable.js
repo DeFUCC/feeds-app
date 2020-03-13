@@ -26,7 +26,7 @@ export default {
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
         @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}
-      </span> <v-btn v-if="$root.edit && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
+      </span> <v-btn v-if="$root.edit && selected && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
     </span>
   `,
   methods: {

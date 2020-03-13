@@ -11,17 +11,14 @@ export default {
   },
   template:`
   <v-expand-transition>
-    <v-system-bar>
-      <v-btn small icon @click="$emit('add')">
-        <v-icon :class="{'turn45':open.add}" >mdi-plus</v-icon>
-      </v-btn>
+    <v-system-bar :style="{background: $color.hex($soul(item))}">
       <v-spacer></v-spacer>
-
-      <v-btn small @click="copy(item.type+': '+$soul(item))"  icon>
+      <v-btn  icon><v-icon>mdi-eye-outline</v-icon></v-btn>
+      <v-btn  @click="copy(item.type+': '+$soul(item))"  icon>
         <v-icon>mdi-link</v-icon>
       </v-btn>
-       <v-btn small icon @click="ban(item)"><v-icon :style="{color: item.banned ? 'red' : 'grey'}">mdi-cancel</v-icon></v-btn>
-       <v-btn small icon  @click="deleteNode(item)"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+       <v-btn  icon @click="ban(item)"><v-icon :style="{color: item.banned ? 'red' : 'grey'}">mdi-cancel</v-icon></v-btn>
+       <v-btn  icon  @click="deleteNode(item)"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
     </v-system-bar>
   </v-expand-transition>
   `,

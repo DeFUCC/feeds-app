@@ -1,6 +1,6 @@
 import cardActions from './card-actions.js'
 import addForm from './add-form.js'
-import editable from './editable.js'
+import editable from '../editable.js'
 
 export default {
   name:'item-card',
@@ -39,67 +39,44 @@ export default {
           :id="$soul(item)"
           :raised="selected"
           :outlined="!selected"
-          :style="{borderLeft: '4px solid ' + $color.hex($soul(item))}">
-            <v-card-title class="py-1 px-2 pointer"
+          :style="{borderBottom: '2px solid ' + $color.hex($soul(item))}">
+            <v-card-title class="py-1 px-2"
               >
-                  <editable
-                    v-if="item.title || $root.edit"
-                    :item="item"
-                    property="title"
-                    :selected="selected"
-                  />
-                  <editable
-                    v-if="item.description || $root.edit"
-                    :item="item"
-                    property="description"
-                    :selected="selected"
-                    ></editable>
-                    <v-spacer/>
-                    <v-btn @click="$root.select(item)"  icon><v-icon>mdi-link</v-icon></v-btn>
-                    <v-btn @click="open.more = !open.more" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
-            </v-card-title>
-            <v-card-actions v-if="open.more"  class="overline">
-              Автор: {{creator || 'Аноним'}}<br/>
-              Создано {{$moment(item.createdAt).fromNow()}}
-              <br/>
-              <span v-if="item.updatedAt">
-            Отредактировано  {{$moment(item.updatedAt).fromNow()}}</span><br/>
+                <h2 @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="title pointer">
+                  {{item.title}}
+                </h2>
 
-          </v-card-actions>
+                <span @click="$root.select(item)" style="max-width:85%" v-if="item.description" class="body-1 pointer">
+                  {{item.description}}
+                </span>
+                    <v-spacer/>
+                    <v-btn @click="getCreator();open.more = !open.more" :class="{turn180:open.more}" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+            </v-card-title>
+            <v-expand-transition>
+              <v-card-actions class="overline" v-if="open.more">
+                <span v-show="open.more">
+                  Автор: {{creator || 'Аноним'}}<br/>
+                  Создано {{$moment(item.createdAt).fromNow()}}
+                  <br/>
+                  <span v-if="item.updatedAt">
+                    Отредактировано  {{$moment(item.updatedAt).fromNow()}}
+                  </span>
+                </span>
+              </v-card-actions>
+            </v-expand-transition>
             <card-actions
               :open="open"
               @add="open.add=!open.add"
               v-show="open.more"
               :item="item"></card-actions>
 
-            <v-expand-transition>
-
-              <v-container v-if="links && open.more">
-                <v-card-text class="ma-0 pa-0"
-                   v-for="(linked,linksKey) in links">
-                      <feed :host="item" :type="linksKey" />
-                </v-card-text>
-              </v-container>
-
-            </v-expand-transition>
-
-
         </v-card>
   `,
   computed: {
-    linkTypes() {
-      let links=[];
-      let {item,$root} = this;
-      let type = this.item.type;
-      if ($root.types[item.type]) {
-        links = $root.types[item.type].links
-      }
-      return links
-    }
+
   },
-  created() {
-    this.getCreator();
-    this.getLinks();
+  mounted() {
+
   },
   methods: {
     async getCreator() {
@@ -110,15 +87,6 @@ export default {
           this.creator = user.alias
         }
 
-      }
-    },
-    getLinks() {
-      let { links, item, $soul, $gun, $set } = this;
-      for (let link of this.linkTypes) {
-        $set(links,link,{})
-        $gun.get($soul(item)).get(link).map().on((lnk,key) => {
-          $set(links[link],key,lnk)
-        })
       }
     },
     isEmpty(obj) {
