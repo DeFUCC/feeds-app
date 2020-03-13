@@ -60,9 +60,9 @@ export default {
       </v-card-actions>
         <v-expand-transition>
 
-          <v-container   v-if="links">
+          <v-container v-if="links">
             <v-row class="ma-0 pa-0"
-               v-for="(linked,linksKey) in links" :key="linksKey">
+               v-for="(linked,linksKey) in links" :key="$soul(item)+linksKey">
 
                   <feed :host="item" :type="linksKey" />
             </v-row>
@@ -74,6 +74,10 @@ export default {
 
   `,
   watch: {
+    item() {
+      this.getCreator();
+      this.getLinks();
+    },
     open(val) {
       if (!val) {
         this.$root.select(this.item)
