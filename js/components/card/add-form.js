@@ -12,7 +12,7 @@ export default {
     host: Object,
     type:{
       type: String,
-      default:'idea',
+      default:'icon',
     },
   },
   data() {
@@ -43,6 +43,7 @@ export default {
   `,
   computed: {
     linkType() {
+      console.log(this.type)
       let linkType = this.$root.types[this.type]
        return linkType;
     }

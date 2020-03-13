@@ -42,7 +42,8 @@ export default {
           :style="{borderBottom: '2px solid ' + $color.hex($soul(item))}">
             <v-card-title class="py-1 px-2"
               >
-                <h2 @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="title pointer">
+                <h2 @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
+                'display-2':item.type=='icon'}">
                   {{item.title}}
                 </h2>
 

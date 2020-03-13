@@ -4,7 +4,7 @@ export const types = {
     name:'word',
     title:'Слова',
     oneTitle:'Слово',
-    links:['meaning'],
+    links:['meaning','icon'],
     fields: {
       default: {
         type:'text',
@@ -32,15 +32,23 @@ export const types = {
         label:'Определение'
       }
     },
-    links:['word'],
+    links:['word','icon'],
   },
-  idea: {
-    type:'idea',
-    name:'idea',
-    title:'Идеи',
-    oneTitle:'Идея',
-    description:'Мысль, предлагаемая к реализации'
-  }
+  icon: {
+    type:'icon',
+    name:'icon',
+    title:'Иконки',
+    oneTitle:'Иконка',
+    description:'Любой смайлик или их сочетание',
+    fields: {
+      default: {
+        type:'text',
+        name:'title',
+        label:'Символы'
+      }
+    },
+    links:['word','meaning'],
+  },
 }
 
 

@@ -20,8 +20,8 @@
         <app-ui></app-ui>
         <v-content>
           <v-card color="#eee">
-            <v-row class="flex-nowrap" style="overflow:scroll;background-color:#eee; scroll-snap-type: x mandatory; max-height:100%">
-              <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;">
+            <v-row class="flex-nowrap" style="overflow:scroll;background-color:#eee; scroll-snap-type: x proximity; max-height:100%">
+              <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: end;">
                 <app-info></app-info>
               </v-col>
               <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="type in types" :key="type.type">

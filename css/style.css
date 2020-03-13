@@ -49,6 +49,10 @@ body {
   cursor:pointer;
 }
 
+.v-card__title .display-2 {
+  padding-top:12px;
+}
+
 .turn45 {
   transform: rotate(45deg);
 }
