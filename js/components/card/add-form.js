@@ -19,23 +19,24 @@ export default {
     return{
       valid:false,
       item: {...blankItem},
+      search:null,
     }
   },
   created() {
     this.item.type=this.type;
   },
   template:`
-    <v-container style="padding-top:0">
+    <v-container class="py-0" style="background-color:#eee">
       <v-form ref="form" v-model="valid">
         <v-row>
-          <v-col cols="12" v-for="field in linkType.fields">
-            <v-text-field v-if="field.type=='text'"
+          <v-col cols="9" class="pa-0" v-for="field in linkType.fields">
+            <v-text-field @input="searchIt" outlined v-if="field.type=='text'"
               v-model="item[field.name]"
               :label="field.label"></v-text-field>
-            <v-textarea v-if="field.type=='textarea'"  rows="2" v-model="item.description" label="Описание"></v-textarea>
+            <v-textarea @input="searchIt" outlined v-if="field.type=='textarea'"  rows="2" v-model="item[field.name]" label="Описание"></v-textarea>
           </v-col>
-          <v-col>
-            <v-btn :disabled="!item.title && !item.description" @click="createItem()">Добавить</v-btn>
+          <v-col cols="2">
+            <v-btn icon  :disabled="!item.title && !item.description" @click="createItem()"><v-icon>mdi-send</v-icon></v-btn>
           </v-col>
         </v-row>
       </v-form>
@@ -49,6 +50,9 @@ export default {
     }
   },
   methods: {
+    searchIt(val) {
+      this.$emit('search',val)
+    },
     async createItem() {
       let {host, item, type, $gun, $soul, $user} = this;
       let it = {...item}
@@ -71,7 +75,6 @@ export default {
       this.$emit('added')
       this.$forceUpdate();
       this.item={...blankItem};
-      this.$root.selected=''
     }
   },
 }

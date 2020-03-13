@@ -22,7 +22,7 @@ export default {
     }
   },
   template: `
-    <span class="font-weight-regular" style="max-width:85%" :class="{title:property=='title', 'body-1':property=='description'}">
+    <span class="font-weight-regular" style="max-width:85%" :class="{title:property=='title' && item.type!='icon', 'body-1':property=='description', 'display-2':item.type=='icon'}">
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
         @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}

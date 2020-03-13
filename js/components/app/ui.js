@@ -3,7 +3,6 @@ import userForm from './user-form.js'
 import userDrawer from './user-drawer.js'
 import appBar from './app-bar.js'
 import footerInfo from './footer-info.js'
-import bottomNav from './bottom-nav.js'
 import appNav from './app-nav.js'
 import bottomSheet from './bottom-sheet.js'
 
@@ -14,7 +13,6 @@ export default {
     userDrawer,
     appBar,
     footerInfo,
-    bottomNav,
     appNav,
     bottomSheet,
   },
@@ -38,7 +36,6 @@ export default {
       <footer-info />
       <bottom-sheet :item="$root.selected" v-if="$root.selected"/>
 
-      <bottom-nav />
     </div>
 
   `,

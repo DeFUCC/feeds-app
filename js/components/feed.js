@@ -14,13 +14,14 @@ export default {
   data() {
     return{
       selected:null,
+      search:'',
       items:{},
       page:0,
       batch:20,
       add:false,
       page:{
         start:0,
-        end:10,
+        end:100,
         total:0,
       },
       more:false,
@@ -41,26 +42,29 @@ export default {
   template:`
   <v-container :class="{'pa-0':!base, 'py-0':base}">
     <v-row>
-      <v-col>
+      <v-col cols="6">
         <h3 class="title">{{getLinkDesc(type)}}</h3>
+
       </v-col>
-      <v-col class="text-end">
-        <span>
-          {{page.end}} / {{page.total}}
-        </span>
-          <v-btn :class="{turn45:add}" @click="add=!add" icon><v-icon>mdi-plus</v-icon></v-btn>
+      <v-col cols="6" class="text-end">
+        <v-btn :disabled="!$root.loggedIn" :color="!$root.show.banned ? 'green':'red'" @click="$root.show.banned=!$root.show.banned" icon><v-icon>mdi-cancel</v-icon></v-btn>
+        <v-btn class="caption" icon><span>
+          {{page.end}}/{{page.total}}
+        </span></v-btn>
+
+          <v-btn :class="{turn45:add}" @click="toggleAdd" icon><v-icon>mdi-plus</v-icon></v-btn>
       </v-col>
     </v-row>
 
-      <v-row  style="max-height:65vh; overflow-y:scroll; ">
+      <v-row  style="max-height:80vh; overflow-y:scroll; ">
         <v-expand-transition>
-          <v-col style="position:sticky" v-if="add">
-              <add-form @added="add=false" :host="host" :type="type"></add-form>
+          <v-col class="py-0" style="position:sticky; top:0; z-index:10" v-if="add">
+              <add-form @search="updateSearch" @added="add=false" :host="host" :type="type"></add-form>
           </v-col>
         </v-expand-transition>
 
-          <v-col :style="{opacity:$root.toLink ? '0.5' : '1'}"
-             class="py-1"
+          <v-col
+             class="py-2"
             cols="12"
             v-for="(item,key) in filteredFeed"
             :key="$state(item)">
@@ -82,6 +86,20 @@ export default {
   </v-container>
   `,
   methods: {
+    cleanMap(obj) {
+        return Object.entries(obj).reduce((a,[k,v]) => (v === null ? a : {...a, [k]:v}), {})
+    },
+    toggleAdd() {
+      if (this.add) {
+        this.add=false;
+        this.search='';
+      } else {
+        this.add=true;
+      }
+    },
+    updateSearch(val) {
+      this.search=val
+    },
     getOrder(item) {
       let num = - Math.round(this.$getState(item,'type')/1000 - 1500000000);
       return num
@@ -105,14 +123,15 @@ export default {
   },
   computed: {
     typeField() {
-      console.log(this.$root.types[this.type].fields.default.name)
       return this.$root.types[this.type].fields.default.name
     },
-    filteredFeed() {
-      let {items, page, sort, type, $root} = this
+  },
+  asyncComputed: {
+    async filteredFeed() {
+      let {items, search, page, sort, type, $root} = this
       let feed = {};
       let clean=0;
-      let entries = Object.entries(items);
+      let entries = Object.entries(this.cleanMap(items));
       page.total=entries.length;
 
       entries.sort(sort)
@@ -121,11 +140,9 @@ export default {
         let key = entry[0];
         let item = entry[1];
 
-        if (!item) { continue }
+        if (!item || item.VOID) { continue }
 
-
-
-        if(!(item.title || item.description)) {
+        if(!item[this.typeField]) {
           continue
         }
 
@@ -133,7 +150,11 @@ export default {
           continue
         }
 
-        if ($root.search && !(item.title.includes($root.search) || item.description.includes($root.search))) {
+        if ($root.search && !item[this.typeField].includes($root.search)) {
+          continue
+        }
+
+        if (search && !item[this.typeField].includes(search)) {
           continue
         }
 
@@ -158,6 +179,6 @@ export default {
 
       return feed
     },
-  },
+  }
 
 }

@@ -4,6 +4,9 @@ import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
 import appInfo from './components/app/app-info.js'
+import AsyncComputed from './assets/vue-async-computed.js'
+
+Vue.use(AsyncComputed)
 
 Vue.component('feed',feed)
 
@@ -36,6 +39,9 @@ const app = new Vue({
     },
     types,
   },
+  computed: {
+
+  },
   created() {
     this.$user.recall({sessionStorage:true})
 
@@ -50,9 +56,9 @@ const app = new Vue({
       await interlink(toLink.type, $soul(toLink), itemType, item);
       this.toLink=null;
     },
-    async interlink (hostType, host, itemType, item) {
-      let hoster =  this.$gunroot.get(host);
-      let theitem = this.$gunroot.get(item);
+    async interlink (hostType, hostSoul, itemType, itemSoul) {
+      let hoster =  this.$gunroot.get(hostSoul);
+      let theitem = this.$gunroot.get(itemSoul);
       let itm = await hoster.get(itemType).set(theitem);
       let hstr = await theitem.get(hostType).set(hoster)
       return {hstr,itm}

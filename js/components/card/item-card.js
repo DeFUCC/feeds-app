@@ -40,14 +40,14 @@ export default {
           :raised="selected"
           :outlined="!selected"
           :style="{borderBottom: '2px solid ' + $color.hex($soul(item))}">
-            <v-card-title class="py-1 px-2"
+            <v-card-title  class="py-1 px-2"
               >
-                <h2 @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
+                <h2 :style="{opacity:$root.toLink ? '0.5' : '1'}" @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
                 'display-2':item.type=='icon'}">
                   {{item.title}}
                 </h2>
 
-                <span @click="$root.select(item)" style="max-width:85%" v-if="item.description" class="body-1 pointer">
+                <span :style="{opacity:$root.toLink ? '0.5' : '1'}" @click="$root.select(item)" style="max-width:85%" v-if="item.description" class="body-1 pointer">
                   {{item.description}}
                 </span>
                     <v-spacer/>
@@ -74,12 +74,7 @@ export default {
 
         </v-card>
   `,
-  computed: {
 
-  },
-  mounted() {
-
-  },
   methods: {
     async getCreator() {
       if (this.item.createdBy) {

@@ -47,10 +47,9 @@ export default {
         this.$gun.get(item.type).get(this.$soul(item)).untag('banned',this.notify)
       }
     },
-    deleteNode(item, type) {
-      let toDel = this.$gun.get('idea').get(this.$soul(item));
-
-      toDel.put({VOID:true}, this.notify)
+    deleteNode(item) {
+      console.log(item)
+      this.$gun.get(item.type).get(this.$soul(item)).put(null);
     },
   },
 }
