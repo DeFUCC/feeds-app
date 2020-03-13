@@ -61,17 +61,11 @@ export default {
        it = await $gun.get(type).set(it);
 
        if (host) {
-        it = await this.interlink(host.type,$soul(host),type,$soul(it))
+        it = await this.$root.interlink(host.type,$soul(host),type,$soul(it))
        }
        this.reset(it);
     },
-    async interlink (hostType, host, itemType, item) {
-      let hoster =  this.$gunroot.get(host);
-      let theitem = this.$gunroot.get(item);
-      let itm = await hoster.get(itemType).set(theitem);
-      let hstr = await theitem.get(hostType).set(hoster)
-      return {hstr,itm}
-    },
+
     reset(status) {
       console.log(status)
       this.$emit('added')

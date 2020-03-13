@@ -52,14 +52,15 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row style="max-height:65vh; overflow-y:scroll; ">
+      <v-row  style="max-height:65vh; overflow-y:scroll; ">
         <v-expand-transition>
           <v-col style="position:sticky" v-if="add">
               <add-form @added="add=false" :host="host" :type="type"></add-form>
           </v-col>
         </v-expand-transition>
 
-          <v-col class="py-1"
+          <v-col :style="{opacity:$root.toLink ? '0.5' : '1'}"
+             class="py-1"
             cols="12"
             v-for="(item,key) in filteredFeed"
             :key="$state(item)">
@@ -91,7 +92,6 @@ export default {
       }
     },
     sort(a,b) {
-
       let aTitle = a[1][this.typeField].toLowerCase();
       let bTitle = b[1][this.typeField].toLowerCase();
       if ( aTitle > bTitle ) {

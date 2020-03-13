@@ -21,6 +21,7 @@ const app = new Vue({
     edit:false,
     auth:false,
     search:'',
+    toLink:null,
     selected:null,
     isSelected:false,
     tabs:1,
@@ -38,19 +39,24 @@ const app = new Vue({
   created() {
     this.$user.recall({sessionStorage:true})
 
-  /*  window.addEventListener('beforeunload', (event) => {
-  // Cancel the event as stated by the standard.
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = '';
-    });
-*/
     gun.on('auth', (user) => {
       this.loggedIn=true;
       this.auth=false;
     })
   },
   methods: {
+    async toLinkTo(itemType,item) {
+      let {toLink,interlink, $soul} = this;
+      await interlink(toLink.type, $soul(toLink), itemType, item);
+      this.toLink=null;
+    },
+    async interlink (hostType, host, itemType, item) {
+      let hoster =  this.$gunroot.get(host);
+      let theitem = this.$gunroot.get(item);
+      let itm = await hoster.get(itemType).set(theitem);
+      let hstr = await theitem.get(hostType).set(hoster)
+      return {hstr,itm}
+    },
     log:console.log,
     select(item) {
       if(item==this.selected) {

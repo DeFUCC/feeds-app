@@ -51,7 +51,8 @@ export default {
                   {{item.description}}
                 </span>
                     <v-spacer/>
-                    <v-btn @click="getCreator();open.more = !open.more" :class="{turn180:open.more}" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+                    <v-btn v-if="$root.toLink && $root.toLink.type != item.type" @click="$root.toLinkTo(item.type, $soul(item))" icon><v-icon>mdi-link</v-icon></v-btn>
+                    <v-btn v-if="!$root.toLink" @click="getCreator();open.more = !open.more" :class="{turn180:open.more}" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
             </v-card-title>
             <v-expand-transition>
               <v-card-actions class="overline" v-if="open.more">
@@ -90,9 +91,6 @@ export default {
 
       }
     },
-    isEmpty(obj) {
-       for (var x in obj) { return false; }
-       return true;
-    },
+
   }
 }
