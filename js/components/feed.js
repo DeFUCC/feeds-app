@@ -53,21 +53,26 @@ export default {
     }
     gun.get(this.type).map().on((data,key) => {
         this.$set(this.items,key,data)
+        this.$nextTick(this.updateFeed)
     })
   },
   computed: {
     typeField() {
       return this.$root.types[this.type].fields.default.name
     },
-    feed(data) {
-      console.log('change')
+    feed() {
+      let {items, $root} = this
       return {
-        items:this.items,
-        show:this.$root.show,
+        items,
+        show:$root.show,
+        seen:$root.seen,
       }
     }
   },
   methods: {
+    updateFeed() {
+      this.feedWorker.postMessage(this.feed)
+    },
     toggleAdd() {
       if (this.add) {
         this.add=false;
@@ -88,7 +93,6 @@ export default {
         return this.$root.types[link].title
       }
     },
-
   },
 
   template:`
@@ -116,15 +120,16 @@ export default {
         </v-expand-transition>
 
           <v-col
-             class="py-2"
+            class="py-2"
             cols="12"
             v-for="(item,key) in filteredItems"
-            :key="$state(item)">
+            :key="item.createdAt+item.updatedAt">
+
             <v-expand-transition>
               <item-card
                  :selected="selected==item"
                  :item="item"
-                 :key="key"></item-card>
+                 :key="item.createdAt+item.updatedAt"></item-card>
             </v-expand-transition>
           </v-col>
 
