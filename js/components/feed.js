@@ -16,6 +16,7 @@ export default {
       selected:null,
       search:'',
       items:{},
+      filteredItems:[],
       page:0,
       batch:20,
       add:false,
@@ -25,6 +26,21 @@ export default {
         total:0,
       },
       more:false,
+    }
+  },
+  created() {
+    if (window.Worker) {
+      this.feedWorker = new Worker('./js/worker.js')
+      this.feedWorker.onmessage = (e) => {
+        this.filteredItems=e.data.feed;
+        this.page.total = e.data.total;
+        this.more = e.data.more;
+      }
+    }
+  },
+  watch: {
+    feed (feed) {
+      this.feedWorker.postMessage(feed)
     }
   },
   mounted() {
@@ -39,6 +55,42 @@ export default {
         this.$set(this.items,key,data)
     })
   },
+  computed: {
+    typeField() {
+      return this.$root.types[this.type].fields.default.name
+    },
+    feed(data) {
+      console.log('change')
+      return {
+        items:this.items,
+        show:this.$root.show,
+      }
+    }
+  },
+  methods: {
+    toggleAdd() {
+      if (this.add) {
+        this.add=false;
+        this.search='';
+      } else {
+        this.add=true;
+      }
+    },
+    updateSearch(val) {
+      this.search=val
+    },
+    getOrder(item) {
+      let num = - Math.round(this.$getState(item,'type')/1000 - 1500000000);
+      return num
+    },
+    getLinkDesc(link) {
+      if(this.$root.types[link]) {
+        return this.$root.types[link].title
+      }
+    },
+
+  },
+
   template:`
   <v-container :class="{'pa-0':!base, 'py-0':base}">
     <v-row>
@@ -66,7 +118,7 @@ export default {
           <v-col
              class="py-2"
             cols="12"
-            v-for="(item,key) in filteredFeed"
+            v-for="(item,key) in filteredItems"
             :key="$state(item)">
             <v-expand-transition>
               <item-card
@@ -85,102 +137,4 @@ export default {
 
   </v-container>
   `,
-  methods: {
-    cleanMap(obj) {
-        return Object.entries(obj).reduce((a,[k,v]) => (v === null ? a : {...a, [k]:v}), {})
-    },
-    toggleAdd() {
-      if (this.add) {
-        this.add=false;
-        this.search='';
-      } else {
-        this.add=true;
-      }
-    },
-    updateSearch(val) {
-      this.search=val
-    },
-    getOrder(item) {
-      let num = - Math.round(this.$getState(item,'type')/1000 - 1500000000);
-      return num
-    },
-    getLinkDesc(link) {
-      if(this.$root.types[link]) {
-        return this.$root.types[link].title
-      }
-    },
-    sort(a,b) {
-      let aTitle = a[1][this.typeField].toLowerCase();
-      let bTitle = b[1][this.typeField].toLowerCase();
-      if ( aTitle > bTitle ) {
-        return 1;
-      }
-      if (aTitle < bTitle) {
-        return -1;
-      }
-      return 0;
-    },
-  },
-  computed: {
-    typeField() {
-      return this.$root.types[this.type].fields.default.name
-    },
-  },
-  asyncComputed: {
-    async filteredFeed() {
-
-      let {items, search, page, sort, type, $root, $soul} = this
-      let feed = {};
-      let clean=0;
-      let entries = Object.entries(this.cleanMap(items));
-      page.total=entries.length;
-
-      entries.sort(sort)
-
-      for (let entry of entries) {
-        let key = entry[0];
-        let item = entry[1];
-
-        if (!item || item.VOID) { continue }
-
-        if ($root.seen[key] && !$root.show.seen) {
-          continue
-        }
-
-        if(!item[this.typeField]) {
-          continue
-        }
-
-        if (($root.show.banned && !item.banned) ||(!$root.show.banned && item.banned)) {
-          continue
-        }
-
-        if ($root.search && !item[this.typeField].toLowerCase().includes($root.search.toLowerCase())) {
-          continue
-        }
-
-        if (search && !item[this.typeField].toLowerCase().includes(search.toLowerCase())) {
-          continue
-        }
-
-        clean++;
-        if (clean<this.page.start) {
-          continue
-        }
-
-        if (Object.entries(feed).length>page.end) {
-          this.more=true;
-          break
-        } else {
-          this.more=false;
-          page.end=page.total
-        }
-
-        feed[key]=item
-      }
-
-      return feed
-    },
-  }
-
 }
