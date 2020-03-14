@@ -37,6 +37,7 @@ export default {
         this.more = e.data.more;
       }
     }
+    
   },
   watch: {
     feed (feed) {
@@ -61,11 +62,14 @@ export default {
       return this.$root.types[this.type].fields.default.name
     },
     feed() {
-      let {items, $root} = this
+      let {items, $root, search} = this
       return {
         items,
-        show:$root.show,
-        seen:$root.seen,
+        show:this.$root.show,
+        seen:this.$root.seen,
+        search,
+        rootSearch:this.$root.search,
+        typeField:this.typeField,
       }
     }
   },
@@ -142,4 +146,7 @@ export default {
 
   </v-container>
   `,
+  beforeDestroy() {
+    this.feedWorker.terminate();
+  }
 }

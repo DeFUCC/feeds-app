@@ -1,5 +1,4 @@
 import gun from './gun-db.js'
-import {cleanMap, stressedWord} from './help.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'

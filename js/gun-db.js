@@ -1,7 +1,9 @@
 const gun = new Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gun')
 
+let path = 'feeds79'
 
-Vue.prototype.$gun = gun.get('feeds79');
+Vue.prototype.$path = path
+Vue.prototype.$gun = gun.get(path);
 Vue.prototype.$gunroot= gun;
 Vue.prototype.$user = gun.user();
 Vue.prototype.$state = Gun.state;

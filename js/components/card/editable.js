@@ -11,10 +11,6 @@ export default {
       type: String,
       default: '',
     },
-    selected: {
-      type: Boolean,
-      default:false,
-    }
   },
   data() {
     return {

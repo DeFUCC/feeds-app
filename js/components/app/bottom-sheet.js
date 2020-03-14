@@ -31,18 +31,16 @@ export default {
                 v-if="item.title"
                 :item="item"
                 property="title"
-                :selected="selected"
               />
               <editable
                 v-if="item.description"
                 :item="item"
                 property="description"
-                :selected="selected"
                 ></editable>
-                <v-spacer/>
+              <v-spacer/>
 
-                <v-btn icon :disabled="!$root.loggedIn"  @click="$root.edit=!$root.edit">
-                    <v-icon :color="$root.edit?'orange':'#555'">mdi-pencil-outline</v-icon>
+              <v-btn icon :disabled="!$root.loggedIn"  @click="$root.edit=!$root.edit">
+                  <v-icon :color="$root.edit?'orange':'#555'">mdi-pencil-outline</v-icon>
               </v-btn>
         </v-card-title>
         <v-card-actions class="overline" >
