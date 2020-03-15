@@ -17,9 +17,12 @@ export default {
       search:'',
       items:{},
       filteredItems:[],
-      page:0,
       batch:20,
       add:false,
+      showSeen:false,
+      show:{
+        seen:false,
+      },
       page:{
         start:0,
         end:100,
@@ -37,7 +40,7 @@ export default {
         this.more = e.data.more;
       }
     }
-    
+
   },
   watch: {
     feed (feed) {
@@ -62,12 +65,13 @@ export default {
       return this.$root.types[this.type].fields.default.name
     },
     feed() {
-      let {items, $root, search} = this
+      console.log(this.show)
       return {
-        items,
-        show:this.$root.show,
+        items:this.items,
+        show:this.show,
+        showSeen:this.showSeen,
         seen:this.$root.seen,
-        search,
+        search:this.search,
         rootSearch:this.$root.search,
         typeField:this.typeField,
       }
@@ -107,7 +111,7 @@ export default {
 
       </v-col>
       <v-col cols="6" class="text-end">
-        <v-btn v-if="$root.loggedIn" :color="$root.show.seen ? 'black':'grey'" @click="$root.show.seen=!$root.show.seen" icon><v-icon v-if="$root.show.seen">mdi-eye</v-icon><v-icon v-if="!$root.show.seen">mdi-eye-off</v-icon></v-btn>
+        <v-btn v-if="$root.loggedIn" :color="showSeen ? 'black':'grey'" @click="showSeen=!showSeen" icon><v-icon v-if="showSeen">mdi-eye</v-icon><v-icon v-if="!showSeen">mdi-eye-off</v-icon></v-btn>
         <v-btn class="caption" icon><span>
           {{page.end}}/{{page.total}}
         </span></v-btn>

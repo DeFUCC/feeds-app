@@ -1,6 +1,6 @@
 
 onmessage = (e) => {
-  let {items, seen, rootSearch, search, page, show, typeField} = e.data;
+  let {items, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
     let feed = {};
   let response = {};
   let more = false;
@@ -18,7 +18,7 @@ onmessage = (e) => {
 
     if (!item || item.VOID) { continue }
 
-    if (seen && seen[key] && !show.seen) {
+    if (seen && seen[key] && !showSeen) {
       continue
     }
 
