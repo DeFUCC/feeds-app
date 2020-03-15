@@ -7,6 +7,9 @@ export default {
     item: {
       type:Object,
     },
+    stress:{
+      type:Number
+    },
     property: {
       type: String,
       default: '',
@@ -18,7 +21,7 @@ export default {
     }
   },
   template: `
-    <span class="font-weight-regular" style="max-width:85%" :class="{title:property=='title', 'body-1':property=='description'}">
+    <span class="font-weight-regular" style="max-width:85%" :class="{title:property=='title' && item.type!='icon', 'body-1':property=='description', 'display-2':item.type=='icon'}">
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
         @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}
@@ -41,8 +44,19 @@ export default {
       let prop = val.target.textContent.trim();
       val.target.innerHtml=prop;
 
-      this.$gunroot.get(this.$soul(this.item)).put({[this.property]:prop, updatedAt:this.$state()}, (msg) => {
+      let user = this.$user.is
+      if (user) {
+
+      }
+
+      this.$gunroot.get(this.$soul(this.item)).put({
+        [this.property]:prop,
+         updatedAt:this.$state()
+       }, (msg) => {
         this.$root.$emit('notify', msg)
+        if(!msg.lack) {
+          this.item[this.property]=prop
+        }
       })
     },
     focus(ref) {

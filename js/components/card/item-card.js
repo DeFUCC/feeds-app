@@ -1,6 +1,4 @@
 import cardActions from './card-actions.js'
-import addForm from './add-form.js'
-import editable from '../editable.js'
 import cardInfo from './card-info.js'
 
 export default {
@@ -12,8 +10,6 @@ export default {
   },
   components:{
     cardActions,
-    addForm,
-    editable,
     cardInfo,
   },
   data() {
@@ -36,6 +32,15 @@ export default {
       this.open.more=true;
     }
   },
+  computed: {
+    finalTitle() {
+      let title = this.item.title;
+      if(this.item.stress) {
+        title = this.$root.stressedWord(title,this.item.stress)
+      }
+      return title
+    }
+  },
   template:`
         <v-card
           :id="$soul(item)"
@@ -46,7 +51,7 @@ export default {
               >
                 <h2 :style="{opacity:$root.toLink ? '0.5' : '1'}" @click="$root.select(item)" style="max-width:85%" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
                 'display-2':item.type=='icon'}">
-                  {{item.title}}
+                  {{finalTitle}}
                 </h2>
 
                 <span :style="{opacity:$root.toLink ? '0.5' : '1'}" @click="$root.select(item)" style="max-width:85%" v-if="item.description" class="body-1 pointer">

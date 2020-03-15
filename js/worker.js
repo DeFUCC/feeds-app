@@ -1,6 +1,6 @@
 
 onmessage = (e) => {
-  let {items, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
+  let {items, host, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
   let feed = {};
   let more = false;
   let cleaned = cleanMap(items);
@@ -16,7 +16,7 @@ onmessage = (e) => {
 
     if (!item || item.VOID) { continue }
 
-    if (seen && seen[key] && !showSeen) {
+    if (!showSeen && seen && seen[key]  ) {
       continue
     }
 
@@ -24,11 +24,11 @@ onmessage = (e) => {
       continue
     }
 
-    if (rootSearch && !item[typeField].toLowerCase().includes(rootSearch.toLowerCase())) {
+    if (!host && rootSearch && !item[typeField].toLowerCase().includes(rootSearch.toLowerCase())) {
       continue
     }
 
-    if (search && !item[typeField].toLowerCase().includes(search.toLowerCase())) {
+    if (host && search && !item[typeField].toLowerCase().includes(search.toLowerCase())) {
       continue
     }
 

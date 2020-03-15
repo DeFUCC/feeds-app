@@ -13,7 +13,7 @@ export const types = {
         placeholder:'Любой читаемый набор букв'
       },
       stress: {
-        type:'text',
+        type:'stress',
         name:'stress',
         label:'Ударение',
       }
@@ -42,7 +42,7 @@ export const types = {
     description:'Любой смайлик или их сочетание',
     fields: {
       default: {
-        type:'text',
+        type:'emoji',
         name:'title',
         label:'Символы'
       }

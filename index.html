@@ -22,10 +22,12 @@
           <v-sheet style="height:100vh; width:100vw; overflow-x:hidden; overflow-y: scroll;scroll-snap-type: y mandatory; overscroll-behavior:none">
               <app-ui></app-ui>
 
-              <v-tabs style="scroll-snap-align:start" align-with-title >
-                <v-tab>Начало</v-tab>
-                <v-tab :active="true" v-for="type in types">{{type.title}}</v-tab>
-              </v-tabs>
+              <v-sheet style="scroll-snap-align:start" align-with-title >
+                <v-btn tile depressed>Начало</v-btn>
+                <v-btn tile depressed color="#bbb" :text="!type.active" v-for="type in types" @click="type.active=!type.active">{{type.title}} </v-btn>
+              </v-sheet>
+
+
               <v-card style="scroll-snap-align:start;max-height:100vh" color="#eee" >
                 <v-row  class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden;background-color:#eee; scroll-snap-type: x mandatory;">
                   <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: end;">

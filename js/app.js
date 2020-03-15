@@ -43,13 +43,21 @@ const app = new Vue({
   },
   computed: {
     activeTypes() {
-        let typesArray = Object.entries(this.types)
-        let active = typesArray.slice(0,this.feedNum)
-      return Object.fromEntries(active)
+      let active={};
+      for (let type in this.types) {
+        if (this.types[type].active) {
+          active[type]=this.types[type]
+        }
+      }
+      return active
     }
   },
   created() {
     this.$user.recall({sessionStorage:true})
+
+    for (let type in this.types) {
+      this.$set(this.types[type],'active',false)
+    }
 
     gun.on('auth', (user) => {
       this.loggedIn=true;
@@ -83,6 +91,18 @@ const app = new Vue({
           await $user.get('feeds').get('seen').get(key).put(null)
         }
       }
+    },
+    stressedWord(word='', stress=0)   {
+            stress = Number(stress);
+            let arr = word.split('');
+            let parts = [];
+            if (arr.length > 0) {
+              arr[0] = arr[0].toUpperCase();
+              parts[0] = arr.slice(0, stress+1).join('');
+              parts[1] = '\u0301';
+              parts[2] = arr.slice(stress+1).join('');
+            }
+            return parts.join('')
     },
     log:console.log,
     select(item) {

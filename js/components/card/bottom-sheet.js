@@ -1,6 +1,7 @@
 import itemCard from './item-card.js'
-import editable from '../editable.js'
+import editable from './editable.js'
 import cardInfo from './card-info.js'
+import addForm from './add-form.js'
 
 export default {
   props: {
@@ -10,10 +11,18 @@ export default {
     itemCard,
     editable,
     cardInfo,
+    addForm,
   },
   data() {
     return{
       open:true,
+      edit:false,
+    }
+  },
+  methods: {
+    updateItem(it) {
+      this.edit=false;
+      this.item=it
     }
   },
   template:`
@@ -25,27 +34,26 @@ export default {
 
         <v-card-title style="position:sticky; top:0;background-color:#eee" class="py-4 px-4 pointer"
           >
-              <editable
-                v-if="item.title"
-                :item="item"
-                property="title"
-              />
-              <editable
-                v-if="item.description"
-                :item="item"
-                property="description"
-                ></editable>
-              <v-spacer/>
 
-              <v-btn icon :disabled="!$root.loggedIn"  @click="$root.edit=!$root.edit">
-                  <v-icon :color="$root.edit?'orange':'#555'">mdi-pencil-outline</v-icon>
+            <h2 @click="$root.select(item)" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
+            'display-2':item.type=='icon'}">
+              {{finalTitle}}
+            </h2>
+
+            <span @click="$root.select(item)" v-if="item.description" class="body-1 pointer" v-html="item.description">
+            </span>
+            <v-spacer />
+              <v-btn icon v-if="$root.loggedIn" :disabled="item.createdBy && item.createdBy!=$user.is.pub"  @click="edit=!edit">
+                  <v-icon :color="edit ? 'orange':'#555'">mdi-pencil-outline</v-icon>
               </v-btn>
         </v-card-title>
-
+        <v-expand-transition>
+          <add-form v-if="edit" @edited="updateItem" :edit="item"/>
+        </v-expand-transition>
         <card-info
           :open="true"
           :item="item"
-          ></card-info>
+          />
 
         <v-expand-transition>
           <v-container v-if="linkTypes">
@@ -67,6 +75,13 @@ export default {
     }
   },
   computed: {
+    finalTitle() {
+      let title = this.item.title;
+      if(this.item.stress) {
+        title = this.$root.stressedWord(title,this.item.stress)
+      }
+      return title
+    },
     linkTypes() {
       let links=[];
       let {item,$root} = this;

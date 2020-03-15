@@ -9,6 +9,7 @@ export default {
     return{
       note:'',
       creator:'',
+      editor:'',
     }
   },
   created() {
@@ -19,7 +20,16 @@ export default {
         }
       })
     }
+
+    if (this.item.updatedBy) {
+      this.$gun.user(this.item.updatedBy).on((user) => {
+        if (user && user.alias) {
+          this.editor = user.alias
+        }
+      })
+    }
   },
+
   template:`
   <v-expand-transition>
     <v-card-actions  class="overline">
@@ -31,6 +41,9 @@ export default {
         <br/>
         <span v-if="item.updatedAt">
           Отредактировано  {{$moment(item.updatedAt).fromNow()}}
+        </span><br/>
+        <span v-if="item.updatedBy && creator != editor">
+          Редактор:  {{editor}}
         </span>
       </span>
     </v-card-actions>

@@ -65,6 +65,7 @@ export default {
     feed() {
       return {
         items:this.items,
+        host:this.host,
         show:this.$root.show,
         showSeen:this.showSeen,
         seen:this.$root.seen,
@@ -115,16 +116,16 @@ export default {
 
       <v-row  style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory;">
         <v-expand-transition>
-          <v-col class="py-0" style="position:sticky; top:0; z-index:10" v-if="add">
-              <add-form @search="updateSearch" @added="add=false" :host="host" :type="type"></add-form>
+          <v-col class="py-0" style="position:sticky; min-width:100%; top:0; z-index:10" v-if="add">
+              <add-form @search="updateSearch" @added="add=false;updateSearch('')" :host="host" :type="type"></add-form>
           </v-col>
+
         </v-expand-transition>
-          <v-col class="py-0">
-            <item-card style="position:sticky; top:0; z-index:8"
+          <v-col style="position:sticky; top:0; z-index:8" class="py-0" @click="$root.toLink=null">
+            <item-card
                   v-if="$root.toLink"
                  :selected="true"
                  :item="$root.toLink"
-                 @click=""
                 ></item-card>
           </v-col>
 
