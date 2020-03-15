@@ -65,7 +65,6 @@ export default {
       return this.$root.types[this.type].fields.default.name
     },
     feed() {
-      console.log(this.show)
       return {
         items:this.items,
         show:this.show,

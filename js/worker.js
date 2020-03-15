@@ -1,8 +1,7 @@
 
 onmessage = (e) => {
   let {items, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
-    let feed = {};
-  let response = {};
+  let feed = {};
   let more = false;
   let cleaned = cleanMap(items);
   let entries = Object.entries(cleaned);
@@ -14,7 +13,6 @@ onmessage = (e) => {
   for (let entry of entries) {
     let key = entry[0];
     let item = entry[1];
-
 
     if (!item || item.VOID) { continue }
 
