@@ -97,7 +97,7 @@ export default {
   },
 
   template:`
-  <v-container style="height:100vh" :class="{'pa-0':!base, 'py-0':base}">
+  <v-container  style="height:100vh; overscroll-behavior:none" :class="{'pa-0':!base, 'py-0':base}">
     <v-row>
       <v-col cols="6">
         <h3 class="title">{{getLinkDesc(type)}}</h3>
