@@ -16,12 +16,22 @@ export default {
       <v-btn  @click="copy(item.type+': '+$soul(item))"  icon>
         <v-icon>mdi-content-copy</v-icon>
       </v-btn>
-      <v-btn @click="$root.toLink=item" icon><v-icon>mdi-link</v-icon></v-btn>
+      <v-btn @click="link()" icon><v-icon>mdi-link</v-icon></v-btn>
       <v-btn @click="$root.see(item)"  v-if="$user.is" icon><v-icon v-if="$root.seen[$soul(item)]">mdi-eye</v-icon><v-icon v-else>mdi-eye-off</v-icon></v-btn>
     </v-card-actions>
   </v-expand-transition>
   `,
   methods: {
+    link() {
+      let {$root, item} = this
+      if ($root.toLink==item) {
+        $root.toLink=null
+        this.$emit('linking',false)
+      } else {
+        $root.toLink=item;
+        this.$emit('linking',true)
+      }
+    },
     copy(soul) {
       if(navigator.clipboard) {
         navigator.clipboard.writeText(soul).then(() => {

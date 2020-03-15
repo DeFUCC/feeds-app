@@ -27,7 +27,7 @@
                 <v-tab :active="true" v-for="type in types">{{type.title}}</v-tab>
               </v-tabs>
               <v-card style="scroll-snap-align:start;max-height:100vh" color="#eee" >
-                <v-row :style="{backgroundColor: toLink ? $color.hex($soul(toLink)) : '#eee'}" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden;background-color:#eee; scroll-snap-type: x mandatory;">
+                <v-row  class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden;background-color:#eee; scroll-snap-type: x mandatory;">
                   <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: end;">
                     <app-info v-if="!toLink"></app-info>
 

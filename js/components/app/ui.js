@@ -4,7 +4,7 @@ import userDrawer from './user-drawer.js'
 import appBar from './app-bar.js'
 import footerInfo from './footer-info.js'
 import appNav from './app-nav.js'
-import bottomSheet from './bottom-sheet.js'
+import bottomSheet from '../card/bottom-sheet.js'
 
 export default {
   components: {

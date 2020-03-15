@@ -1,6 +1,7 @@
 import cardActions from './card-actions.js'
 import addForm from './add-form.js'
 import editable from '../editable.js'
+import cardInfo from './card-info.js'
 
 export default {
   name:'item-card',
@@ -13,11 +14,12 @@ export default {
     cardActions,
     addForm,
     editable,
+    cardInfo,
   },
   data() {
     return {
-      selected:{},
       links:{},
+      linking:false,
       open: {
         add:false,
         more:false,
@@ -37,7 +39,7 @@ export default {
   template:`
         <v-card
           :id="$soul(item)"
-          :raised="selected"
+          :raised="selected || linking"
           :outlined="!selected"
           :style="{borderBottom: '2px solid ' + $color.hex($soul(item))}">
             <v-card-title  class="py-1 px-2"
@@ -52,26 +54,17 @@ export default {
                 </span>
                     <v-spacer/>
                     <v-btn v-if="$root.toLink && $root.toLink.type != item.type" @click="$root.toLinkTo(item.type, $soul(item))" icon><v-icon>mdi-link</v-icon></v-btn>
-                    <v-btn v-if="!$root.toLink" @click="getCreator();open.more = !open.more" :class="{turn180:open.more}" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
+                    <v-btn v-if="!$root.toLink" @click="open.more = !open.more" :class="{turn180:open.more}" icon><v-icon>mdi-chevron-down</v-icon></v-btn>
                       <v-btn @click="$root.see(item)"  v-if="$user.is && $root.seen[$soul(item)]" icon><v-icon>mdi-eye-off</v-icon></v-btn>
             </v-card-title>
-            <v-expand-transition>
-              <v-card-actions class="overline" v-if="open.more">
-                  <v-btn v-if="item.createdBy && ((item.createdBy && !$user.is) || ($user.is && item.createdBy != $user.is.pub))" icon><v-icon>mdi-lock-outline</v-icon></v-btn>
-                  <v-btn v-else icon><v-icon>mdi-lock-open-variant-outline</v-icon></v-btn>
-                <span v-show="open.more">
-                  Автор: {{creator || 'Аноним'}}<br/>
-                  Создано {{$moment(item.createdAt).fromNow()}}
-                  <br/>
-                  <span v-if="item.updatedAt">
-                    Отредактировано  {{$moment(item.updatedAt).fromNow()}}
-                  </span>
-                </span>
-              </v-card-actions>
-            </v-expand-transition>
+            <card-info
+              :open="open.more"
+              v-show="open.more"
+              :item="item"
+              ></card-info>
             <card-actions
-              :open="open"
-              @add="open.add=!open.add"
+              @linking="activateLinking"
+              :open="open.more"
               v-show="open.more"
               :item="item"></card-actions>
 
@@ -79,16 +72,8 @@ export default {
   `,
 
   methods: {
-    async getCreator() {
-      if (this.item.createdBy) {
-        let user = await this.$gun.user(this.item.createdBy)
-
-        if (user && user.alias) {
-          this.creator = user.alias
-        }
-
-      }
-    },
-
+    activateLinking(ev) {
+      this.linking = ev
+    }
   }
 }

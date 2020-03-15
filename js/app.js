@@ -38,7 +38,7 @@ const app = new Vue({
     sort:{
       byName:true,
     },
-    feedNum:1,
+    feedNum:5,
     types,
   },
   computed: {

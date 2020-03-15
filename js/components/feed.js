@@ -97,7 +97,7 @@ export default {
   },
 
   template:`
-  <v-container  style="height:100vh; overscroll-behavior:none" :class="{'pa-0':!base, 'py-0':base}">
+  <v-container  style="overscroll-behavior:none" :class="{'pa-0':!base, 'py-0':base}">
     <v-row>
       <v-col cols="6">
         <h3 class="title">{{getLinkDesc(type)}}</h3>
@@ -113,12 +113,21 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row  style="max-height:90%; overflow-y:scroll; scroll-snap-type: y mandatory;">
+      <v-row  style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory;">
         <v-expand-transition>
           <v-col class="py-0" style="position:sticky; top:0; z-index:10" v-if="add">
               <add-form @search="updateSearch" @added="add=false" :host="host" :type="type"></add-form>
           </v-col>
         </v-expand-transition>
+          <v-col class="py-0">
+            <item-card style="position:sticky; top:0; z-index:8"
+                  v-if="$root.toLink"
+                 :selected="true"
+                 :item="$root.toLink"
+                 @click=""
+                ></item-card>
+          </v-col>
+
 
           <v-col style="scroll-snap-align: start;"
             class="py-2"
@@ -126,6 +135,7 @@ export default {
             v-for="(item,key) in filteredItems"
             :key="item.createdAt+item.updatedAt"
             >
+
 
             <v-expand-transition>
               <item-card
