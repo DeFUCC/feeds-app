@@ -1,17 +1,3 @@
-const window = {}
-
-window.WebSocket = WebSocket
-
-importScripts('assets/gun.js')
-
-let gun = window.Gun('https://gun-vue.glitch.me/gun', 'http://192.168.1.5:4200/gun')
-
-gun.get('feeds79').get('word').map().on((word) => {
-  if(word && word.title) {
-    console.log(word.title)
-  }
-})
-
 
 onmessage = (e) => {
   let {items, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
