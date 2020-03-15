@@ -11,10 +11,6 @@ export default {
       type: String,
       default: '',
     },
-    selected: {
-      type: Boolean,
-      default:false,
-    }
   },
   data() {
     return {
@@ -26,7 +22,7 @@ export default {
       <span :ref="item[property]" :contenteditable="editing"  @blur="resetTitle"  @keydown.enter.stop.prevent="updateTitle"
         @click="$root.edit ? edit(item[property]) : false">
         {{item[property]}}
-      </span> <v-btn v-if="$root.edit && selected && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
+      </span> <v-btn v-if="$root.edit && !editing" @click="edit(item[property])" x-small icon><v-icon>mdi-pencil</v-icon></v-btn>
     </span>
   `,
   methods: {
@@ -45,8 +41,14 @@ export default {
       let prop = val.target.textContent.trim();
       val.target.innerHtml=prop;
 
-      this.$gunroot.get(this.$soul(this.item)).put({[this.property]:prop, updatedAt:this.$state()}, (msg) => {
+      this.$gunroot.get(this.$soul(this.item)).put({
+        [this.property]:prop,
+         updatedAt:this.$state()
+       }, (msg) => {
         this.$root.$emit('notify', msg)
+        if(!msg.lack) {
+          this.item[this.property]=prop
+        }
       })
     },
     focus(ref) {

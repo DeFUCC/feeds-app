@@ -22,7 +22,7 @@ export default {
     }
   },
   template: `
-    <div>
+    <div style="scroll-snap-align:start">
       <notify />
 
       <user-form v-if="$root.auth && !$root.loggedIn" />
@@ -31,7 +31,7 @@ export default {
 
       <app-nav />
 
-      <app-bar />
+      <app-bar :types="$root.types"/>
 
       <footer-info />
       <bottom-sheet :item="$root.selected" v-if="$root.selected"/>

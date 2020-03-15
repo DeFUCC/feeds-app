@@ -38,10 +38,15 @@ const app = new Vue({
     sort:{
       byName:true,
     },
+    feedNum:1,
     types,
   },
   computed: {
-
+    activeTypes() {
+        let typesArray = Object.entries(this.types)
+        let active = typesArray.slice(0,this.feedNum)
+      return Object.fromEntries(active)
+    }
   },
   created() {
     this.$user.recall({sessionStorage:true})

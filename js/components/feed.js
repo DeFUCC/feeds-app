@@ -20,9 +20,6 @@ export default {
       batch:20,
       add:false,
       showSeen:false,
-      show:{
-        seen:false,
-      },
       page:{
         start:0,
         end:100,
@@ -39,15 +36,10 @@ export default {
         this.page.total = e.data.total;
         this.more = e.data.more;
       }
+    } else {
+      console.log('no worker support')
     }
 
-  },
-  watch: {
-    feed (feed) {
-      this.feedWorker.postMessage(feed)
-    }
-  },
-  mounted() {
     let {$gunroot, $gun, $soul, host} = this
     let gun
     if (host) {
@@ -59,6 +51,12 @@ export default {
         this.$set(this.items,key,data)
         this.$nextTick(this.updateFeed)
     })
+
+  },
+  watch: {
+    feed (feed) {
+      this.feedWorker.postMessage(feed)
+    }
   },
   computed: {
     typeField() {
@@ -67,7 +65,7 @@ export default {
     feed() {
       return {
         items:this.items,
-        show:this.show,
+        show:this.$root.show,
         showSeen:this.showSeen,
         seen:this.$root.seen,
         search:this.search,
@@ -91,10 +89,6 @@ export default {
     updateSearch(val) {
       this.search=val
     },
-    getOrder(item) {
-      let num = - Math.round(this.$getState(item,'type')/1000 - 1500000000);
-      return num
-    },
     getLinkDesc(link) {
       if(this.$root.types[link]) {
         return this.$root.types[link].title
@@ -103,7 +97,7 @@ export default {
   },
 
   template:`
-  <v-container :class="{'pa-0':!base, 'py-0':base}">
+  <v-container style="height:100vh" :class="{'pa-0':!base, 'py-0':base}">
     <v-row>
       <v-col cols="6">
         <h3 class="title">{{getLinkDesc(type)}}</h3>
@@ -119,18 +113,19 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row  style="max-height:80vh; overflow-y:scroll; ">
+      <v-row  style="max-height:90%; overflow-y:scroll; scroll-snap-type: y mandatory;">
         <v-expand-transition>
           <v-col class="py-0" style="position:sticky; top:0; z-index:10" v-if="add">
               <add-form @search="updateSearch" @added="add=false" :host="host" :type="type"></add-form>
           </v-col>
         </v-expand-transition>
 
-          <v-col
+          <v-col style="scroll-snap-align: start;"
             class="py-2"
             cols="12"
             v-for="(item,key) in filteredItems"
-            :key="item.createdAt+item.updatedAt">
+            :key="item.createdAt+item.updatedAt"
+            >
 
             <v-expand-transition>
               <item-card
