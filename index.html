@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ЛЕНТЫ</title>
+    <title>ЭТОВОТЭТО</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
     <meta charset="UTF-8"/>
@@ -23,7 +23,7 @@
               <app-ui></app-ui>
 
               <v-sheet style="scroll-snap-align:start" align-with-title >
-                <v-btn tile depressed>Начало</v-btn>
+                <v-btn tile depressed disabled>Игра</v-btn>
                 <v-btn tile depressed color="#bbb" :text="!type.active" v-for="type in types" @click="type.active=!type.active">{{type.title}} </v-btn>
               </v-sheet>
 
