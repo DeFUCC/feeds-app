@@ -2,7 +2,7 @@
 export default {
   name:'card-info',
   props: {
-    item:'Object',
+    item:Object,
     open:Object,
   },
   data() {

@@ -1,4 +1,5 @@
 import gun from './gun-db.js'
+import router from './router.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
@@ -11,6 +12,7 @@ Vue.component('feed',feed)
 
 const app = new Vue({
   el:'#app',
+  router,
   vuetify: new Vuetify(),
   components:{
     appUi,
@@ -67,7 +69,25 @@ const app = new Vue({
       })
     })
   },
+  watch: {
+    $route(to,from) {
+      this.parseRoute(to)
+    }
+  },
+  mounted() {
+    this.parseRoute(this.$route)
+  },
   methods: {
+    parseRoute(to) {
+      if(to.query.item) {
+        console.log(this.$route)
+        this.$gunroot.get(to.query.item).once(data => {
+          if (data) {
+            this.selected = data
+          }
+        })
+      }
+    },
     async toLinkTo(itemType,item) {
       let {toLink,interlink, $soul} = this;
       await interlink(toLink.type, $soul(toLink), itemType, item);
@@ -106,11 +126,10 @@ const app = new Vue({
     },
     log:console.log,
     select(item) {
-      if(item==this.selected) {
-        this.selected='';
+      if ( item == this.selected ) {
+        this.selected=null;
       } else {
-        this.selected='';
-        this.selected=item;
+        this.selected = item;
       }
     }
   }

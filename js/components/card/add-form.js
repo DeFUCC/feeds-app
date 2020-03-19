@@ -41,7 +41,6 @@ export default {
         <v-row>
           <v-col cols="12" v-for="field in linkType.fields">
 
-
             <v-text-field @input="searchIt" outlined v-if="field.type=='text'"
               v-model="item[field.name]"
               :label="field.label"></v-text-field>
@@ -60,6 +59,7 @@ export default {
                ticks="always"
                tick-size="8"
              ></v-slider>
+
           </v-col>
           <v-col >
             <v-switch v-if="$user.is"

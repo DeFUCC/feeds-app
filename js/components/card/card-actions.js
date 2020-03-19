@@ -13,7 +13,7 @@ export default {
   <v-expand-transition>
     <v-card-actions :style="{background: $color.hex($soul(item))}">
       <v-spacer></v-spacer>
-      <v-btn  @click="copy(item.type+': '+$soul(item))"  icon>
+      <v-btn  @click="copy($soul(item))"  icon>
         <v-icon>mdi-content-copy</v-icon>
       </v-btn>
       <v-btn @click="link()" icon><v-icon>mdi-link</v-icon></v-btn>
@@ -34,14 +34,16 @@ export default {
     },
     copy(soul) {
       if(navigator.clipboard) {
-        navigator.clipboard.writeText(soul).then(() => {
-          let copied = 'Key copied: '+ soul;
-          this.$root.$emit('notify', copied)
+        let copied = window.location.origin + '#/?item='+ soul;
+        let ahref = '<a target="_blank" color="white" href=' + copied + '>Item URL</a>';
+
+        navigator.clipboard.writeText(copied).then(() => {
+          this.$root.$emit('notify', ahref +' is in your clipboard!')
         }, (err) => {
           console.error('Error copying ', err);
         });
       } else {
-        this.$root.$emit('notify','can not copy')
+        this.$root.$emit('notify', 'Copy this ' + ahref)
       }
 
     },

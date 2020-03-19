@@ -34,7 +34,9 @@ export default {
       <app-bar :types="$root.types"/>
 
       <footer-info />
-      <bottom-sheet :item="$root.selected" v-if="$root.selected"/>
+
+      <bottom-sheet  :item="$root.selected" v-if="$root.selected"/>
+
 
     </div>
 

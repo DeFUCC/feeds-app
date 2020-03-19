@@ -14,7 +14,7 @@ export default {
   },
   template:`
     <v-snackbar multi-line color="info" v-model="snackbar" bottom multi-line>
-      {{ message }}
+      <span v-html="message"></span>
       <v-btn color="white" text="text" @click="snackbar = false">
         Close
       </v-btn>

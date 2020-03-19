@@ -1,34 +1,51 @@
-
-onmessage = (e) => {
-  let {items, host, seen, rootSearch, search, page, show, showSeen, typeField} = e.data;
+const filterFeed = ({
+  items,
+  host,
+  seen,
+  rootSearch,
+  search,
+  page,
+  show=true,
+  showSeen=false,
+  typeField,
+  sortAB=true
+}) => {
   let feed = {};
   let more = false;
   let cleaned = cleanMap(items);
   let entries = Object.entries(cleaned);
-  entries.sort(sort)
-  let clean = 0
+  let clean = 0;
+  let shown = 0;
   let total = entries.length
 
+  entries.sort(sortState)
+
+  if (sortAB) { entries.sort(sortByAB) }
 
   for (let entry of entries) {
     let key = entry[0];
     let item = entry[1];
 
-    if (!item || item.VOID) { continue }
+    if (!item) {
+        console.log(item)
+    }
+
+    if (!item || item.VOID || !item[typeField]) { continue }
 
     if (!showSeen && seen && seen[key]  ) {
       continue
     }
 
+  /*
     if ((show.banned && !item.banned) ||(!show.banned && item.banned)) {
       continue
     }
+  */
 
     if (!host && rootSearch && !item[typeField].toLowerCase().includes(rootSearch.toLowerCase())) {
       continue
     }
-
-    if (host && search && !item[typeField].toLowerCase().includes(search.toLowerCase())) {
+    if (search && !item[typeField].toLowerCase().includes(search.toLowerCase())) {
       continue
     }
 
@@ -37,26 +54,38 @@ onmessage = (e) => {
       if (clean<page.start) {
         continue
       }
-      if (total>page.end) {
+      shown++;
+      if (clean > page.end) {
         more=true;
         break
-      } else {
-        more=false;
-        page.end=page.total
       }
     }
 
     feed[key]=item
   }
 
+
   postMessage({
     feed,
+    shown:shown,
     total,
     more,
   })
 }
 
-function sort (a,b)  {
+onmessage = (e) => {
+    filterFeed(e.data)
+}
+
+function sortState (a,b) {
+  if (a[1].createdAt > b[1].createdAt) {
+    return -1
+  } else {
+    return 1
+  }
+}
+
+function sortByAB (a,b)  {
     let aTitle = a[1].title.toLowerCase();
     let bTitle = b[1].title.toLowerCase();
     if ( aTitle > bTitle ) {

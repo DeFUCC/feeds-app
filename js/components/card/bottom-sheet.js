@@ -1,6 +1,6 @@
 import itemCard from './item-card.js'
-import editable from './editable.js'
 import cardInfo from './card-info.js'
+import cardTitle from './card-title.js'
 import addForm from './add-form.js'
 
 export default {
@@ -9,51 +9,40 @@ export default {
   },
   components:{
     itemCard,
-    editable,
     cardInfo,
+    cardTitle,
     addForm,
   },
   data() {
     return{
       open:true,
-      edit:false,
-    }
-  },
-  methods: {
-    updateItem(it) {
-      this.edit=false;
-      this.item=it
     }
   },
   template:`
-    <v-bottom-sheet inset v-model="open" class="flex-nowrap" v-if="item" >
+    <v-bottom-sheet transition="slide-y-transition" inset v-model="open" class="flex-nowrap" :key="$soul(item)" >
+
       <v-card height="75vh"
         :style="{border: '2px solid ' + $color.hex($soul(item))}"
         style="overflow:scroll"
         >
 
-        <v-card-title style="position:sticky; top:0;background-color:#eee" class="py-4 px-4 pointer"
-          >
+        <card-title :item="item" :sheet="true">
+        </card-title>
 
-            <h2 @click="$root.select(item)" v-if="item.title" class="pointer" :class="{title:item.type!='icon',
-            'display-2':item.type=='icon'}">
-              {{finalTitle}}
-            </h2>
-
-            <span @click="$root.select(item)" v-if="item.description" class="body-1 pointer" v-html="item.description">
-            </span>
-            <v-spacer />
-              <v-btn icon v-if="$root.loggedIn" :disabled="item.createdBy && item.createdBy!=$user.is.pub"  @click="edit=!edit">
-                  <v-icon :color="edit ? 'orange':'#555'">mdi-pencil-outline</v-icon>
-              </v-btn>
-        </v-card-title>
         <v-expand-transition>
-          <add-form v-if="edit" @edited="updateItem" :edit="item"/>
+
+              <add-form v-if="$root.edit"
+                @edited="updateItem"
+                :edit="item">
+              </add-form>
+
+
         </v-expand-transition>
+
         <card-info
           :open="true"
           :item="item"
-          />
+          ></card-info>
 
         <v-expand-transition>
           <v-container v-if="linkTypes">
@@ -67,21 +56,20 @@ export default {
     </v-bottom-sheet>
 
   `,
+  methods: {
+    updateItem(edited) {
+      this.item=edited;
+      this.$root.edit=false;
+    }
+  },
   watch: {
     open(val) {
       if (!val) {
-        this.$root.select(this.item)
+        this.$root.selected=null;
       }
     }
   },
   computed: {
-    finalTitle() {
-      let title = this.item.title;
-      if(this.item.stress) {
-        title = this.$root.stressedWord(title,this.item.stress)
-      }
-      return title
-    },
     linkTypes() {
       let links=[];
       let {item,$root} = this;

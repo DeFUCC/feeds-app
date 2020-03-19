@@ -1,4 +1,4 @@
-import types from '../../types.js'
+import {types} from '../../types.js'
 
 export default {
   props: [],
@@ -17,7 +17,7 @@ export default {
 
   },
   template:`
-    <v-container>
+    <v-container style="min-height:100vh">
       <h1 class="font-weight-regular">ЭТОВОТЭТО</h1>
       <h3 class="mb-3 font-weight-regular">Настольная игра в придумывание новых слов и их значений</h3>
 

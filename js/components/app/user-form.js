@@ -43,13 +43,20 @@ export default {
     },
     signUp() {
       this.$user.create(this.username,this.password,this.signedUp)
+
     },
     loggedIn(ack) {
       this.$root.$emit('notify', 'Вы вошли в систему!')
-      this.$user.get('profile').put({username:this.username})
+      this.$user.get('title').put(this.username)
     },
     signedUp(ack) {
+      if(ack.err) {
+        this.$root.$emit('notify', ack.err)
+        return
+      }
       this.$root.$emit('notify', 'Новый пользователь создан!')
+      console.log(ack)
+      this.$gun.get('player').set(this.$gunroot.user(ack.pub))
     },
   }
 }
