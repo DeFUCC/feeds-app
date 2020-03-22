@@ -50,7 +50,8 @@ export default {
           :raised="selected || linking"
           :class="{closed}"
           :outlined="!selected"
-          :style="{borderBottom: '2px solid ' + $color.hex($soul(item))}">
+          :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? '4px solid' + $color.hex('~'+item.createdBy) : 'none'}">
+
 
             <card-title :item="item" @open="open.more = !open.more">
             </card-title>
@@ -64,7 +65,7 @@ export default {
             <card-actions
               @linking="activateLinking"
               :open="open.more"
-              v-show="open.more"
+              v-if="open.more"
               :item="item"></card-actions>
 
         </v-card>

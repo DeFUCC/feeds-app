@@ -86,8 +86,15 @@ function sortState (a,b) {
 }
 
 function sortByAB (a,b)  {
-    let aTitle = a[1].title.toLowerCase();
-    let bTitle = b[1].title.toLowerCase();
+    let aTitle = a[1].title
+    let bTitle = b[1].title
+    if (typeof a[1].title == 'string') {
+      aTitle = aTitle.toLowerCase();
+    }
+    if (typeof b[1].title == 'string') {
+      bTitle = bTitle.toLowerCase();
+    }
+
     if ( aTitle > bTitle ) {
       return 1;
     }

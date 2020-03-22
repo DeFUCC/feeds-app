@@ -64,6 +64,11 @@ export const types = {
         label:'Алиас',
         placeholder:'Ваш алиас'
       },
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Описание'
+      },
     }
   },
 

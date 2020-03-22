@@ -1,11 +1,12 @@
 import itemCard from "./card/item-card.js";
 import addForm from "./card/add-form.js";
 
+
 export default {
   props: {
     type: String,
     host: Object,
-    base: Boolean
+    base: Boolean,
   },
   components: {
     itemCard,
@@ -24,9 +25,9 @@ export default {
       sortAB: false,
       currentLetter: "",
       page: {
-        size:5,
+        size:12,
         start: 0,
-        end:5,
+        end:24,
         shown: 0,
         total: 0,
       },
@@ -112,6 +113,12 @@ export default {
       if (this.$root.types[link]) {
         return this.$root.types[link].title;
       }
+    },
+    loadMore(){
+      this.page.end = this.page.end + this.page.size
+    },
+    onScroll(e) {
+      console.log(e.target,e)
     }
   },
 
@@ -154,7 +161,7 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-behavior:none;">
+      <v-row style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
 
         <v-expand-transition>
           <v-col class="py-0"
@@ -170,38 +177,41 @@ export default {
           </v-col>
         </v-expand-transition>
 
-          <v-col
+          <v-col v-if="$root.toLink"
             style="position:sticky; top:0; z-index:8"
             class="py-0"
             @click="$root.toLink=null"
             >
             <item-card
-                  v-if="$root.toLink"
+                  key="tolink"
                  :selected="true"
                  :item="$root.toLink"
                 ></item-card>
           </v-col>
 
 
-          <v-col style="scroll-snap-align: start;"
-            class="py-2"
-            cols="12"
-            v-for="(item,key) in filteredItems"
-            :key="item.createdAt+item.updatedAt"
-            >
-              <item-card
-                transition="slide-y-transition"
-                 :closed="false"
-                 :selected="selected==item"
-                 :item="item"
-                 :key="item.createdAt+item.updatedAt"
-                 >
-               </item-card>
 
-          </v-col>
+            <v-col
+              
+              class="py-2"
+              cols="12"
+              v-for="(item,key) in filteredItems"
+              :key="item.createdAt+item.updatedAt"
+              >
+                <item-card
+                  transition="slide-y-transition"
+                   :closed="false"
+                   :selected="selected==item"
+                   :item="item"
+                   :key="item.createdAt+item.updatedAt"
+                   >
+                 </item-card>
 
-        <v-col class="text-center">
-          <v-btn v-if="more" x-large fab @click="page.end = page.end + page.size" icon>
+            </v-col>
+
+
+        <v-col v-if="more" class="text-center">
+          <v-btn  x-large fab @click="loadMore()" icon>
             <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </v-col>

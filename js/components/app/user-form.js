@@ -48,6 +48,7 @@ export default {
     loggedIn(ack) {
       this.$root.$emit('notify', 'Вы вошли в систему!')
       this.$user.get('title').put(this.username)
+      this.$user.get('type').put('player')
     },
     signedUp(ack) {
       if(ack.err) {

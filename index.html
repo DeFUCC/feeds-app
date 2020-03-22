@@ -11,73 +11,25 @@
   </head>
 
   <body>
-    <div id="app" v-touch="{
-      left:(e) => {
-        log(e)
-      }
-    }">
-      <v-app>
 
-        <v-content >
-          <v-sheet style="height:100vh;overflow-x:hidden; overflow-y: scroll;scroll-snap-type: y mandatory; overscroll-behavior:none">
-              <app-ui></app-ui>
+      <v-app id="app">
 
-              <v-sheet style="scroll-snap-align:start" align-with-title >
-                <v-btn tile depressed disabled>Игра</v-btn>
-                <v-btn tile depressed color="#bbb" :text="!type.active" v-for="type in types" @click="type.active=!type.active">{{type.title}} </v-btn>
-              </v-sheet>
+      <app-ui></app-ui>
 
+      <router-view></router-view>
 
-              <v-card style="scroll-snap-align:start;max-height:100vh" color="#eee" >
-
-                  <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden;background-color:#eee; scroll-snap-type: x mandatory;" group>
-
-                  <v-col :key="'sd'" style="flex:1 1 320px; min-width:320px; max-width:900px; scroll-snap-align: start;">
-
-                    <app-info v-if="!toLink" ></app-info>
-
-                    <v-container class="pointer" @click="toLink=null" v-if="toLink">
-                      <h2 style="max-width:85%" v-if="toLink.title" :class="{title:toLink.type!='icon',
-                      'display-2':toLink.type=='icon'}">
-                        {{toLink.title}}
-                      </h2>
-
-                      <span style="max-width:85%" v-if="toLink.description" class="body-1 pointer">
-                        {{toLink.description}}
-                      </span>
-                      <p>
-                        Укажите карточку, с которой хотите связать выбранную
-                      </p>
-
-                    </v-container>
-
-                  </v-col>
-
-                    <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
-
-                        <feed :base="true" :type="type.type" :key="key"></feed>
-
-                    </v-col>
-                    </v-slide-x-transition>
-
-
-              </v-card>
-
-          </v-sheet>
-
-
-        </v-content>
       </v-app>
-    </div>
+    
   </body>
 
   <script src="js/assets/moment-with-locales.min.js"></script>
   <script src="js/assets/gun.js"></script>
+  <script src="js/assets/sea.js"></script>
   <script src="js/lib/gun-synclist.js"></script>
   <script src="js/lib/gun-tag.js"></script>
   <script src="js/lib/webrtc.js"></script>
   <script src="js/lib/unset.js"></script>
-  <script src="js/assets/sea.js"></script>
+  <script src="js/lib/gun-helper.js"></script>
   <script src="js/assets/vue.js"></script>
   <script src="js/assets/vue-router.js"></script>
   <script src="js/assets/vuetify.min.js"></script>

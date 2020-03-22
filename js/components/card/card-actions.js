@@ -1,17 +1,35 @@
 
 export default {
   props: {
-    item:'Object',
+    item:Object,
     open:Object,
   },
   data() {
     return{
       note:'',
+      wordCount:0,
+      links:[],
+      linksCount:{},
+    }
+  },
+  created() {
+    let {item, $root, $gunroot, $soul} = this;
+    let type = item.type;
+    if ($root.types[type]) {
+      this.links = $root.types[type].links
+    }
+    for (let link of this.links) {
+      this.$set(this.linksCount,link,0)
+      $gunroot.get($soul(item)).get(link).map().once((data,key) => {
+        this.linksCount[link]++
+      })
     }
   },
   template:`
   <v-expand-transition>
-    <v-card-actions :style="{background: $color.hex($soul(item))}">
+    <v-card-actions v-if="open" :style="{background: $color.hex($soul(item))}">
+      <v-btn v-for="(count, type) in linksCount"  icon>{{$root.types[type].title.slice(0,1)}}:{{count}}
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn  @click="copy($soul(item))"  icon>
         <v-icon>mdi-content-copy</v-icon>
@@ -35,7 +53,7 @@ export default {
     copy(soul) {
       if(navigator.clipboard) {
         let copied = window.location.origin + '#/?item='+ soul;
-        let ahref = '<a target="_blank" color="white" href=' + copied + '>Item URL</a>';
+        let ahref = '<a color="white" href=' + copied + '>Item URL</a>';
 
         navigator.clipboard.writeText(copied).then(() => {
           this.$root.$emit('notify', ahref +' is in your clipboard!')

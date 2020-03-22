@@ -1,7 +1,6 @@
 const gun = new Gun([
-  'http://localhost:4200/gun',
-  'https://gun-vue.glitch.me/gun',
-  'http://192.168.1.2:4200/gun'])
+  'https://gun-vue.glitch.me/gun'
+  ])
 
 Gun.SEA.throw = true;
 

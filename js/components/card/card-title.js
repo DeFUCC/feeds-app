@@ -8,22 +8,24 @@ export default {
   data() {
     return{
       note:'',
+      ahref:'',
     }
   },
   computed:{
     theTitle() {
       let {title , stress } = this.item
-      if (!title) {return ''}
-      if (!stress) { return title }
-        let arr = title.split('');
-        let parts = [];
-        if (arr.length > 0) {
-          arr[0] = arr[0].toUpperCase();
-          parts[0] = arr.slice(0, stress+1).join('');
-          parts[1] = '\u0301';
-          parts[2] = arr.slice(stress+1).join('');
-        }
-        return parts.join('')
+      if (this.item.alias) {return this.item.alias}
+      if (!title) {return null}
+      if (!stress || typeof title != 'string') { return title }
+      let arr = title.split('');
+      let parts = [];
+      if (arr.length > 0) {
+        arr[0] = arr[0].toUpperCase();
+        parts[0] = arr.slice(0, stress+1).join('');
+        parts[1] = '\u0301';
+        parts[2] = arr.slice(stress+1).join('');
+      }
+      return parts.join('')
     }
   },
   template:`
@@ -40,7 +42,7 @@ export default {
 
       <p
         :style="{opacity:$root.toLink ? '0.5' : '1'}"
-      
+        v-html=""
         v-if="item.description && !closed"
         class="body-1"
         >

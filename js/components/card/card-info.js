@@ -10,6 +10,7 @@ export default {
       note:'',
       creator:'',
       editor:'',
+      creatorLink:'',
     }
   },
   created() {
@@ -17,6 +18,7 @@ export default {
       this.$gun.user(this.item.createdBy).on((user) => {
         if (user && user.alias) {
           this.creator = user.alias
+          this.creatorLink = window.location.origin + '#/?item=~'+ user.pub;
         }
       })
     }
@@ -32,18 +34,18 @@ export default {
 
   template:`
   <v-expand-transition>
-    <v-card-actions  class="overline">
-        <v-btn v-if="item.createdBy && ((item.createdBy && !$user.is) || ($user.is && item.createdBy != $user.is.pub))" icon><v-icon>mdi-lock-outline</v-icon></v-btn>
-        <v-btn v-else icon><v-icon>mdi-lock-open-variant-outline</v-icon></v-btn>
-      <span >
-        Автор: {{creator || 'Аноним'}}<br/>
-        Создано {{$moment(item.createdAt).fromNow()}}
-        <br/>
+    <v-card-actions dense :style="{backgroundColor: creator ? $color.hex('~'+item.createdBy) : 'none'}" class="overline">
+        <v-btn :href="creatorLink" v-if="item.createdBy" icon><v-icon>mdi-account-outline</v-icon></v-btn>
+        <v-btn  v-else icon><v-icon>mdi-cloud-outline</v-icon></v-btn>
+      <span > 
+        {{creator || 'Аноним'}}:  {{$moment(item.createdAt).fromNow()}}
+
         <span v-if="item.updatedAt">
-          Отредактировано  {{$moment(item.updatedAt).fromNow()}}
-        </span><br/>
-        <span v-if="item.updatedBy && creator != editor">
-          Редактор:  {{editor}}
+          <br> ред. <span v-if="creator != editor">
+            {{editor}}
+          </span> {{$moment(item.updatedAt).fromNow()}}
+
+
         </span>
       </span>
     </v-card-actions>

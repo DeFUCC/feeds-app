@@ -48,7 +48,9 @@ export default {
           <v-container v-if="linkTypes">
             <v-row class="ma-0 pa-0"
                v-for="link in linkTypes" :key="$soul(item)+link">
+
                   <feed :host="item" :type="link" />
+
             </v-row>
           </v-container>
         </v-expand-transition>

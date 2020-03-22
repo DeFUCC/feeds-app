@@ -4,9 +4,7 @@ import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
 import appInfo from './components/app/app-info.js'
-import AsyncComputed from './assets/vue-async-computed.js'
 
-Vue.use(AsyncComputed) //https://github.com/foxbenjaminfox/vue-async-computed
 
 Vue.component('feed',feed)
 
@@ -16,7 +14,7 @@ const app = new Vue({
   vuetify: new Vuetify(),
   components:{
     appUi,
-    appInfo
+    appInfo,
   },
   data:{
     title:'ЛЕНТЫ',
@@ -58,7 +56,7 @@ const app = new Vue({
     this.$user.recall({sessionStorage:true})
 
     for (let type in this.types) {
-      this.$set(this.types[type],'active',false)
+      this.$set(this.types[type],'active',true)
     }
 
     gun.on('auth', (user) => {
@@ -80,7 +78,6 @@ const app = new Vue({
   methods: {
     parseRoute(to) {
       if(to.query.item) {
-        console.log(this.$route)
         this.$gunroot.get(to.query.item).once(data => {
           if (data) {
             this.selected = data

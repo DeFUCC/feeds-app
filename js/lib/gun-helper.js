@@ -1,4 +1,4 @@
-**
+/**
  * get and put encrypted and/or signed material to paths in Gun
  * FIXME: Investigate why root level put doesn't work
  *
@@ -8,6 +8,7 @@
  * - added mergedeep to better merge deeper objects between themselves
  * - added pair.osign option to only sign not encrypt when passing existing pairs
  **/
+
 (async function(){
 var Nug = this.Nug = null;
 
@@ -22,6 +23,7 @@ var atoob = this.atoob = function atoob(arr){
   });
   return obj;
 };
+
 const getNug = this.getNug = function(){
   if(Nug) return Nug.back(-1);
   if(Gun) Nug = new Gun(location.protocol+"//"+location.host+"/gun");
@@ -68,7 +70,7 @@ const createRWEResource = this.createRWEResource = async(...args)=> {
   let addUuid = args.length>0 ? args.shift() : false;
   const uuid = gun._.opt.uuid();
   let pair = await SEA.pair();
-  if(typeOf(encIt) == "object" && encIt.priv) {
+  if (typeof(encIt) == "object" && encIt.priv) {
     pair = encIt;
     var onlysign = pair.osign? true:false;
     if(pair.hasOwnProperty('osign')) delete pair["osign"];
@@ -235,3 +237,6 @@ const getMyDataEnc = this.getMyDataEnc = async (...args)=>{
     return Promise.reject("Not authenticated")
   }
 };
+
+
+})();

@@ -17,8 +17,8 @@ export default {
 
   },
   template:`
-    <v-container style="min-height:100vh">
-      <h1 class="font-weight-regular">ЭТОВОТЭТО</h1>
+    <v-container>
+
       <h3 class="mb-3 font-weight-regular">Настольная игра в придумывание новых слов и их значений</h3>
 
       <p>
