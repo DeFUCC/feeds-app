@@ -37,6 +37,7 @@ export default {
           @linking="activateLinking"
           :open="more"
           v-if="more"
+          :sheet="true"
           :item="item"></card-actions>
 
         <v-expand-transition>

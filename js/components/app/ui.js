@@ -27,7 +27,7 @@ export default {
 
       <user-form v-if="$root.auth && !$root.loggedIn" />
 
-      <user-drawer v-if="$user && $root.loggedIn" />
+      <user-drawer v-if="$root.loggedIn" />
 
       <app-nav />
 

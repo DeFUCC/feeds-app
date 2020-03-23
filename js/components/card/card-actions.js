@@ -3,6 +3,7 @@ export default {
   props: {
     item:Object,
     open:Object,
+    sheet:Boolean,
   },
   data() {
     return{
@@ -31,11 +32,22 @@ export default {
       <v-btn v-for="(count, type) in linksCount"  icon>{{$root.types[type].title.slice(0,1)}}:{{count}}
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn  @click="copy($soul(item))"  icon>
+      <v-btn v-if="sheet" @click="copy($soul(item))"  icon>
         <v-icon>mdi-content-copy</v-icon>
       </v-btn>
+
+
+      <v-btn icon
+        v-if="sheet && $root.loggedIn"  @click="$root.edit=!$root.edit">
+          <v-icon
+            :color="$root.edit ? '#f66' :'#555'">
+            mdi-pencil-outline
+          </v-icon>
+      </v-btn>
+
       <v-btn @click="link()" icon><v-icon>mdi-link</v-icon></v-btn>
-      <v-btn @click="$root.see(item)"  v-if="$user.is" icon><v-icon v-if="$root.seen[$soul(item)]">mdi-eye</v-icon><v-icon v-else>mdi-eye-off</v-icon></v-btn>
+
+      <v-btn @click="$root.see(item)"  v-if="$root.loggedIn" icon><v-icon v-if="$root.seen[$soul(item)]">mdi-eye</v-icon><v-icon v-else>mdi-eye-off</v-icon></v-btn>
     </v-card-actions>
   </v-expand-transition>
   `,

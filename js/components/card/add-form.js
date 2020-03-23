@@ -63,11 +63,11 @@ export default {
 
           </v-col>
           <v-row>
-            <v-switch class="mt-0" v-if="$user.is"
+            <v-switch class="mt-0" v-if="$root.loggedIn"
               v-model="creator"
               prepend-icon="mdi-account-outline"
             ></v-switch>
-            <v-switch class="mt-0" v-if="$user.is && creator"
+            <v-switch class="mt-0" v-if="$root.loggedIn && creator"
               v-model="author"
               prepend-icon="mdi-account-lock-outline"
             ></v-switch>
@@ -116,7 +116,7 @@ export default {
 
       it.updatedAt = $state();
 
-      if ($user.is && creator) {
+      if ($root.loggedIn && creator) {
         it.updatedBy = $user.is.pub;
       } else {
         it.updatedBy = '';

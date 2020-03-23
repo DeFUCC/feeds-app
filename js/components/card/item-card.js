@@ -56,6 +56,7 @@ export default {
             <card-title
               :item="item"
               @open="open.more = !open.more"
+              :open="open.more"
               ></card-title>
 
 
@@ -64,6 +65,7 @@ export default {
               @linking="activateLinking"
               :open="open.more"
               v-if="open.more"
+              :sheet="false"
               :item="item"></card-actions>
 
               <card-info

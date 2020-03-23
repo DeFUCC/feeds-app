@@ -3,7 +3,7 @@ export default {
   name:'card-info',
   props: {
     item:Object,
-    open:Object,
+    open:Boolean,
   },
   data() {
     return{

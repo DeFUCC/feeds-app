@@ -9,10 +9,12 @@ export default {
         v-model="$root.show.user"
         right app width="300px"
       >
-      <v-list>
+      <v-list v-if="$root.loggedIn">
         <v-list-item>
+
           <v-list-item-avatar>
             <v-img src="https://frkt.ru/wp-content/uploads/2019/12/Project-wheel-copy-2-2x.png"></v-img>
+
           </v-list-item-avatar>
 
           <v-list-item-content>

@@ -59,7 +59,7 @@ const app = new Vue({
       this.$set(this.types[type],'active',true)
     }
 
-    gun.on('auth', this.logIn)
+
   },
   watch: {
     $route(to,from) {
@@ -67,16 +67,19 @@ const app = new Vue({
     }
   },
   mounted() {
+    gun.on('auth', this.logIn)
     this.parseRoute(this.$route)
     this.$user.recall({sessionStorage:true},this.logIn)
   },
   methods: {
     logIn(user) {
-        this.loggedIn=true;
-        this.auth=false;
-        this.$user.get('feeds').get('seen').map().on((item, key) => {
-          this.$set(this.seen,key,item)
-        })
+        if(!user.err) {
+          this.loggedIn=true;
+          this.auth=false;
+          this.$user.get('feeds').get('seen').map().on((item, key) => {
+            this.$set(this.seen,key,item)
+          })
+        }
     },
     parseRoute(to) {
       if(to.query.item) {
@@ -101,7 +104,7 @@ const app = new Vue({
     },
     async see(item) {
       let {$user, $gunroot, $soul, $root} = this;
-      if ($user.is) {
+      if ($root.loggedIn) {
         let key = $soul(item)
         if (!$root.seen[key]) {
           let it = $gunroot.get(key);
@@ -139,7 +142,6 @@ const app = new Vue({
             item: this.$soul(item)
           },
         })
-        console.log(this.$route.query)
       }
     }
   }

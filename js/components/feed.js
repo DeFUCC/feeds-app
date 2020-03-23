@@ -208,7 +208,7 @@ export default {
               class="py-2"
               cols="12"
               v-for="(item,key) in filteredItems"
-              :key="item.createdAt+item.updatedAt"
+              :key="item.createdAt"
               >
                 <item-card
                   transition="slide-y-transition"

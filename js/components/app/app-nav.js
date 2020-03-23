@@ -58,12 +58,12 @@ export default {
 
           <v-list-item >
             <v-list-item-content>
-              <v-list-item-text>
+              <v-list-item-subtitle>
                 <span class="overline">Powered by open source JS <br />
                   <a href="https://ru.vuejs.org" target="_blank" rel="nofollow noopener">Vue</a> UI +
                   <a href="https://gun.eco" target="_blank" rel="nofollow noopener">GUN</a> P2P Graph DB
                 </span>
-              </v-list-item-text>
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 

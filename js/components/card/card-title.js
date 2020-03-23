@@ -4,6 +4,7 @@ export default {
     item:Object,
     closed:Boolean,
     sheet:Boolean,
+    open:Boolean,
   },
   data() {
     return{
@@ -44,7 +45,7 @@ export default {
         :style="{opacity:$root.toLink ? '0.5' : '1'}"
         v-html=""
         v-if="item.description && !closed"
-        class="body-1"
+        class="body-1 my-2"
         >
         {{item.description}}
       </p>
@@ -64,25 +65,14 @@ export default {
       </v-btn>
 
       <v-btn icon
-        v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open.more}" >
+        v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open}" >
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
 
       <v-btn icon
         @click.stop.prevent="$root.see(item)"
-        v-if="$user && $user.is && $root.seen[$soul(item)] && !closed">
+        v-if="$root.loggedIn && $root.seen[$soul(item)] && !closed">
         <v-icon>mdi-eye-off</v-icon>
-      </v-btn>
-
-
-
-      <v-btn icon
-        v-if="sheet"
-        :disabled="!$root.loggedIn"  @click.stop.prevent="$root.edit=!$root.edit">
-          <v-icon
-            :color="$root.edit ? '#f66' :'#555'">
-            mdi-pencil-outline
-          </v-icon>
       </v-btn>
 
   </v-card-title>

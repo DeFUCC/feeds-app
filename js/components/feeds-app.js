@@ -40,7 +40,12 @@ export default {
 
 
       <v-sheet>
-        <v-btn tile depressed color="#bbb" small :text="!type.active" v-for="type in types" @click="type.active=!type.active">{{type.title}} </v-btn>
+        <v-btn tile depressed color="#bbb" small
+          :text="!type.active" v-for="type in types"
+          :key="type.title"
+          @click="type.active=!type.active">
+          {{type.title}}
+        </v-btn>
       </v-sheet>
 
       <v-card style="overscroll-x-behavior:none; scroll-snap-align:start;max-height:auto" color="#eee" >
