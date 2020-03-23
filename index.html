@@ -16,10 +16,14 @@
 
       <app-ui></app-ui>
 
-      <router-view></router-view>
+      <v-fade-transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </v-fade-transition>
 
       </v-app>
-    
+
   </body>
 
   <script src="js/assets/moment-with-locales.min.js"></script>

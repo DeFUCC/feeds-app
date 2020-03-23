@@ -32,11 +32,31 @@ export default {
         <v-divider></v-divider>
 
         <v-list>
+          <router-link to="/" style="text-decoration:none">
+            <v-list-item>
+              <v-list-item-content>
+
+                  <v-list-item-title class="title">
+                    Словарь
+                  </v-list-item-title>
+
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+
+          <router-link to="/game" style="text-decoration:none">
+            <v-list-item>
+              <v-list-item-content>
+
+                  <v-list-item-title class="title">
+                    Игры
+                  </v-list-item-title>
+
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
 
           <v-list-item >
-            <v-list-item-icon>
-              <v-icon>CC</v-icon>
-            </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-text>
                 <span class="overline">Powered by open source JS <br />

@@ -53,19 +53,13 @@ const app = new Vue({
     }
   },
   created() {
-    this.$user.recall({sessionStorage:true})
+
 
     for (let type in this.types) {
       this.$set(this.types[type],'active',true)
     }
 
-    gun.on('auth', (user) => {
-      this.loggedIn=true;
-      this.auth=false;
-      this.$user.get('feeds').get('seen').map().on((item, key) => {
-        this.$set(this.seen,key,item)
-      })
-    })
+    gun.on('auth', this.logIn)
   },
   watch: {
     $route(to,from) {
@@ -74,8 +68,16 @@ const app = new Vue({
   },
   mounted() {
     this.parseRoute(this.$route)
+    this.$user.recall({sessionStorage:true},this.logIn)
   },
   methods: {
+    logIn(user) {
+        this.loggedIn=true;
+        this.auth=false;
+        this.$user.get('feeds').get('seen').map().on((item, key) => {
+          this.$set(this.seen,key,item)
+        })
+    },
     parseRoute(to) {
       if(to.query.item) {
         this.$gunroot.get(to.query.item).once(data => {
@@ -123,10 +125,21 @@ const app = new Vue({
     },
     log:console.log,
     select(item) {
-      if ( item == this.selected ) {
+      if (item == this.selected || !item) {
         this.selected=null;
+        this.$router.push({
+          path:'',
+          query: {},
+        })
       } else {
         this.selected = item;
+        this.$router.push({
+          path:'',
+          query: {
+            item: this.$soul(item)
+          },
+        })
+        console.log(this.$route.query)
       }
     }
   }

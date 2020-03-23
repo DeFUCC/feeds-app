@@ -1,6 +1,7 @@
 import itemCard from './item-card.js'
 import cardInfo from './card-info.js'
 import cardTitle from './card-title.js'
+import cardActions from './card-actions.js'
 import addForm from './add-form.js'
 
 export default {
@@ -11,11 +12,14 @@ export default {
     itemCard,
     cardInfo,
     cardTitle,
+    cardActions,
     addForm,
   },
   data() {
     return{
+      linking:false,
       open:true,
+      more:false,
     }
   },
   template:`
@@ -26,8 +30,14 @@ export default {
         style="overflow:scroll"
         >
 
-        <card-title :item="item" :sheet="true">
+        <card-title :item="item" :sheet="true" @open="more = !more">
         </card-title>
+
+        <card-actions
+          @linking="activateLinking"
+          :open="more"
+          v-if="more"
+          :item="item"></card-actions>
 
         <v-expand-transition>
 
@@ -62,12 +72,15 @@ export default {
     updateItem(edited) {
       this.item=edited;
       this.$root.edit=false;
+    },
+    activateLinking(ev) {
+      this.linking = ev
     }
   },
   watch: {
     open(val) {
       if (!val) {
-        this.$root.selected=null;
+        this.$root.select()
       }
     }
   },

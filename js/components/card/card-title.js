@@ -29,7 +29,7 @@ export default {
     }
   },
   template:`
-  <v-card-title @click="$root.selected=item"  class=" pointer py-1 px-2">
+  <v-card-title @click="$root.select(item)"  class=" pointer py-1 px-2">
     <span style="max-width:85%">
       <h2
         :style="{opacity:$root.toLink ? '0.5' : '1'}"
@@ -64,15 +64,17 @@ export default {
       </v-btn>
 
       <v-btn icon
-        v-if="!$root.toLink && !closed && !sheet" @click.stop.prevent="$emit('open')" :class="{turn180:open.more}" >
+        v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open.more}" >
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
 
       <v-btn icon
         @click.stop.prevent="$root.see(item)"
-        v-if="$user.is && $root.seen[$soul(item)] && !closed">
+        v-if="$user && $user.is && $root.seen[$soul(item)] && !closed">
         <v-icon>mdi-eye-off</v-icon>
       </v-btn>
+
+
 
       <v-btn icon
         v-if="sheet"
@@ -85,4 +87,16 @@ export default {
 
   </v-card-title>
   `,
+  methods: {
+    link() {
+      let {$root, item} = this
+      if ($root.toLink==item) {
+        $root.toLink=null
+        this.$emit('linking',false)
+      } else {
+        $root.toLink=item;
+        this.$emit('linking',true)
+      }
+    },
+  }
 }

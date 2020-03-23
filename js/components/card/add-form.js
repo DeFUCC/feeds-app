@@ -24,6 +24,7 @@ export default {
       item: {...blankItem},
       search:null,
       creator:false,
+      author:false,
     }
   },
   created() {
@@ -61,13 +62,22 @@ export default {
              ></v-slider>
 
           </v-col>
-          <v-col >
-            <v-switch v-if="$user.is"
+          <v-row>
+            <v-switch class="mt-0" v-if="$user.is"
               v-model="creator"
               prepend-icon="mdi-account-outline"
             ></v-switch>
-            <v-btn v-if="edit" :disabled="!item.title && !item.description" @click="updateItem()">Обновить</v-btn>
-            <v-btn v-if="!edit" :disabled="!item.title && !item.description" @click="createItem()">Добавить</v-btn>
+            <v-switch class="mt-0" v-if="$user.is && creator"
+              v-model="author"
+              prepend-icon="mdi-account-lock-outline"
+            ></v-switch>
+            <v-btn icon v-if="edit" :disabled="!item.title && !item.description" @click="updateItem()">
+              <v-icon>mdi-pencil-outline</v-icon>
+            </v-btn>
+            <v-btn icon large v-if="!edit" :disabled="!item.title && !item.description" @click="createItem()"><v-icon>mdi-plus</v-icon></v-btn>
+          </v-row>
+          <v-col>
+
           </v-col>
         </v-row>
       </v-form>
@@ -120,13 +130,15 @@ export default {
       })
     },
     async createItem() {
-      let {host, item, type, $gun, $soul, $state, $user, creator} = this;
+      let {host, item, type, $gun, $soul, $state, $user, creator, author} = this;
       let it = {...item}
       it.createdAt = $state();
 
       if ($user.is && creator) {
         it.createdBy = $user.is.pub;
-        it = await $user.get(type).set(it)
+        if (author) {
+          it = await $user.get(type).set(it)
+        }
       }
 
        it = await $gun.get(type).set(it);

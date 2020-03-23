@@ -13,7 +13,7 @@ export default {
     }
   },
   template: `
-  <v-app-bar :color="$user.is ? $color.hex('~'+$user.is.pub) : 'grey lighten-1'" style="scroll-snap-align:start"  flat >
+  <v-app-bar  style="scroll-snap-align:start"  flat >
     <v-btn icon @click="$root.show.nav=true"><v-icon>mdi-menu</v-icon></v-btn>
     <v-toolbar-title>{{$root.title}}</v-toolbar-title>
 

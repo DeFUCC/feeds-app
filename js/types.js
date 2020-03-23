@@ -72,7 +72,6 @@ export const types = {
     }
   },
 
-
   game: {
     type:'game',
     name:'Игра',
@@ -93,4 +92,26 @@ export const types = {
       }
     }
   },
+}
+
+export const stages = {
+
+  init: {
+    slug:'init',
+    title:'Создание новой игры',
+    fields: {
+      title: {
+        type:'text',
+        name:'title',
+        label:'Название',
+        placeholder:'Назовите вашу игру'
+      },
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Описание',
+      }
+    }
+  },
+
 }

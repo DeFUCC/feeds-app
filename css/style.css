@@ -49,10 +49,9 @@ body {
   );
 }
 
-.the-word {
-  font-weight:300;
-  transform:translateY(3px);
-  cursor:pointer;
+.v-navigation-drawer .router-link-exact-active .v-list-item {
+  background-color:#eee;
+  color:#444;
 }
 
 .v-card__title .display-2 {
