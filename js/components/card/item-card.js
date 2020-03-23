@@ -70,7 +70,7 @@ export default {
 
               <card-info
                 :open="open.more"
-                v-show="open.more"
+                v-if="open.more"
                 :item="item"
                 ></card-info>
 
