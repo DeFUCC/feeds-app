@@ -34,7 +34,7 @@ export default {
         total: 0,
       },
       more: false,
-      moreObserver:'',
+      loading:false,
     };
   },
   created() {
@@ -74,6 +74,9 @@ export default {
       handler() {
         this.feedWorker.postMessage(this.feed);
       }
+    },
+    items() {
+      this.loading=false
     },
     feed(feed) {
       this.feedWorker.postMessage(feed);
@@ -122,6 +125,7 @@ export default {
       }
     },
     loadMore(){
+      this.loading=true
       this.page.end = this.page.end + this.page.size
     },
     onScroll(e) {
@@ -217,9 +221,9 @@ export default {
 
             </v-col>
 
-        <intersect v-if="more"  @enter="loadMore">
+        <intersect v-if="more"  @enter="loadMore()">
           <v-col  class="feed-loader text-center">
-            <v-btn  x-large fab @click="loadMore()" icon>
+            <v-btn :disabled="loading"  x-large fab @click="loadMore()" icon>
               <v-icon>mdi-dots-horizontal</v-icon>
             </v-btn>
           </v-col>
