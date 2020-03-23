@@ -1,5 +1,6 @@
 import itemCard from "./card/item-card.js";
 import addForm from "./card/add-form.js";
+import intersect from '../assets/vue-intersect.js'
 
 
 export default {
@@ -10,7 +11,8 @@ export default {
   },
   components: {
     itemCard,
-    addForm
+    addForm,
+    intersect,
   },
   data() {
     return {
@@ -31,10 +33,12 @@ export default {
         shown: 0,
         total: 0,
       },
-      more: false
+      more: false,
+      moreObserver:'',
     };
   },
   created() {
+
     if (window.Worker) {
       this.feedWorker = new Worker("./js/worker.js");
       this.feedWorker.onmessage = e => {
@@ -94,6 +98,9 @@ export default {
       };
     }
   },
+  mounted() {
+
+  },
   methods: {
     updateFeed() {
       this.feedWorker.postMessage(this.feed);
@@ -119,7 +126,8 @@ export default {
     },
     onScroll(e) {
       console.log(e.target,e)
-    }
+    },
+
   },
 
   template: `
@@ -161,7 +169,7 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
+      <v-row ref="frame" class="feed-scroller" style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
 
         <v-expand-transition>
           <v-col class="py-0"
@@ -192,7 +200,7 @@ export default {
 
 
             <v-col
-              
+
               class="py-2"
               cols="12"
               v-for="(item,key) in filteredItems"
@@ -209,12 +217,13 @@ export default {
 
             </v-col>
 
-
-        <v-col v-if="more" class="text-center">
-          <v-btn  x-large fab @click="loadMore()" icon>
-            <v-icon>mdi-dots-horizontal</v-icon>
-          </v-btn>
-        </v-col>
+        <intersect v-if="more"  @enter="loadMore">
+          <v-col  class="feed-loader text-center">
+            <v-btn  x-large fab @click="loadMore()" icon>
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </v-col>
+        </intersect>
 
       </v-row>
   </v-container>

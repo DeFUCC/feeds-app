@@ -1,8 +1,8 @@
-import theApp from './components/the-app.js'
+import feedsApp from './components/feeds-app.js'
 
 
 const routes = [
-  {path:'', component: theApp}
+  {path:'', component: feedsApp}
 ]
 
 export default new VueRouter({

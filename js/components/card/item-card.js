@@ -53,20 +53,24 @@ export default {
           :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? '4px solid' + $color.hex('~'+item.createdBy) : 'none'}">
 
 
-            <card-title :item="item" @open="open.more = !open.more">
-            </card-title>
-
-            <card-info
-              :open="open.more"
-              v-show="open.more"
+            <card-title
               :item="item"
-              ></card-info>
+              @open="open.more = !open.more"
+              ></card-title>
+
+
 
             <card-actions
               @linking="activateLinking"
               :open="open.more"
               v-if="open.more"
               :item="item"></card-actions>
+
+              <card-info
+                :open="open.more"
+                v-show="open.more"
+                :item="item"
+                ></card-info>
 
         </v-card>
   `,
