@@ -15,7 +15,7 @@ export default {
 
           <v-text-field v-model="username" label="Имя или никнейм"></v-text-field>
 
-          <v-text-field v-model="password" type="password" label="Секретная фраза"></v-text-field>
+          <v-text-field v-model="password" type="password" @keydown.enter="userExists ? signIn() : signUp()" label="Секретная фраза"></v-text-field>
           <v-row>
             <v-col cols="10">
               <v-btn v-if="!userExists" @click="signUp()">Представиться</v-btn>

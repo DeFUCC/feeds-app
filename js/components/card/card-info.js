@@ -38,7 +38,7 @@ export default {
         <v-btn :href="creatorLink" icon>
           <v-icon v-if="item.createdBy && !$soul(item).includes('~')">mdi-account-outline</v-icon>
           <v-icon v-if="$soul(item).includes('~')">mdi-account-lock-outline</v-icon>
-          <v-icon v-if="!item.createdBy">mdi-cloud-outline</v-icon>
+          <v-icon v-if="!item.createdBy && !$soul(item).includes('~')">mdi-cloud-outline</v-icon>
       </v-btn>
       <span >
         {{creator || 'Аноним'}}:  {{$moment(item.createdAt).fromNow()}}

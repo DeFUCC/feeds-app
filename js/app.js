@@ -3,7 +3,6 @@ import router from './router.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
-import appInfo from './components/app/app-info.js'
 
 
 Vue.component('feed',feed)
@@ -14,10 +13,9 @@ const app = new Vue({
   vuetify: new Vuetify(),
   components:{
     appUi,
-    appInfo,
   },
   data:{
-    title:'ЛЕНТЫ',
+    title:'ЭТОВОТЭТО',
     peers:gun.back('opt.peers'),
     loggedIn:false,
     edit:false,
@@ -38,27 +36,12 @@ const app = new Vue({
     sort:{
       byName:true,
     },
-    feedNum:5,
     types,
   },
   computed: {
-    activeTypes() {
-      let active={};
-      for (let type in this.types) {
-        if (this.types[type].active) {
-          active[type]=this.types[type]
-        }
-      }
-      return active
-    }
+
   },
   created() {
-
-
-    for (let type in this.types) {
-      this.$set(this.types[type],'active',true)
-    }
-
 
   },
   watch: {
@@ -73,7 +56,7 @@ const app = new Vue({
   },
   methods: {
     logIn(user) {
-        if(!user.err) {
+        if(user.sea) {
           this.loggedIn=true;
           this.auth=false;
           this.$user.get('feeds').get('seen').map().on((item, key) => {
@@ -114,19 +97,6 @@ const app = new Vue({
         }
       }
     },
-    stressedWord(word='', stress=0)   {
-            stress = Number(stress);
-            let arr = word.split('');
-            let parts = [];
-            if (arr.length > 0) {
-              arr[0] = arr[0].toUpperCase();
-              parts[0] = arr.slice(0, stress+1).join('');
-              parts[1] = '\u0301';
-              parts[2] = arr.slice(stress+1).join('');
-            }
-            return parts.join('')
-    },
-    log:console.log,
     select(item) {
       if (item == this.selected || !item) {
         this.selected=null;

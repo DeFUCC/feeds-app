@@ -16,7 +16,9 @@ export default {
     }
   },
   created() {
-
+    for (let type in this.types) {
+      this.$set(this.types[type],'active',true)
+    }
   },
   watch: {
 
