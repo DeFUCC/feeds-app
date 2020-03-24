@@ -64,27 +64,43 @@ const decEnc = this.decEnc = async(...args)=> {
 };
 
 const createRWEResource = this.createRWEResource = async(...args)=> {
-  let key = args.shift();
-  let data = args.shift();
-  let encIt = args.length>0 ? args.shift() : false;
-  let addUuid = args.length>0 ? args.shift() : false;
-  const uuid = gun._.opt.uuid();
-  let pair = await SEA.pair();
-  if (typeof(encIt) == "object" && encIt.priv) {
-    pair = encIt;
-    var onlysign = pair.osign? true:false;
-    if(pair.hasOwnProperty('osign')) delete pair["osign"];
-    if(onlysign) encIt = false;
+  let key = args.shift();  // key
+  let data = args.shift(); // data
+  let encIt = args.length>0 ? args.shift() : false; // encrypt or not?
+  let addUuid = args.length>0 ? args.shift() : false; //add uuid or not?
+
+  const uuid = gun._.opt.uuid(); //generate UUID
+
+  let pair = await SEA.pair(); //new PAIR
+
+  if (typeof(encIt) == "object" && encIt.priv) { // if we got a private key
+
+    pair = encIt; //it's the pair
+
+    var onlysign = pair.osign? true:false; //if pair is to only sign, we remember it
+
+    if(pair.hasOwnProperty('osign')) delete pair["osign"]; //clear the pair from the sign flag
+
+    if(onlysign) encIt = false; // if only signing – so don't ecnrypt
   }
-  let id = "~"+pair.pub;
-  if(addUuid) id = id + "." + uuid;
-  let nug = getNug();
-  if(!encIt){
-    let datax = {"#":id,'.':key,':':data,'>':Gun.state()}
-    let signed = await SEA.sign(datax,pair);
-    let putsi = await nug.get(id).get(key).put(signed).then();
+
+  let id = "~"+pair.pub; // pair.pub – like a user name
+
+  if(addUuid) id = id + "." + uuid; // add UUID if needed
+
+  let nug = getNug(); //get a clean Gun without logged in user
+
+  if(!encIt){ // if we don't want to encrypt
+
+    let datax = {"#":id,'.':key,':':data,'>':Gun.state()} // a basic node structure is set
+
+    let signed = await SEA.sign(datax,pair); // it is signed
+
+    let putsi = await nug.get(id).get(key).put(signed).then(); //we put it into a shadow Gun
+
     console.log("putsi",putsi);
-    return {id:id,key:key,ref:nug.get(id).get(key),pair:pair};
+
+    return {id:id,key:key,ref:nug.get(id).get(key),pair:pair};// gives all info back to use later
   }
   else {
     return await decEnc(data,pair,"encrypt").then(async(enc)=>{

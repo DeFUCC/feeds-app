@@ -50,19 +50,23 @@ const app = new Vue({
     }
   },
   mounted() {
+    this.$user.recall({sessionStorage:true},this.logIn)
     gun.on('auth', this.logIn)
     this.parseRoute(this.$route)
-    this.$user.recall({sessionStorage:true},this.logIn)
   },
   methods: {
     logIn(user) {
-        if(user.sea) {
-          this.loggedIn=true;
-          this.auth=false;
-          this.$user.get('feeds').get('seen').map().on((item, key) => {
-            this.$set(this.seen,key,item)
-          })
-        }
+      if (!user.err) {
+        this.loggedIn=true;
+        this.auth=false;
+        this.$user.get('feeds').get('seen').map().on((item, key) => {
+          this.$set(this.seen,key,item)
+        })
+      } else {
+        this.$root.$emit('notify', user.err)
+      }
+
+
     },
     parseRoute(to) {
       if(to.query.item) {

@@ -31,8 +31,7 @@ export default {
       })
     }
 
-    $gun.get('seen').get($soul(item)).map().on((data,key) => {
-      console.log(data)
+    $gun.get('seen').get($soul(item)).map().once((data,key) => {
         if (data=='seen') {
           $set(this.seen,key,true)
         } else if (this.seen[key]) {
