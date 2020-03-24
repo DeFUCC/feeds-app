@@ -51,6 +51,7 @@ export default {
           :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? '4px solid' + $color.hex('~'+item.createdBy) : 'none'}">
 
             <card-title
+              style="position:sticky;top:0; background-color:#fff; z-index:40;"
               :item="item"
               @open="open.more = !open.more"
               :open="open.more"

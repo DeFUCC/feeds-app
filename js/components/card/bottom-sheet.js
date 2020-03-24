@@ -28,10 +28,14 @@ export default {
 
       <v-card height="75vh"
         :style="{border: '2px solid ' + $color.hex($soul(item))}"
-        style="overflow:scroll"
+        style="overflow-y:scroll; overflow-x:hidden"
         >
 
-        <card-title :item="item" :sheet="true" @open="more = !more">
+        <card-title
+          style="position:sticky;top:0; background-color:#fff; z-index:40;"
+          :item="item"
+          :sheet="true"
+          @open="more = !more">
         </card-title>
 
         <card-actions
@@ -58,10 +62,10 @@ export default {
           ></card-info>
 
         <v-expand-transition>
-          <v-container v-if="linkTypes">
+          <v-container class="ma-0 pa-0" v-if="linkTypes">
             <v-row class="ma-0 pa-0"
                v-for="link in linkTypes" :key="$soul(item)+link">
-               
+
                   <feed :host="item" :type="link" />
 
             </v-row>

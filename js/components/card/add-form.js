@@ -30,7 +30,6 @@ export default {
   created() {
     if (this.edit) {
       this.item={...this.edit};
-      this.type=this.edit.type;
     } else {
       this.item.type=this.type;
     }
@@ -83,18 +82,33 @@ export default {
           </v-col>
         </v-row>
         <v-row>
-          <v-switch class="mt-0" v-if="$root.loggedIn"
+
+          <v-switch
+            class="mt-0"
+            v-if="$root.loggedIn"
             v-model="creator"
             prepend-icon="mdi-account-outline"
           ></v-switch>
-          <v-switch class="mt-0" v-if="$root.loggedIn && creator"
+
+          <v-switch
+            class="mt-0"
+            v-if="$root.loggedIn && creator"
             v-model="author"
             prepend-icon="mdi-account-lock-outline"
           ></v-switch>
-          <v-btn icon v-if="edit" :disabled="!item.title && !item.description" @click="updateItem()">
+
+          <v-btn icon
+            v-if="edit"
+            :disabled="!item.title && !item.description" @click="updateItem()">
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
-          <v-btn icon large v-if="!edit" :disabled="!item.title && !item.description" @click="createItem()"><v-icon>mdi-plus</v-icon></v-btn>
+
+          <v-btn icon large
+            v-if="!edit"
+            :disabled="!item.title && !item.description" @click="createItem()">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+
         </v-row>
       </v-form>
     </v-container>
@@ -122,7 +136,7 @@ export default {
 
     },
     async updateItem() {
-      let {item, type, $gunroot, $root, $soul, $state, $user, creator} = this;
+      let {item, $gunroot, $root, $soul, $state, $user, creator} = this;
       let it = {...item}
 
       if (!this.validate(it)) {

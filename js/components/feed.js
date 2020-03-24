@@ -203,7 +203,7 @@ export default {
 
 
             <v-col
-
+              style="scroll-snap-align:start end"
               class="py-2"
               cols="12"
               v-for="(item,key) in filteredItems"

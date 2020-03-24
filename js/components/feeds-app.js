@@ -40,7 +40,7 @@ export default {
   template: `
   <v-sheet style="height:auto;overflow-x:hidden; overflow-y: scroll;scroll-snap-type: y mandatory; overscroll-behavior:none">
 
-      <v-sheet>
+      <v-sheet v-if="false">
         <v-btn tile depressed color="#bbb" small
           :text="!type.active" v-for="type in types"
           :key="type.title"

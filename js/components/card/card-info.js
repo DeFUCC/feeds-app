@@ -34,7 +34,7 @@ export default {
 
   template:`
   <v-expand-transition>
-    <v-card-actions dense :style="{backgroundColor: creator ? $color.hex('~'+item.createdBy) : '#f2f2f2'}" class="overline">
+    <v-card-actions style="z-index:42" dense :style="{backgroundColor: creator ? $color.hex('~'+item.createdBy) : '#f2f2f2'}" class="overline">
         <v-btn :href="creatorLink" icon>
           <v-icon v-if="item.createdBy && !$soul(item).includes('~')">mdi-account-outline</v-icon>
           <v-icon v-if="$soul(item).includes('~')">mdi-account-lock-outline</v-icon>
