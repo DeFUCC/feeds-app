@@ -129,9 +129,6 @@ export default {
       this.loading=true
       this.page.end = this.page.end + this.page.size
     },
-    onScroll(e) {
-      console.log(e.target,e)
-    },
 
   },
 
@@ -236,7 +233,7 @@ export default {
   </v-container>
   `,
   beforeDestroy() {
-    this.activeFeed.off()
-    this.feedWorker.terminate();
+//    this.activeFeed.off()
+//    this.feedWorker.terminate();
   }
 };

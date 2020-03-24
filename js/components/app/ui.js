@@ -35,7 +35,7 @@ export default {
 
       <footer-info />
 
-      <bottom-sheet  :item="$root.selected" v-if="$root.selected"/>
+      <bottom-sheet :key="$soul($root.selected)"  :item="$root.selected" v-if="$root.selected"/>
 
 
     </div>
