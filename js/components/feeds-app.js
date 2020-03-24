@@ -14,6 +14,7 @@ export default {
       title:'ЭТОВОТЭТО',
       types,
       refNum:0,
+      gameMode:true,
     }
   },
   created() {
@@ -61,15 +62,19 @@ export default {
 
             <h1 class="font-weight-regular">{{title}}</h1>
 
-            </v-container>
+            <v-btn small outlined @click="gameMode=!gameMode" class="pointer"><v-icon v-if="gameMode" left>mdi-eye-off</v-icon><v-icon v-else left>mdi-eye</v-icon><span v-if="gameMode">Игра</span><span v-else>Просмотр</span></v-btn>
 
-            <app-info @scroll="scrollRight"></app-info>
+            <v-btn small outlined @click="scrollRight" class="pointer"><v-icon left>mdi-arrow-right</v-icon><span>Вперед</span></v-btn>
+
+
+            <app-info  ></app-info>
+            </v-container>
 
           </v-col>
 
             <v-col :ref="'ref'+type.type" style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
 
-                <feed :base="true" :type="type.type" :key="key"></feed>
+                <feed :gameMode="gameMode" :base="true" :type="type.type" :key="key"></feed>
 
             </v-col>
             </v-slide-x-transition>
