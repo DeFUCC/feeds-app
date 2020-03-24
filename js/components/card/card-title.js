@@ -31,8 +31,9 @@ export default {
   },
   template:`
   <v-card-title
-    @click="closed ?  $emit('unclose') : $root.select(item)"  
-    class="pointer py-1 px-2">
+    @click="closed ?  $emit('unclose') : $root.select(item)"
+    class="pointer py-1 px-2"
+    :class="{closed}">
 
     <span style="max-width:85%">
       <h2
@@ -57,21 +58,27 @@ export default {
       <v-spacer/>
       <h2 v-if="closed">&nbsp;</h2>
 
-      <v-btn icon
-        v-if="$root.toLink && $root.toLink.type != item.type" @click.stop.prevent="$root.toLinkTo(item.type, $soul(item))" >
-        <v-icon>mdi-link</v-icon>
-      </v-btn>
+      <span style="max-width:15%">
 
-      <v-btn icon
-        v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open}" >
-        <v-icon>mdi-chevron-down</v-icon>
-      </v-btn>
+        <v-btn icon
+          @click.stop.prevent="$root.see(item)"
+          v-if="$root.loggedIn && $root.seen[$soul(item)] && !closed">
+          <v-icon>mdi-eye-off</v-icon>
+        </v-btn>
 
-      <v-btn icon
-        @click.stop.prevent="$root.see(item)"
-        v-if="$root.loggedIn && $root.seen[$soul(item)] && !closed">
-        <v-icon>mdi-eye-off</v-icon>
-      </v-btn>
+        <v-btn icon
+          v-if="$root.toLink && $root.toLink.type != item.type" @click.stop.prevent="$root.toLinkTo(item.type, $soul(item))" >
+          <v-icon>mdi-link</v-icon>
+        </v-btn>
+
+        <v-btn icon
+          v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open}" >
+          <v-icon>mdi-chevron-down</v-icon>
+        </v-btn>
+
+
+
+    </span>
 
   </v-card-title>
   `,
