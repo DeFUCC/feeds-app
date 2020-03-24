@@ -93,7 +93,8 @@ const app = new Vue({
           let it = $gunroot.get(key);
           let its = await $user.get('feeds').get('seen').set(it)
         } else {
-          await $user.get('feeds').get('seen').get(key).put(null)
+          await $user.get('feeds').get('seen').get(key).put(null);
+          delete $root.seen[key];
         }
       }
     },

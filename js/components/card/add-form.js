@@ -38,21 +38,40 @@ export default {
   },
   template:`
     <v-container class="py-0" style="background-color:#eee">
+
       <v-form ref="form" v-model="valid">
         <v-row>
-          <v-col cols="12" v-for="field in linkType.fields">
 
-            <v-text-field @input="searchIt" outlined v-if="field.type=='text'"
+          <v-col
+            cols="12"
+            :key="field.type"
+            v-for="field in linkType.fields">
+
+            <v-text-field
+              @input="searchIt"
+              outlined
+              v-if="field.type=='text'"
               v-model="item[field.name]"
               :label="field.label"></v-text-field>
 
-            <v-textarea @input="searchIt" outlined v-if="field.type=='textarea'"  rows="2" v-model="item[field.name]" label="Описание"></v-textarea>
+            <v-textarea
+              @input="searchIt"
+              outlined
+              v-if="field.type=='textarea'"
+              rows="2"
+              v-model="item[field.name]"
+              label="Описание"></v-textarea>
 
-            <v-text-field @input="searchIt" outlined v-if="field.type=='emoji'" class="display-1"
+            <v-text-field
+              @input="searchIt"
+              outlined
+              v-if="field.type=='emoji'"
+              class="display-1"
               v-model="item[field.name]"
               :label="field.label"></v-text-field>
 
-            <v-slider v-if="field.type=='stress'"
+            <v-slider
+              v-if="field.type=='stress'"
                v-model="item.stress"
                :tick-labels="item.title.split('')"
                :max="item.title.length-1"
@@ -62,23 +81,20 @@ export default {
              ></v-slider>
 
           </v-col>
-          <v-row>
-            <v-switch class="mt-0" v-if="$root.loggedIn"
-              v-model="creator"
-              prepend-icon="mdi-account-outline"
-            ></v-switch>
-            <v-switch class="mt-0" v-if="$root.loggedIn && creator"
-              v-model="author"
-              prepend-icon="mdi-account-lock-outline"
-            ></v-switch>
-            <v-btn icon v-if="edit" :disabled="!item.title && !item.description" @click="updateItem()">
-              <v-icon>mdi-pencil-outline</v-icon>
-            </v-btn>
-            <v-btn icon large v-if="!edit" :disabled="!item.title && !item.description" @click="createItem()"><v-icon>mdi-plus</v-icon></v-btn>
-          </v-row>
-          <v-col>
-
-          </v-col>
+        </v-row>
+        <v-row>
+          <v-switch class="mt-0" v-if="$root.loggedIn"
+            v-model="creator"
+            prepend-icon="mdi-account-outline"
+          ></v-switch>
+          <v-switch class="mt-0" v-if="$root.loggedIn && creator"
+            v-model="author"
+            prepend-icon="mdi-account-lock-outline"
+          ></v-switch>
+          <v-btn icon v-if="edit" :disabled="!item.title && !item.description" @click="updateItem()">
+            <v-icon>mdi-pencil-outline</v-icon>
+          </v-btn>
+          <v-btn icon large v-if="!edit" :disabled="!item.title && !item.description" @click="createItem()"><v-icon>mdi-plus</v-icon></v-btn>
         </v-row>
       </v-form>
     </v-container>
@@ -106,7 +122,7 @@ export default {
 
     },
     async updateItem() {
-      let {item, type, $gunroot, $soul, $state, $user, creator} = this;
+      let {item, type, $gunroot, $root, $soul, $state, $user, creator} = this;
       let it = {...item}
 
       if (!this.validate(it)) {

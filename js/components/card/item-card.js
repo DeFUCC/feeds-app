@@ -26,11 +26,9 @@ export default {
         add:false,
         more:false,
       },
-      edit: {
-        title:false,
-        description:false,
-      },
+      edit: false,
       creator:null,
+      type:'',
     }
   },
   watch: {
@@ -52,32 +50,65 @@ export default {
           :outlined="!selected"
           :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? '4px solid' + $color.hex('~'+item.createdBy) : 'none'}">
 
-
             <card-title
               :item="item"
               @open="open.more = !open.more"
               :open="open.more"
               ></card-title>
 
+              <card-info
+                :open="open.more"
+                v-if="open.more"
+                :item="item"
+                @edit="edit=!edit"
+                ></card-info>
 
+                <v-expand-transition>
+
+                      <add-form v-if="open.more && edit"
+                        @edited="updateItem"
+                        :edit="item">
+                      </add-form>
+
+
+                </v-expand-transition>
 
             <card-actions
               @linking="activateLinking"
+              @type="toggleType"
+              :activeType="type"
               :open="open.more"
               v-if="open.more"
               :sheet="false"
               :item="item"></card-actions>
 
-              <card-info
-                :open="open.more"
-                v-if="open.more"
-                :item="item"
-                ></card-info>
+
+
+                <v-expand-transition>
+
+
+                  <feed v-if="open.more && type" :key="type" :host="item" :type="type" />
+
+
+                </v-expand-transition>
 
         </v-card>
   `,
+  computed: {
 
+  },
   methods: {
+    updateItem(edited) {
+      this.item=edited;
+      this.edit=false;
+    },
+    toggleType(type) {
+      if (this.type==type) {
+        this.type=null
+      } else {
+        this.type=type
+      }
+    },
     activateLinking(ev) {
       this.linking = ev
     }

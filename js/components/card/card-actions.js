@@ -2,8 +2,9 @@
 export default {
   props: {
     item:Object,
-    open:Object,
+    open:Boolean,
     sheet:Boolean,
+    activeType:String,
   },
   data() {
     return{
@@ -11,6 +12,7 @@ export default {
       wordCount:0,
       links:[],
       linksCount:{},
+      active:false,
     }
   },
   created() {
@@ -29,25 +31,31 @@ export default {
   template:`
   <v-expand-transition>
     <v-card-actions v-if="open" :style="{background: $color.hex($soul(item))}">
-      <v-btn v-for="(count, type) in linksCount"  icon>{{$root.types[type].title.slice(0,1)}}:{{count}}
+      <v-btn icon
+        v-for="(count, type) in linksCount"
+        @click="$emit('type', type);"
+        :key="count+type" :class="{'v-btn--outlined':activeType ? $root.types[activeType].type==type : false}">
+        {{$root.types[type].title.slice(0,1)}}:{{count}}
       </v-btn>
+
       <v-spacer></v-spacer>
-      <v-btn v-if="sheet" @click="copy($soul(item))"  icon>
+
+      <v-btn icon
+        v-if="sheet"
+        @click="copy($soul(item))">
         <v-icon>mdi-content-copy</v-icon>
       </v-btn>
 
 
+      <v-btn icon @click="link()"><v-icon>mdi-link</v-icon></v-btn>
+
       <v-btn icon
-        v-if="sheet && $root.loggedIn"  @click="$root.edit=!$root.edit">
-          <v-icon
-            :color="$root.edit ? '#f66' :'#555'">
-            mdi-pencil-outline
-          </v-icon>
+        @click="$root.see(item)"
+        v-if="$root.loggedIn">
+        <v-icon v-if="$root.seen[$soul(item)]">
+          mdi-eye</v-icon>
+        <v-icon v-else>mdi-eye-off</v-icon>
       </v-btn>
-
-      <v-btn @click="link()" icon><v-icon>mdi-link</v-icon></v-btn>
-
-      <v-btn @click="$root.see(item)"  v-if="$root.loggedIn" icon><v-icon v-if="$root.seen[$soul(item)]">mdi-eye</v-icon><v-icon v-else>mdi-eye-off</v-icon></v-btn>
     </v-card-actions>
   </v-expand-transition>
   `,

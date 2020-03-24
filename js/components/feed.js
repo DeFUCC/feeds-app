@@ -90,6 +90,7 @@ export default {
       return {
         items: this.items,
         host: this.host,
+        type: this.type,
         show: this.$root.show,
         showSeen: this.showSeen,
         seen: this.$root.seen,
@@ -135,16 +136,17 @@ export default {
   },
 
   template: `
-  <v-container style="overscroll-behavior:none" :class="{'pa-0':!base, 'py-0':base}">
-    <v-row>
+  <v-container style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
+    <v-row class="d-flex">
 
-      <v-col cols="6" class="flex-shrink-1">
-        <h3 class="title">
+      <v-col  class="ml-2 pl-2 flex-shrink-1">
+        <h3 class="subtitle-1">
           {{getLinkDesc(type)}}
         </h3>
       </v-col>
+      <v-spacer></v-spacer>
 
-      <v-col cols="6" class="d-flex flex-grow-1 flex-nowrap text-end">
+      <v-col  class="pa-0 mr-2 d-flex flex-grow-1 flex-nowrap text-end">
 
         <v-btn
           :color="sortAB ? 'black':'grey'" @click="sortAB=!sortAB"
@@ -212,6 +214,7 @@ export default {
               >
                 <item-card
                   transition="slide-y-transition"
+                  @open="item.open=true"
                    :closed="false"
                    :selected="selected==item"
                    :item="item"

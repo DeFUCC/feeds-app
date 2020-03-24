@@ -20,6 +20,7 @@ export default {
       linking:false,
       open:true,
       more:false,
+      edit:false,
     }
   },
   template:`
@@ -42,7 +43,7 @@ export default {
 
         <v-expand-transition>
 
-              <add-form v-if="$root.edit"
+              <add-form v-if="edit"
                 @edited="updateItem"
                 :edit="item">
               </add-form>
@@ -53,13 +54,14 @@ export default {
         <card-info
           :open="true"
           :item="item"
+          @edit="edit=!edit"
           ></card-info>
 
         <v-expand-transition>
           <v-container v-if="linkTypes">
             <v-row class="ma-0 pa-0"
                v-for="link in linkTypes" :key="$soul(item)+link">
-
+               
                   <feed :host="item" :type="link" />
 
             </v-row>

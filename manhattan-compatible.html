@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gun/examples/style.css">
+</head>
+<body>
+<style>
+	form, input, button {
+		border: 1px solid black;
+		position: relative;
+	}
+</style>
+<div class="center">
+	<ul id="chats"></ul>
+	<form id="asend">
+		<input/><button type="submit">send as alice</button>
+	</form>
+	<form id="bsend">
+		<input/><button type="submit">send as bob</button>
+	</form>
+</div>
+<!-- script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script -->
+<script src="js/assets/gun.js"></script>
+<script src="js/assets/sea.js"></script>
+
+<script>
+//var agun = Gun('https://www.raygun.live/gun');
+var agun = Gun('http://localhost:8765/gun');
+//var bgun = Gun('https://www.raygun.live/gun');
+var bgun = Gun('http://localhost:8765/gun');
+var alice = {
+  "pub": "iYIONCL4rq6-SqmXHjDBoWBJIuhReIHy7MtzBp0zEiw.OXqW4c-FnmcbG2K9IM4avl8WyULHvZxQIyvgTH25PSo",
+  "priv": "5xIKfcjHSrPPr9u80YVJjDITMsif-MHYQyKY7xH-474",
+  "epub": "4Goj7wufxhuyc7IdIMInEOqXgNHaZi8mCWgDGrQIikI.2oTovqZJb8Ez-GB4VEIVU4ixWlshPwt-99hcZk9i63E",
+  "epriv": "6ut8nfxpGSBbyBoZso7QU7jyhiYGRgZZ4LPAtJvWQsQ"
+};
+var bob = {
+  "pub": "xDAF7JiabamDhUiUFuh4dI8cjRM-yIZwYInzoKoOLlQ.qyBHHKvFhNs0BesfWmpkkg-AyBslWgQ5NtIjZjtzpRM",
+  "priv": "skNy4i4FGFZudqxgkPYMjnggylMu_fZnl-vLref1Hl0",
+  "epub": "ZiCAyWdAixUxYr0I4KRI2raWDXwj0dQltMvdR0_Eld8.Vjz_pGf2LE6i1Qi-8je9U42mnjoPyB50S2dmXZpnC_E",
+  "epriv": "JdGqj9E_VzfjgLdi0fpj1VjeP5tKPYfstpd1n9DQklg"
+}
+function thread(node, my, their){
+	node.on(msgs => {
+		//console.log('parent', msgs);
+		for(var time in msgs){
+			// don't load ones already loaded
+			if(thread[time]){ continue } thread[time] = 1;
+			console.log("next msg");
+			node.get(time).on(async function(chat){
+				console.log('chat', chat);
+				if(!chat.msg){ return }
+				var msg = await SEA.decrypt(chat.msg, sec);
+				document.getElementsByTagName('li').text(msg).appendTo('#chats');
+				//gun.get('pchat').get(my).get(their).get('new').get(time).put(null);
+			})
+		}
+	})
+}
+
+var a, b, alicec, bobc, sec;
+agun.user().auth(alice, null, function(){
+	a = 1;
+	console.log("alice logged in");
+	if(a && b){ start() }
+})
+bgun.user().auth(bob, null, function(){
+	b = 1;
+	console.log("bob logged in");
+	if(a && b){ start() }
+})
+async function start(){
+	sec = await SEA.secret(alice.epub, bob);
+	alicec = agun.user().get('pchat').get(bob.pub);
+	bobc = bgun.user().get('pchat').get(alice.pub);
+	thread(alicec, alice.pub, bob.pub);
+	thread(bobc, bob.pub, alice.pub);
+}
+
+async function send(text, my, their, me){
+	var time = +new Date;
+	var enc = await SEA.encrypt(text, sec);
+	var msg = {
+		msg: enc,
+		userPub: my.pub,
+		time: time,
+	}
+	console.log('send', msg);
+	me.get(time).put(msg, function(ack){
+		console.log("saved", ack);
+	});
+}
+document.getElementById('#asend').on('submit', function(eve){ eve.preventDefault();
+	send($(this).find('input').val(), alice, bob, alicec);
+})
+document.getElementById('#bsend').on('submit', function(eve){ eve.preventDefault();
+	send($(this).find('input').val(), bob, alice, bobc);
+})
+</script>
+</body>
+</html>
