@@ -85,19 +85,30 @@ const app = new Vue({
       let hstr = await theitem.get(hostType).set(hoster)
       return {hstr,itm}
     },
+
     async see(item) {
-      let {$user, $gunroot, $soul, $root} = this;
+      let {$user, $gunroot, $soul, $root, $gun} = this;
       if ($root.loggedIn) {
-        let key = $soul(item)
+
+        let key = $soul(item);
+
         if (!$root.seen[key]) {
+
           let it = $gunroot.get(key);
           let its = await $user.get('feeds').get('seen').set(it)
+          let pubit = await $gun.get('seen').get(key).get($user.is.pub).put('seen')
+
         } else {
+
           await $user.get('feeds').get('seen').get(key).put(null);
+          $gun.get('seen').get(key).get($user.is.pub).put(null)
           delete $root.seen[key];
+
         }
+
       }
     },
+
     select(item) {
       if (item == this.selected || !item) {
         this.selected=null;

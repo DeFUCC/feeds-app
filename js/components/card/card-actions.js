@@ -13,19 +13,43 @@ export default {
       links:[],
       linksCount:{},
       active:false,
+      seen:{},
     }
   },
   created() {
-    let {item, $root, $gunroot, $soul} = this;
+    let {item, $root, $gunroot, $soul, $gun, $set} = this;
     let type = item.type;
+
     if ($root.types[type]) {
       this.links = $root.types[type].links
     }
+
     for (let link of this.links) {
-      this.$set(this.linksCount,link,0)
+      $set(this.linksCount,link,0)
       $gunroot.get($soul(item)).get(link).map().once((data,key) => {
         this.linksCount[link]++
       })
+    }
+
+    $gun.get('seen').get($soul(item)).map().on((data,key) => {
+      console.log(data)
+        if (data=='seen') {
+          $set(this.seen,key,true)
+        } else if (this.seen[key]) {
+          $set(this.seen,key,false)
+        }
+    })
+
+  },
+  computed: {
+    seenNum() {
+      let num=0;
+      for (let rec in this.seen) {
+        if (this.seen[rec]) {
+          num++
+        }
+      }
+      return num
     }
   },
   template:`
@@ -49,12 +73,12 @@ export default {
 
       <v-btn icon @click="link()"><v-icon>mdi-link</v-icon></v-btn>
 
-      <v-btn icon
+      <v-btn icon :disabled="!$root.loggedIn"
         @click="$root.see(item)"
-        v-if="$root.loggedIn">
+        >
         <v-icon v-if="$root.seen[$soul(item)]">
           mdi-eye</v-icon>
-        <v-icon v-else>mdi-eye-off</v-icon>
+        <v-icon v-else>mdi-eye-off</v-icon>{{seenNum}}
       </v-btn>
     </v-card-actions>
   </v-expand-transition>
