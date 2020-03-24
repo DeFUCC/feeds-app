@@ -52,7 +52,7 @@ export default {
       </span>
       <v-spacer></v-spacer>
       <v-btn icon
-        v-if="true"  @click="$emit('edit')">
+        v-if="$root.loggedIn"  @click="$emit('edit')">
           <v-icon
             :color="$root.edit ? '#f66' :'#555'">
             mdi-pencil-outline

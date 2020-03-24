@@ -25,6 +25,7 @@ export default {
       search:null,
       creator:false,
       author:false,
+      encrypt:false,
     }
   },
   created() {
@@ -37,7 +38,6 @@ export default {
   },
   template:`
     <v-container class="py-0" style="background-color:#eee">
-
       <v-form ref="form" v-model="valid">
         <v-row>
 
@@ -97,6 +97,13 @@ export default {
             prepend-icon="mdi-account-lock-outline"
           ></v-switch>
 
+          <v-switch
+            class="mt-0"
+            v-if="false && $root.loggedIn && creator && author"
+            v-model="encrypt"
+            prepend-icon="mdi-lock"
+          ></v-switch>
+
           <v-btn icon
             v-if="edit"
             :disabled="!item.title && !item.description" @click="updateItem()">
@@ -143,6 +150,7 @@ export default {
         this.$root.$emit('notify', 'Не правильно заполнены поля')
         return
       }
+
 
       it.updatedAt = $state();
 

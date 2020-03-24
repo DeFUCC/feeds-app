@@ -53,7 +53,9 @@ export default {
             <card-title
               style="position:sticky;top:0; background-color:#fff; z-index:40;"
               :item="item"
+              :closed="closed"
               @open="open.more = !open.more"
+              @unclose="$emit('unclose')"
               :open="open.more"
               ></card-title>
 
@@ -68,7 +70,8 @@ export default {
 
                       <add-form v-if="open.more && edit"
                         @edited="updateItem"
-                        :edit="item">
+                        :edit="item"
+                        :type="item.type">
                       </add-form>
 
 

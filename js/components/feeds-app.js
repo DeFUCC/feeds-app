@@ -1,4 +1,4 @@
-import appInfo from "./app/app-info.js";
+import appInfo from "./app-info.js";
 import {types} from '../types.js'
 
 
@@ -12,7 +12,8 @@ export default {
   data() {
     return {
       title:'ЭТОВОТЭТО',
-      types
+      types,
+      refNum:0,
     }
   },
   created() {
@@ -35,7 +36,9 @@ export default {
     }
   },
   methods: {
-
+    scrollRight() {
+      this.$refs.refword[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
+    }
   },
   template: `
   <v-sheet style="height:auto;overflow-x:hidden; overflow-y: scroll;scroll-snap-type: y mandatory; overscroll-behavior:none">
@@ -51,7 +54,7 @@ export default {
 
       <v-card style="overscroll-x-behavior:none; scroll-snap-align:start;max-height:auto" color="#eee" >
 
-          <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory;" group>
+          <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory;" group >
 
           <v-col class="pa-2" :key="'sd'" style="flex:1 1 320px; min-width:320px; max-width:900px; scroll-snap-align: start;">
             <v-container>
@@ -60,11 +63,11 @@ export default {
 
             </v-container>
 
-            <app-info ></app-info>
+            <app-info @scroll="scrollRight"></app-info>
 
           </v-col>
 
-            <v-col style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
+            <v-col :ref="'ref'+type.type" style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
 
                 <feed :base="true" :type="type.type" :key="key"></feed>
 

@@ -30,12 +30,15 @@ export default {
     }
   },
   template:`
-  <v-card-title @click="$root.select(item)"  class=" pointer py-1 px-2">
+  <v-card-title
+    @click="closed ?  $emit('unclose') : $root.select(item)"  
+    class="pointer py-1 px-2">
+
     <span style="max-width:85%">
       <h2
         :style="{opacity:$root.toLink ? '0.5' : '1'}"
-
-        v-if="item.title && !closed" :class="{title:item.type!='icon',
+        v-if="item.title && !closed"
+        :class="{title:item.type!='icon',
       'display-2':item.type=='icon'}"
       >
         {{theTitle}}
@@ -52,12 +55,7 @@ export default {
     </span>
 
       <v-spacer/>
-
-      <v-btn icon
-        v-if="closed"
-        @click.stop.prevent="closed=false">
-        <v-icon>mdi-book-open</v-icon>
-      </v-btn>
+      <h2 v-if="closed">&nbsp;</h2>
 
       <v-btn icon
         v-if="$root.toLink && $root.toLink.type != item.type" @click.stop.prevent="$root.toLinkTo(item.type, $soul(item))" >

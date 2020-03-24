@@ -5,7 +5,7 @@ export default {
     }
   },
   template: `
-    <v-navigation-drawer
+    <v-navigation-drawer style="z-index:100"
         v-model="$root.show.user"
         right app width="300px"
       >

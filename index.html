@@ -10,17 +10,17 @@
     <link href="css/vuetify.css" rel="stylesheet"/>
   </head>
 
-  <body>
+  <body style="height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory">
 
       <v-app id="app">
 
-      <app-ui></app-ui>
+          <app-ui ></app-ui>
 
-      <v-fade-transition>
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </v-fade-transition>
+          <v-fade-transition>
+            <keep-alive>
+              <router-view style="scroll-snap-align:start end"></router-view>
+            </keep-alive>
+          </v-fade-transition>
 
       </v-app>
 

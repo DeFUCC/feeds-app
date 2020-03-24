@@ -29,7 +29,7 @@ export default {
       page: {
         size:12,
         start: 0,
-        end:24,
+        end:12,
         shown: 0,
         total: 0,
       },
@@ -130,14 +130,15 @@ export default {
       this.page.end = this.page.end + this.page.size
     },
 
+      log:console.log,
   },
 
   template: `
-  <v-container style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
+  <v-container ref="feeder" style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
     <v-row class="d-flex">
 
-      <v-col  class="ml-2 pl-2 flex-shrink-1">
-        <h3 class="subtitle-1">
+      <v-col class="ml-2 pl-2 flex-shrink-1">
+        <h3 @click="$refs.feeder.scrollIntoView({inline: 'start', behavior: 'smooth'})" class="subtitle-1 pointer">
           {{getLinkDesc(type)}}
         </h3>
       </v-col>
@@ -176,7 +177,7 @@ export default {
 
         <v-expand-transition>
           <v-col class="py-0"
-            style="position:sticky; min-width:100%; top:0; z-index:10"
+            style="position:sticky; min-width:100%; top:0; z-index:50"
             v-if="add"
             >
               <add-form @search="updateSearch"
@@ -201,7 +202,6 @@ export default {
           </v-col>
 
 
-
             <v-col
               style="scroll-snap-align:start end"
               class="py-2"
@@ -212,7 +212,8 @@ export default {
                 <item-card
                   transition="slide-y-transition"
                   @open="item.open=true"
-                   :closed="false"
+                  @unclose="$set(item,'unclosed', true)"
+                   :closed="!(item.unclosed || $root.seen[$soul(item)])"
                    :selected="selected==item"
                    :item="item"
                    :key="item.createdAt+item.updatedAt"

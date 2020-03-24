@@ -36,6 +36,9 @@ const filterFeed = ({
       continue
     }
 
+    if (showSeen && seen && !seen[key]) {
+      continue
+    }
 
   /*
     if ((show.banned && !item.banned) ||(!show.banned && item.banned)) {

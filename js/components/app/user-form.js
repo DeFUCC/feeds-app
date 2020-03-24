@@ -23,7 +23,7 @@ export default {
               <v-btn v-if="userExists" @click="signIn()">Войти</v-btn>
             </v-col>
             <v-col cols="2">
-              <v-btn icon @click="$root.auth=false"><v-icon>mdi-chevron-up</v-icon></v-btn>
+              <v-btn icon @click="$root.auth=false"><v-icon>mdi-close</v-icon></v-btn>
             </v-col>
           </v-row>
 
