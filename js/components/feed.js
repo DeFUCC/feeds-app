@@ -141,7 +141,7 @@ export default {
   <v-container ref="feeder" style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
     <v-row class="d-flex">
 
-      <v-col class="ml-2 pl-2 flex-shrink-1">
+      <v-col class="ma-1 pl-2 pt-1 flex-shrink-1">
         <h3 @click="$refs.feeder.scrollIntoView({inline: 'start', behavior: 'smooth'})" class="subtitle-1 pointer">
           {{getLinkDesc(type)}}
         </h3>
@@ -177,7 +177,7 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row ref="frame" class="feed-scroller" style="max-height:90vh; overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
+      <v-row ref="frame" class="feed-scroller" :style="{maxHeight: host ? '30vh' : '90vh'}" style="overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
 
         <v-expand-transition>
           <v-col class="py-0"
@@ -217,6 +217,7 @@ export default {
                   transition="slide-y-transition"
                   @open="item.open=true"
                   @unclose="$set(item,'unclosed', true)"
+                  @close="$set(item,'unclosed', false)"
                    :closed="gameMode && !(item.unclosed || $root.seen[$soul(item)])"
                    :selected="selected==item"
                    :item="item"

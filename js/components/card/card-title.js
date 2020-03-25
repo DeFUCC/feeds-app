@@ -37,7 +37,7 @@ export default {
 
     <span style="max-width:85%">
       <h2
-        :style="{opacity:$root.toLink ? '0.5' : '1'}"
+        :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
         v-if="item.title && !closed"
         :class="{title:item.type!='icon',
       'display-2':item.type=='icon'}"
@@ -46,7 +46,7 @@ export default {
       </h2>
 
       <p
-        :style="{opacity:$root.toLink ? '0.5' : '1'}"
+        :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
         v-html=""
         v-if="item.description && !closed"
         class="body-1 my-2"
@@ -60,7 +60,7 @@ export default {
 
       <span style="max-width:15%">
 
-        <v-btn icon
+        <v-btn icon x-small class="ma-2"
           @click.stop.prevent="$root.see(item)"
           v-if="$root.loggedIn && $root.seen[$soul(item)] && !closed">
           <v-icon>mdi-eye-off</v-icon>

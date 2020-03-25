@@ -41,6 +41,19 @@ export default {
       this.open.more=true;
     }
   },
+  computed: {
+    privateBorder() {
+      let px=0;
+      let step=4;
+      if (this.item.createdBy) {
+        px+=step
+      }
+      if (this.$soul(this.item).includes('~')) {
+        px+=step
+      }
+      return px
+    }
+  },
   template:`
         <v-card
           transition="slide-y-transition"
@@ -48,10 +61,10 @@ export default {
           :raised="selected || linking"
           :class="{closed}"
           :outlined="!selected"
-          :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? '4px solid' + $color.hex('~'+item.createdBy) : 'none'}">
+          :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? privateBorder+'px solid' + $color.hex('~'+item.createdBy) : 'none'}">
 
             <card-title
-              style="position:sticky;top:0; background-color:#fff; z-index:40;"
+              style="position:sticky;top:0; background-color:#fff; z-index:5;"
               :item="item"
               :closed="closed"
               @open="open.more = !open.more"
@@ -80,6 +93,7 @@ export default {
             <card-actions
               @linking="activateLinking"
               @type="toggleType"
+              @close="$emit('close');open.more=false"
               :activeType="type"
               :open="open.more"
               v-if="open.more"
@@ -98,9 +112,7 @@ export default {
 
         </v-card>
   `,
-  computed: {
 
-  },
   methods: {
     updateItem(edited) {
       this.item=edited;
