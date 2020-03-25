@@ -56,6 +56,8 @@ export default {
             </v-list-item>
           </router-link>
 
+          <v-spacer></v-spacer>
+
           <v-list-item >
             <v-list-item-content>
               <v-list-item-subtitle>
@@ -67,6 +69,17 @@ export default {
             </v-list-item-content>
           </v-list-item>
 
+
+
+          <v-list-item >
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                <span class="overline">При поддержке <br />
+                  Фонда <a href="https://frkt.ru" target="_blank"><b>ФРУКТ</b></a>
+                </span>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
 
         </v-list>
 

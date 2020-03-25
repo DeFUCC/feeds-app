@@ -72,8 +72,8 @@ export default {
 
       <v-btn icon @click="link()"><v-icon>mdi-link</v-icon></v-btn>
 
-      <v-btn icon :disabled="!$root.loggedIn"
-        @click="$root.see(item)"
+      <v-btn icon
+        @click="$root.loggedIn ? $root.see(item) : $emit('close')"
         >
         <v-icon v-if="$root.seen[$soul(item)]">
           mdi-eye</v-icon>
