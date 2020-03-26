@@ -2,13 +2,10 @@
 ## Collaborative project management app
 
 JS stack:
-  - Gun
-    - sync-list
-    - tag
+  - [GUN](https://github.com/amark/gun)
     - webrtc
-    - helper by jabis
-  - Vue 2
-  - Vuetify
-    - Material Desing icons
+  - [Vue](https://vuejs.org/)
+  - [Vuetify](https://vuetifyjs.com/en/)
+    - [Material Desing icons](https://materialdesignicons.com/)
 
 Fully modular vue components in browser!
