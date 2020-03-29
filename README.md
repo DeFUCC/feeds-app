@@ -1,7 +1,7 @@
-# FEEDS
-## Collaborative project management app
+# ЭТОВОТЭТО
+## Игра в придумывание слов и их значений
 
-Collaborative development at [Glitch.com](https://glitch.com/edit/#!/feeds-app)
+Реактивный интерфейс, где мы придумываем, собираем и связываем слова, значения и не только.
 
 
 JS stack:
@@ -16,10 +16,3 @@ JS stack:
   - [Vue Formulate](https://vueformulate.com/) to be added
   - [D3 graph visualization](https://observablehq.com/@d3/disjoint-force-directed-graph?collection=@d3/d3-force) to be added
 
-
-
-
-
-Based on previous experiments:
- - [feeds@frkt](https://feeds.frkt.ru/#/)
- - [feeds@glitch](http://feeds.glitch.me/#/K)
