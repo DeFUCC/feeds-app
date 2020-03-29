@@ -82,3 +82,7 @@ body {
 .pointer {
   cursor:pointer;
 }
+
+.graph-node {
+  stroke-width:0 !important;
+}
