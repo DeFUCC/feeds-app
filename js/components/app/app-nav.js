@@ -56,6 +56,18 @@ export default {
             </v-list-item>
           </router-link>
 
+          <router-link to="/graph" style="text-decoration:none">
+            <v-list-item>
+              <v-list-item-content>
+
+                  <v-list-item-title class="title">
+                    Граф
+                  </v-list-item-title>
+
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+
           <v-spacer></v-spacer>
 
           <v-list-item >
