@@ -18,9 +18,9 @@ export default {
           <v-text-field v-model="password" type="password" @keydown.enter="userExists ? signIn() : signUp()" label="Секретная фраза"></v-text-field>
           <v-row>
             <v-col cols="10">
-              <v-btn v-if="!userExists" @click="signUp()">Представиться</v-btn>
+              <v-btn v-if="!userExists" @click="signUp()">{{$t('signUp')}}</v-btn>
 
-              <v-btn v-if="userExists" @click="signIn()">Войти</v-btn>
+              <v-btn v-if="userExists" @click="signIn()">{{$t('signIn')}}</v-btn>
             </v-col>
             <v-col cols="2">
               <v-btn icon @click="$root.auth=false"><v-icon>mdi-close</v-icon></v-btn>

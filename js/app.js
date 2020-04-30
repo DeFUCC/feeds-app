@@ -2,7 +2,7 @@ import gun from './gun-db.js'
 import router from './router.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
-import {types} from './types.js'
+import {types} from './schema/types.js'
 import * as locales from './i18n/all.js'
 
 Vue.use(VueI18n);
@@ -11,7 +11,7 @@ const i18n = new VueI18n({
   messages:  {...locales},
 })
 
-Vue.component('feed',feed)
+Vue.component('feed',feed) // recursively used component
 
 const app = new Vue({
   el:'#app',

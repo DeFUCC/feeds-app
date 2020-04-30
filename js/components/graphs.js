@@ -1,18 +1,15 @@
-import d3 from '../../assets/d3.js'
-import d3Network from '../../assets/vue-d3-network.umd.js'
-import {types} from '../../types.js'
+import d3 from '../assets/d3.js'
+import d3Network from '../assets/vue-d3-network.umd.js'
+import {types} from '../schema/types.js'
 
 
 export default {
-  props: {
-
-  },
   components: {
     d3Network
   },
   data() {
     return {
-      title:'Визуализация графа слов',
+      title:'Graph visualization',
       types,
       nodes:[],
       links:[],
@@ -23,14 +20,21 @@ export default {
         linkWidth:2,
       },
       colors: {
-        word:'#111',
-        meaning:'#aaa',
-        icon:'#a0a',
-        player:'#00a',
-        game:'#0ff',
+        design:'#111',
+        project:'#aaa',
+        object:'#a0a',
+        event:'#00a',
+        user:'#0ff',
       }
     }
   },
+  template: `
+  <v-sheet id="graph" style="width:100vw; height:100vh; overflow-y:scroll">
+
+     <d3-network ref='net' :net-nodes="nodes" :net-links="links" :options="options" />
+
+  </v-sheet>
+  `,
   created() {
     let {$gun, $gunroot, types} = this
     for (let type in types) {
@@ -54,7 +58,6 @@ export default {
       if(this.loaded) {
         this.getLinks()
       }
-
     }
   },
   mounted() {
@@ -85,12 +88,5 @@ export default {
       }
     }
   },
-  template: `
-  <v-sheet id="graph" style="width:100vw; height:100vh; overflow-y:scroll">
-
-     <d3-network ref='net' :net-nodes="nodes" :net-links="links" :options="options" />
-
-  </v-sheet>
-  `,
 
 };

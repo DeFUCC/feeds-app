@@ -38,6 +38,13 @@ export default {
           @open="more = !more">
         </card-title>
 
+        <p
+          :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
+          v-html="item.description"
+          v-if="item.description"
+          class="body-1 my-2 pa-2"
+          > </p>
+
         <card-actions
           @linking="activateLinking"
           :open="more"

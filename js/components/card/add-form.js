@@ -49,6 +49,7 @@ export default {
             <v-text-field
               @input="searchIt"
               outlined
+              hide-details
               v-if="field.type=='text'"
               v-model="item[field.name]"
               :label="field.label"></v-text-field>
@@ -56,28 +57,11 @@ export default {
             <v-textarea
               @input="searchIt"
               outlined
+              hide-details
               v-if="field.type=='textarea'"
               rows="2"
               v-model="item[field.name]"
-              label="Описание"></v-textarea>
-
-            <v-text-field
-              @input="searchIt"
-              outlined
-              v-if="field.type=='emoji'"
-              class="display-1"
-              v-model="item[field.name]"
-              :label="field.label"></v-text-field>
-
-            <v-slider
-              v-if="field.type=='stress'"
-               v-model="item.stress"
-               :tick-labels="item.title.split('')"
-               :max="item.title.length-1"
-               step="1"
-               ticks="always"
-               tick-size="8"
-             ></v-slider>
+              :label="field.label"></v-textarea>
 
           </v-col>
         </v-row>
@@ -110,10 +94,10 @@ export default {
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
 
-          <v-btn icon large
+          <v-btn
             v-if="!edit"
             :disabled="!item.title && !item.description" @click="createItem()">
-            <v-icon>mdi-plus</v-icon>
+            {{$t('add')}}
           </v-btn>
 
         </v-row>

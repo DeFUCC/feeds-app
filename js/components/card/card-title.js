@@ -49,14 +49,6 @@ export default {
         {{theTitle}}
       </h2>
 
-      <p
-        :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
-        v-html=""
-        v-if="item.description"
-        class="body-1 my-2"
-        >
-        {{item.description}}
-      </p>
     </span>
 
       <v-spacer/>

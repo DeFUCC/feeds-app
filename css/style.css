@@ -9,8 +9,17 @@ body {
   hyphenate-limit-lines: 2;
   hyphenate-limit-last: always;
   hyphenate-limit-zone: 8%;
+}
+
+.scroller-y {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+.snapper {
+  scroll-snap-align: start end;
 }
 
 .v-navigation-drawer .router-link-exact-active .v-list-item {

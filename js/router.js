@@ -1,12 +1,10 @@
-import feedsApp from './components/feeds-app.js'
-import gameApp from './components/game/game-app.js'
-import graphApp from './components/graph/graph-app.js'
+import feeds from './components/feeds.js'
+import graphs from './components/graphs.js'
 
 
 const routes = [
-  {path:'', component: feedsApp},
-  {path:'/game', component: gameApp},
-  {path:'/graph', component: graphApp},
+  {path:'', component: feeds},
+  {path:'/graph', component: graphs},
 ]
 
 export default new VueRouter({

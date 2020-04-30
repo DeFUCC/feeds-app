@@ -14,11 +14,12 @@
   <body>
 
       <v-app id="app">
+
           <app-ui ></app-ui>
 
           <v-fade-transition>
             <keep-alive>
-              <router-view style="scroll-snap-align:start end"></router-view>
+              <router-view></router-view>
             </keep-alive>
           </v-fade-transition>
 
@@ -35,7 +36,6 @@
   <script src="js/assets/vue-router.js"></script>
   <script src="js/assets/vuetify.min.js"></script>
   <script src="js/assets/vue-i18n.min.js"></script>
-  <!-- https://tutorialedge.net/javascript/vuejs/vuejs-i18n-basics-tutorial/  -->
   <script src="js/assets/color-hash.js"></script>
   <script src="js/app.js" type="module"></script>
 </html>

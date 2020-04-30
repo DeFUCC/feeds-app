@@ -53,7 +53,7 @@ export default {
           :id="$soul(item)"
           :raised="selected || linking"
           :outlined="!selected"
-          :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? privateBorder+'px solid' + $color.hex('~'+item.createdBy) : 'none'}">
+          :style="{borderLeft: '4px solid ' + $color.hex( $soul(item) ), borderRight: item.createdBy ? privateBorder + 'px solid' + $color.hex( '~' + item.createdBy ) : 'none' }">
 
             <card-title
               style="position:sticky;top:0; background-color:#fff; z-index:5;"
@@ -63,23 +63,29 @@ export default {
               :open="open.more"
               ></card-title>
 
-              <card-info
-                :open="open.more"
-                v-if="open.more"
-                :item="item"
-                @edit="edit=!edit"
-                ></card-info>
+              <p v-show="open.more"
+                :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
+                v-html="item.description"
+                v-if="item.description"
+                class="body-1 my-2 pa-2"
+                > </p>
 
-                <v-expand-transition>
+            <card-info
+              :open="open.more"
+              v-if="open.more"
+              :item="item"
+              @edit="edit=!edit"
+              ></card-info>
 
-                      <add-form v-if="open.more && edit"
-                        @edited="updateItem"
-                        :edit="item"
-                        :type="item.type">
-                      </add-form>
+            <v-expand-transition>
 
+                  <add-form v-if="open.more && edit"
+                    @edited="updateItem"
+                    :edit="item"
+                    :type="item.type">
+                  </add-form>
 
-                </v-expand-transition>
+            </v-expand-transition>
 
             <card-actions
               @linking="activateLinking"
@@ -91,15 +97,11 @@ export default {
               :sheet="false"
               :item="item"></card-actions>
 
+            <v-expand-transition>
 
+              <feed v-if="open.more && type" :key="type" :host="item" :type="type" />
 
-                <v-expand-transition>
-
-
-                  <feed v-if="open.more && type" :key="type" :host="item" :type="type" />
-
-
-                </v-expand-transition>
+            </v-expand-transition>
 
         </v-card>
   `,

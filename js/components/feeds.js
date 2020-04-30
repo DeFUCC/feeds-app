@@ -1,5 +1,4 @@
-import {types} from '../types.js'
-
+import {types} from '../schema/types.js'
 
 export default {
   data() {
@@ -10,7 +9,7 @@ export default {
     }
   },
   template: `
-  <v-sheet style="height:auto;overflow-x:hidden; overflow-y: scroll;scroll-snap-type: y mandatory; overscroll-behavior:none">
+  <v-sheet>
 
       <v-sheet v-if="false">
         <v-btn tile depressed color="#bbb" small
@@ -21,7 +20,7 @@ export default {
         </v-btn>
       </v-sheet>
 
-      <v-card style="overscroll-x-behavior:none; scroll-snap-align:start;" color="#eee" >
+      <v-card color="#eee" >
 
           <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory; height:100vh" group >
 
@@ -71,6 +70,4 @@ export default {
       this.$refs.refdesign[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
     }
   },
-
-
 };

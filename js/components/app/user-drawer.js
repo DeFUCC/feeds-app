@@ -46,7 +46,7 @@ export default {
             </v-list-item-icon>
 
           <v-list-item-content >
-            <v-list-item-title >Ваш публичный ключ</v-list-item-title>
+            <v-list-item-title >{{$t('pubKey')}}</v-list-item-title>
             <v-list-item-subtitle style="font-size:0.7em;">{{$user.is.pub}}</v-list-item-subtitle>
           </v-list-item-content>
           </v-list-item>
@@ -54,21 +54,13 @@ export default {
         <v-divider></v-divider>
         <v-list>
 
-          <v-list-item @click="$root.show.bottom=!$root.show.bottom">
-            <v-list-item-icon >
-              <v-icon :style="{color:$root.show.bottom ? 'orange' : 'grey'}">mdi-dock-bottom</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title :style="{color:$root.show.bottom ? 'orange' : ''}">Меню управления</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
 
           <v-list-item @click="$user.leave();checkLeave()" link>
             <v-list-item-icon>
               <v-icon>mdi-logout-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Выйти</v-list-item-title>
+              <v-list-item-title>{{$t('logout')}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
