@@ -1,62 +1,93 @@
 export const types = {
-  word: {
-    type:'word',
-    name:'Слово',
-    title:'Слова',
+  design: {
+    type:'design',
+    name:'Программа',
+    title:'Программы',
     sort:'AB',
-    links:['meaning','icon'],
+    links:['project'],
     fields: {
       default: {
         type:'text',
         name:'title',
-        label:'Слово',
-        placeholder:'Любой читаемый набор букв'
+        label:'Название',
+        placeholder:'Уникальное название программы'
       },
-      stress: {
-        type:'stress',
-        name:'stress',
-        label:'Ударение',
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Идея'
       }
     }
   },
 
-  meaning: {
-    type:'meaning',
-    name:'Значение',
-    title:'Значения',
+  project: {
+    type:'project',
+    name:'Проект',
+    title:'Проекты',
     sort:'AB',
+    links:['design','object','event'],
     fields: {
       default: {
+        type:'text',
+        name:'title',
+        label:'Название',
+      },
+      description: {
         type:'textarea',
         name:'description',
-        label:'Определение'
+        label:'Описание'
       }
     },
-    links:['word','icon'],
   },
 
-  icon: {
-    type:'icon',
-    name:'Иконка',
-    title:'Иконки',
+  object: {
+    type:'object',
+    name:'Объект',
+    title:'Объекты',
     sort:'AB',
-    description:'Любой смайлик или их сочетание',
+    links:['project'],
+    description:'Физический предмет',
     fields: {
       default: {
-        type:'emoji',
+        type:'text',
         name:'title',
-        label:'Символы'
+        label:'Название',
+      },
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Описание'
       }
     },
-    links:['word','meaning'],
   },
 
-  player: {
-    type:'player',
-    name:'Игрок',
-    title:'Игроки',
+  event: {
+    type:'event',
+    name:'Событие',
+    title:'События',
     sort:null,
-    links:['word','meaning','icon'],
+    links:['project'],
+    fields: {
+      default: {
+        type:'text',
+        name:'title',
+        label:'Название',
+        placeholder:'Название события'
+      },
+      description: {
+        type:'textarea',
+        name:'description',
+        label:'Описание'
+      }
+    }
+  },
+
+  person: {
+    type:'person',
+    name:'Личность',
+    title:'Личности',
+    sort:null,
+    links:['design','project','object','event'],
     fields: {
       default: {
         type:'text',
@@ -72,26 +103,6 @@ export const types = {
     }
   },
 
-  game: {
-    type:'game',
-    name:'Игра',
-    title:'Игры',
-    sort:null,
-    links:['word','meaning','icon','player'],
-    fields: {
-      default: {
-        type:'text',
-        name:'title',
-        label:'Название',
-        placeholder:'Назовите вашу игру'
-      },
-      description: {
-        type:'textarea',
-        name:'description',
-        label:'Описание'
-      }
-    }
-  },
 }
 
 export const stages = {

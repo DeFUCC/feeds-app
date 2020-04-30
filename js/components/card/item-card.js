@@ -9,7 +9,6 @@ export default {
     item:Object,
     selected:Boolean,
     more:Boolean,
-    closed:Boolean,
   },
   components:{
     cardActions,
@@ -21,7 +20,6 @@ export default {
     return {
       links:{},
       linking:false,
-      isClosed:false,
       open: {
         add:false,
         more:false,
@@ -29,11 +27,6 @@ export default {
       edit: false,
       creator:null,
       type:'',
-    }
-  },
-  watch: {
-    closed(val) {
-      this.isClosed=val
     }
   },
   mounted() {
@@ -59,14 +52,12 @@ export default {
           transition="slide-y-transition"
           :id="$soul(item)"
           :raised="selected || linking"
-          :class="{closed}"
           :outlined="!selected"
           :style="{borderLeft: '4px solid ' + $color.hex($soul(item)), borderRight: item.createdBy ? privateBorder+'px solid' + $color.hex('~'+item.createdBy) : 'none'}">
 
             <card-title
               style="position:sticky;top:0; background-color:#fff; z-index:5;"
               :item="item"
-              :closed="closed"
               @open="open.more = !open.more"
               @unclose="$emit('unclose')"
               :open="open.more"

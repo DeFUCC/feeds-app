@@ -11,7 +11,6 @@ export default {
   },
   data() {
     return {
-      title:'ЭТОВОТЭТО',
       types,
       refNum:0,
       gameMode:true,
@@ -38,7 +37,7 @@ export default {
   },
   methods: {
     scrollRight() {
-      this.$refs.refword[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
+      this.$refs.refdesign[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
     }
   },
   template: `
@@ -53,28 +52,26 @@ export default {
         </v-btn>
       </v-sheet>
 
-      <v-card style="overscroll-x-behavior:none; scroll-snap-align:start;max-height:auto" color="#eee" >
+      <v-card style="overscroll-x-behavior:none; scroll-snap-align:start;" color="#eee" >
 
-          <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory;" group >
+          <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory; height:100vh" group >
 
           <v-col class="pa-2" :key="'sd'" style="flex:1 1 320px; min-width:320px; max-width:900px; scroll-snap-align: start;">
             <v-container>
 
-            <h1 class="font-weight-regular">{{title}}</h1>
+            <h1 class="font-weight-regular">{{$t('title')}}</h1>
 
-            <v-btn small outlined @click="gameMode=!gameMode" class="pointer"><v-icon v-if="gameMode" left>mdi-eye-off</v-icon><v-icon v-else left>mdi-eye</v-icon><span v-if="gameMode">Игра</span><span v-else>Просмотр</span></v-btn>
+            <h3 class="mb-3 font-weight-regular">{{$t("shortDesc")}}</h3>
 
-            <v-btn small outlined @click="scrollRight" class="pointer"><v-icon left>mdi-arrow-right</v-icon><span>Вперед</span></v-btn>
+            <v-btn small outlined @click="scrollRight" class="pointer"><v-icon left>mdi-arrow-right</v-icon><span>start</span></v-btn>
 
-
-            <app-info  ></app-info>
             </v-container>
 
           </v-col>
 
             <v-col :ref="'ref'+type.type" style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
 
-                <feed :gameMode="gameMode" :base="true" :type="type.type" :key="key"></feed>
+                <feed :base="true" :type="type.type" :key="key"></feed>
 
             </v-col>
             </v-slide-x-transition>

@@ -1,10 +1,10 @@
 const gun = new Gun([
-  'https://gun-vue.glitch.me/gun'
+  'https://gun-feeds.glitch.me/gun'
   ])
 
 Gun.SEA.throw = true;
 
-let path = 'feeds79'
+let path = 'defucc'
 
 Vue.prototype.$path = path
 Vue.prototype.$gun = gun.get(path);

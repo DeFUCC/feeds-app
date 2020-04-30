@@ -27,18 +27,22 @@ export default {
         parts[2] = arr.slice(stress+1).join('');
       }
       return parts.join('')
+    },
+    theType() {
+      return this.$root.types[this.item.type].name
     }
   },
   template:`
   <v-card-title
-    @click="closed ?  $emit('unclose') : $root.select(item)"
+    @click="$root.select(item)"
     class="pointer py-1 px-2"
     :class="{closed}">
 
     <span style="max-width:85%">
+      <h5 v-if="sheet">{{theType}}</h5>
       <h2
         :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
-        v-if="item.title && !closed"
+        v-if="item.title"
         :class="{title:item.type!='icon',
       'display-2':item.type=='icon'}"
       >
@@ -48,7 +52,7 @@ export default {
       <p
         :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
         v-html=""
-        v-if="item.description && !closed"
+        v-if="item.description"
         class="body-1 my-2"
         >
         {{item.description}}
@@ -56,13 +60,12 @@ export default {
     </span>
 
       <v-spacer/>
-      <h2 v-if="closed">&nbsp;</h2>
 
       <span style="max-width:15%">
 
         <v-btn icon x-small class="ma-2"
           @click.stop.prevent="$root.see(item)"
-          v-if="$root.loggedIn && $root.seen[$soul(item)] && !closed">
+          v-if="$root.loggedIn && $root.seen[$soul(item)]">
           <v-icon>mdi-eye-off</v-icon>
         </v-btn>
 
@@ -72,11 +75,9 @@ export default {
         </v-btn>
 
         <v-btn icon
-          v-if="!$root.toLink && !closed" @click.stop.prevent="$emit('open')" :class="{turn180:open}" >
+          v-if="!$root.toLink" @click.stop.prevent="$emit('open')" :class="{turn180:open}" >
           <v-icon>mdi-chevron-down</v-icon>
         </v-btn>
-
-
 
     </span>
 

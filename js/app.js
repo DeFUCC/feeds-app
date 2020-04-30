@@ -3,19 +3,25 @@ import router from './router.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './types.js'
+import * as locales from './i18n/all.js'
 
-
+Vue.use(VueI18n);
+const i18n = new VueI18n({
+  locale: 'ru',
+  messages:  {...locales},
+})
 Vue.component('feed',feed)
 
 const app = new Vue({
   el:'#app',
+  i18n,
   router,
   vuetify: new Vuetify(),
   components:{
     appUi,
   },
   data:{
-    title:'ЭТОВОТЭТО',
+    title:'feeds',
     peers:gun.back('opt.peers'),
     loggedIn:false,
     edit:false,
@@ -38,12 +44,6 @@ const app = new Vue({
     },
     types,
   },
-  computed: {
-
-  },
-  created() {
-
-  },
   watch: {
     $route(to,from) {
       this.parseRoute(to)
@@ -65,8 +65,6 @@ const app = new Vue({
       } else {
         this.$root.$emit('notify', user.err)
       }
-
-
     },
     parseRoute(to) {
       if(to.query.item) {

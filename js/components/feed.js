@@ -8,10 +8,6 @@ export default {
     type: String,
     host: Object,
     base: Boolean,
-    gameMode: {
-      type:Boolean,
-      default:true,
-    }
   },
   components: {
     itemCard,
@@ -214,11 +210,10 @@ export default {
               :key="item.createdAt"
               >
                 <item-card
-                  transition="slide-y-transition"
-                  @open="item.open=true"
-                  @unclose="$set(item,'unclosed', true)"
-                  @close="$set(item,'unclosed', false)"
-                   :closed="gameMode && !(item.unclosed || $root.seen[$soul(item)])"
+                    transition="slide-y-transition"
+                    @open="item.open=true"
+                    @unclose="$set(item,'unclosed', true)"
+                    @close="$set(item,'unclosed', false)"
                    :selected="selected==item"
                    :item="item"
                    :key="item.createdAt+item.updatedAt"

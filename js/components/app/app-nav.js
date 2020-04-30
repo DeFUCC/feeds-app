@@ -15,10 +15,9 @@ export default {
       <v-list>
         <v-list-item>
 
-
           <v-list-item-content>
             <v-list-item-title>
-              ЛЕНТЫ
+              {{$t('title')}}
             </v-list-item-title>
           </v-list-item-content>
             <v-list-item-action>
@@ -27,8 +26,11 @@ export default {
              </v-list-item-action>
         </v-list-item>
 
-      </v-list>
-
+    <v-list-item>
+      <v-select chips solo :items="['ru','en']" v-model="$i18n.locale">
+      </v-select>
+    </v-list-item>
+  </v-list>
         <v-divider></v-divider>
 
         <v-list>
@@ -98,10 +100,4 @@ export default {
       </v-navigation-drawer>
 
   `,
-  watch: {
-
-  },
-  methods: {
-
-  }
 }
