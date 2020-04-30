@@ -1,43 +1,12 @@
-import appInfo from "./app-info.js";
 import {types} from '../types.js'
 
 
 export default {
-  props: {
-
-  },
-  components: {
-    appInfo
-  },
   data() {
     return {
       types,
       refNum:0,
       gameMode:true,
-    }
-  },
-  created() {
-    for (let type in this.types) {
-      this.$set(this.types[type],'active',true)
-    }
-  },
-  watch: {
-
-  },
-  computed: {
-    activeTypes() {
-      let active={};
-      for (let type in this.types) {
-        if (this.types[type].active) {
-          active[type]=this.types[type]
-        }
-      }
-      return active
-    }
-  },
-  methods: {
-    scrollRight() {
-      this.$refs.refdesign[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
     }
   },
   template: `
@@ -81,5 +50,27 @@ export default {
 
   </v-sheet>
   `,
+  created() {
+    for (let type in this.types) {
+      this.$set(this.types[type],'active',true)
+    }
+  },
+  computed: {
+    activeTypes() {
+      let active={};
+      for (let type in this.types) {
+        if (this.types[type].active) {
+          active[type]=this.types[type]
+        }
+      }
+      return active
+    }
+  },
+  methods: {
+    scrollRight() {
+      this.$refs.refdesign[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
+    }
+  },
+
 
 };

@@ -9,7 +9,8 @@ body {
   hyphenate-limit-lines: 2;
   hyphenate-limit-last: always;
   hyphenate-limit-zone: 8%;
-
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 .v-navigation-drawer .router-link-exact-active .v-list-item {
@@ -19,6 +20,10 @@ body {
 
 .v-card__title .display-2 {
   padding-top:12px;
+}
+
+.v-card__title {
+  word-break: break-word !important;
 }
 
 .turn45 {

@@ -10,6 +10,7 @@ const i18n = new VueI18n({
   locale: 'ru',
   messages:  {...locales},
 })
+
 Vue.component('feed',feed)
 
 const app = new Vue({
@@ -21,7 +22,6 @@ const app = new Vue({
     appUi,
   },
   data:{
-    title:'feeds',
     peers:gun.back('opt.peers'),
     loggedIn:false,
     edit:false,

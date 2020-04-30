@@ -49,7 +49,9 @@ export default {
 
               <add-form v-if="edit"
                 @edited="updateItem"
-                :edit="item">
+                @added="edit=false"
+                :edit="item"
+                :type="item.type">
               </add-form>
 
 

@@ -20,17 +20,19 @@ export default {
               {{$t('title')}}
             </v-list-item-title>
           </v-list-item-content>
+
             <v-list-item-action>
                 <v-btn icon  @click="$root.show.nav=false">
                 <v-icon>mdi-chevron-left</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>
 
-    <v-list-item>
-      <v-select chips solo :items="['ru','en']" v-model="$i18n.locale">
-      </v-select>
-    </v-list-item>
-  </v-list>
+        <v-list-item>
+          <v-select chips solo :items="['ru','en']" v-model="$i18n.locale">
+          </v-select>
+        </v-list-item>
+
+      </v-list>
         <v-divider></v-divider>
 
         <v-list>
