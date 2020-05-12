@@ -18,8 +18,6 @@ const app = new Vue({
     appUi,
   },
   data:{
-    loggedIn:false,
-    auth:false,
     types,
   },
   watch: {

@@ -24,6 +24,7 @@ const store = new Vue({
         this.selected = item;
       }
     },
+    interlink,
     async toLinkTo(itemType,item) {
       await interlink(
         this.toLink.type,

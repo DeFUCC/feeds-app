@@ -166,7 +166,7 @@ export default {
        it = await $gun.get(type).set(it);
        this.reset(it);
        if (host) {
-        it = await this.$root.interlink(host.type,$soul(host),type,$soul(it))
+        it = await this.$store.interlink(host.type,$soul(host),type,$soul(it))
        }
 
     },
