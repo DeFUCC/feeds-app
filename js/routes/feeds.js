@@ -4,14 +4,12 @@ export default {
   data() {
     return {
       types,
-      refNum:0,
-      gameMode:true,
     }
   },
   template: `
   <v-sheet>
 
-      <v-sheet v-if="false">
+      <v-sheet v-if="true">
         <v-btn tile depressed color="#bbb" small
           :text="!type.active" v-for="type in types"
           :key="type.title"
@@ -51,8 +49,9 @@ export default {
   `,
   created() {
     for (let type in this.types) {
-      this.$set(this.types[type],'active',true)
-    }
+      this.$set(this.types[type],'active',false)
+    };
+    this.types.design.active = true
   },
   computed: {
     activeTypes() {

@@ -31,12 +31,12 @@ const app = new Vue({
           query: {
             item: this.$soul(item)
           },
-        })
+        }).catch(err => {}) //throws an error, but it's ignored for now
       } else {
         this.$router.push({
           path:'',
           query: {},
-        })
+        }).catch(err => {})
       }
     }
   },

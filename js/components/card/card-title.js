@@ -62,7 +62,7 @@ export default {
         </v-btn>
 
         <v-btn icon
-          v-if="$store.toLink && $store.toLink.type != item.type" @click.stop.prevent="$store.toLinkTo(item.type, $soul(item))" >
+          v-if="$store.toLink && $store.toLink.type != item.type" @click.stop.prevent="$store.linkTo(item.type, $soul(item))" >
           <v-icon>mdi-link</v-icon>
         </v-btn>
 

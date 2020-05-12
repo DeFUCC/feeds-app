@@ -25,10 +25,10 @@ const store = new Vue({
       }
     },
     interlink,
-    async toLinkTo(itemType,item) {
+    async linkTo(itemType,item) {
       await interlink(
         this.toLink.type,
-        this.$soul(toLink),
+        this.$soul(this.toLink),
         itemType,
         item
       );
