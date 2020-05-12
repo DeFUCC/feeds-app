@@ -1,5 +1,5 @@
-import feeds from './components/feeds.js'
-import graphs from './components/graphs.js'
+import feeds from './routes/feeds.js'
+import graphs from './routes/graphs.js'
 
 
 const routes = [

@@ -6,10 +6,10 @@ export default {
   },
   template: `
     <v-navigation-drawer style="z-index:100"
-        v-model="$root.show.user"
+        v-model="$store.show.user"
         right app width="300px"
       >
-      <v-list v-if="$root.loggedIn">
+      <v-list v-if="$store.loggedIn">
         <v-list-item>
 
           <v-list-item-avatar>
@@ -23,7 +23,7 @@ export default {
             </v-list-item-title>
           </v-list-item-content>
             <v-list-item-action>
-                <v-btn icon  @click="$root.show.user=false">
+                <v-btn icon  @click="$store.show.user=false">
                 <v-icon>mdi-chevron-right</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>
@@ -78,7 +78,7 @@ export default {
       setTimeout(() => {
         if(!this.$user._.sea) {
           this.$root.$emit('notify', 'Вы вышли!');
-          this.$root.loggedIn=false;
+          this.$store.loggedIn=false;
           this.$root.auth=false;
         }
       },1000)

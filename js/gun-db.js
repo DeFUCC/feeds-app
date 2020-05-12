@@ -21,4 +21,12 @@ Vue.prototype.$color = new ColorHash({
   lightness: [0.65, 0.75, 0.85]
 });
 
+export const interlink = async (hostType, hostSoul, itemType, itemSoul) => {
+  let hoster =  gun.get(hostSoul);
+  let theitem = gun.get(itemSoul);
+  let itm = await hoster.get(itemType).set(theitem);
+  let hstr = await theitem.get(hostType).set(hoster)
+  return {hstr,itm}
+}
+
 export default gun

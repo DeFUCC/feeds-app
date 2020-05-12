@@ -69,21 +69,21 @@ export default {
 
           <v-switch
             class="mt-0"
-            v-if="$root.loggedIn"
+            v-if="$store.loggedIn"
             v-model="creator"
             prepend-icon="mdi-account-outline"
           ></v-switch>
 
           <v-switch
             class="mt-0"
-            v-if="$root.loggedIn && creator"
+            v-if="$store.loggedIn && creator"
             v-model="author"
             prepend-icon="mdi-account-lock-outline"
           ></v-switch>
 
           <v-switch
             class="mt-0"
-            v-if="false && $root.loggedIn && creator && author"
+            v-if="false && $store.loggedIn && creator && author"
             v-model="encrypt"
             prepend-icon="mdi-lock"
           ></v-switch>
@@ -138,7 +138,7 @@ export default {
 
       it.updatedAt = $state();
 
-      if ($root.loggedIn && creator) {
+      if ($store.loggedIn && creator) {
         it.updatedBy = $user.is.pub;
       } else {
         it.updatedBy = '';

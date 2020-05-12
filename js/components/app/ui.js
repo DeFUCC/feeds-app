@@ -25,9 +25,9 @@ export default {
     <div style="scroll-snap-align:start">
       <notify />
 
-      <user-form v-if="$root.auth && !$root.loggedIn" />
+      <user-form v-if="$root.auth && !$store.loggedIn" />
 
-      <user-drawer v-if="$root.loggedIn" />
+      <user-drawer v-if="$store.loggedIn" />
 
       <app-nav />
 
@@ -35,7 +35,7 @@ export default {
 
       <footer-info />
 
-      <bottom-sheet :key="$soul($root.selected)"  :item="$root.selected" v-if="$root.selected"/>
+      <bottom-sheet :key="$soul($store.selected)"  :item="$store.selected" v-if="$store.selected"/>
 
 
     </div>

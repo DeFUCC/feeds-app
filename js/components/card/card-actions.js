@@ -73,9 +73,9 @@ export default {
       <v-btn icon @click="link()"><v-icon>mdi-link</v-icon></v-btn>
 
       <v-btn icon
-        @click="$root.loggedIn ? $root.see(item) : $emit('close')"
+        @click="$store.loggedIn ? $store.see(item) : $emit('close')"
         >
-        <v-icon v-if="$root.seen[$soul(item)]">
+        <v-icon v-if="$store.seen[$soul(item)]">
           mdi-eye</v-icon>
         <v-icon v-else>mdi-eye-off</v-icon>{{seenNum}}
       </v-btn>
@@ -84,12 +84,11 @@ export default {
   `,
   methods: {
     link() {
-      let {$root, item} = this
-      if ($root.toLink==item) {
-        $root.toLink=null
+      if (this.$store.toLink==this.item) {
+        this.$store.toLink=null
         this.$emit('linking',false)
       } else {
-        $root.toLink=item;
+        this.$store.toLink=this.item;
         this.$emit('linking',true)
       }
     },

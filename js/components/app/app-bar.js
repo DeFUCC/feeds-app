@@ -21,8 +21,8 @@ export default {
     },
   },
   template: `
-  <v-app-bar :color="$root.loggedIn ? $color.hex('~'+is.pub) : 'grey lighten-1'" style="scroll-snap-align:start"  flat >
-    <v-btn icon @click="$root.show.nav=true"><v-icon>mdi-menu</v-icon></v-btn>
+  <v-app-bar :color="$store.loggedIn ? $color.hex('~'+is.pub) : 'grey lighten-1'" style="scroll-snap-align:start"  flat >
+    <v-btn icon @click="$store.show.nav=true"><v-icon>mdi-menu</v-icon></v-btn>
     <v-toolbar-title>{{$t('title')}}</v-toolbar-title>
 
     <v-spacer ></v-spacer>
@@ -31,9 +31,9 @@ export default {
     <v-item-group>
       <v-btn @click="search=true" icon v-if="!search"><v-icon right>mdi-magnify</v-icon></v-btn>
 
-      <v-btn @click="$root.show.user=true" text v-if=" $root.loggedIn">{{is.alias}} <v-icon right>mdi-dots-vertical</v-icon></v-btn>
+      <v-btn @click="$store.show.user=true" text v-if=" $store.loggedIn">{{is.alias}} <v-icon right>mdi-dots-vertical</v-icon></v-btn>
 
-      <v-btn icon v-if="!$root.loggedIn" @click="$root.auth=true">
+      <v-btn icon v-if="!$store.loggedIn" @click="$root.auth=true">
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
     </v-item-group>

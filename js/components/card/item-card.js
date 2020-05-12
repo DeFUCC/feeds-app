@@ -64,7 +64,7 @@ export default {
               ></card-title>
 
               <p v-show="open.more"
-                :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
+                :style="{opacity:$store.toLink && $store.toLink!=item ? '0.5' : '1'}"
                 v-html="item.description"
                 v-if="item.description"
                 class="body-1 my-2 pa-2"

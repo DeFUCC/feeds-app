@@ -39,7 +39,7 @@ export default {
         </card-title>
 
         <p
-          :style="{opacity:$root.toLink && $root.toLink!=item ? '0.5' : '1'}"
+          :style="{opacity:$store.toLink && $store.toLink!=item ? '0.5' : '1'}"
           v-html="item.description"
           v-if="item.description"
           class="body-1 my-2 pa-2"
@@ -87,7 +87,7 @@ export default {
   methods: {
     updateItem(edited) {
       this.item=edited;
-      this.$root.edit=false;
+      this.edit=false;
     },
     activateLinking(ev) {
       this.linking = ev
@@ -96,7 +96,7 @@ export default {
   watch: {
     open(val) {
       if (!val) {
-        this.$root.select()
+        this.$store.select()
       }
     }
   },

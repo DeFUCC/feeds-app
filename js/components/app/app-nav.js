@@ -9,7 +9,7 @@ export default {
   },
   template: `
     <v-navigation-drawer
-        v-model="$root.show.nav"
+        v-model="$store.show.nav"
         left app width="300px"
       >
       <v-list>
@@ -22,7 +22,7 @@ export default {
           </v-list-item-content>
 
             <v-list-item-action>
-                <v-btn icon  @click="$root.show.nav=false">
+                <v-btn icon  @click="$store.show.nav=false">
                 <v-icon>mdi-chevron-left</v-icon></v-btn>
              </v-list-item-action>
         </v-list-item>

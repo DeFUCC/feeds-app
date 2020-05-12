@@ -1,15 +1,11 @@
 import gun from './gun-db.js'
 import router from './router.js'
+import store from './store.js'
 import feed from './components/feed.js'
 import appUi from './components/app/ui.js'
 import {types} from './schema/types.js'
-import * as locales from './i18n/all.js'
+import {i18n} from './i18n/all.js'
 
-Vue.use(VueI18n);
-const i18n = new VueI18n({
-  locale: 'ru',
-  messages:  {...locales},
-})
 
 Vue.component('feed',feed) // recursively used component
 
@@ -22,31 +18,28 @@ const app = new Vue({
     appUi,
   },
   data:{
-    peers:gun.back('opt.peers'),
     loggedIn:false,
-    edit:false,
     auth:false,
-    search:'',
-    toLink:null,
-    selected:null,
-    isSelected:false,
-    seen:{},
-    creator:false,
-    show:{
-      banned:false,
-      bottom:true,
-      user:false,
-      nav:false,
-      seen:false,
-    },
-    sort:{
-      byName:true,
-    },
     types,
   },
   watch: {
     $route(to,from) {
       this.parseRoute(to)
+    },
+    '$store.selected' (item) {
+      if (item) {
+        this.$router.push({
+          path:'',
+          query: {
+            item: this.$soul(item)
+          },
+        })
+      } else {
+        this.$router.push({
+          path:'',
+          query: {},
+        })
+      }
     }
   },
   mounted() {
@@ -57,10 +50,10 @@ const app = new Vue({
   methods: {
     logIn(user) {
       if (!user.err) {
-        this.loggedIn=true;
-        this.auth=false;
+        this.$store.loggedIn=true;
+        this.$store.auth=false;
         this.$user.get('feeds').get('seen').map().on((item, key) => {
-          this.$set(this.seen,key,item)
+          this.$set(this.$store.seen,key,item)
         })
       } else {
         this.$root.$emit('notify', user.err)
@@ -70,63 +63,12 @@ const app = new Vue({
       if(to.query.item) {
         this.$gunroot.get(to.query.item).once(data => {
           if (data) {
-            this.selected = data
+            this.$store.selected = data
           }
         })
-      }
-    },
-    async toLinkTo(itemType,item) {
-      let {toLink,interlink, $soul} = this;
-      await interlink(toLink.type, $soul(toLink), itemType, item);
-      this.toLink=null;
-    },
-    async interlink (hostType, hostSoul, itemType, itemSoul) {
-      let hoster =  this.$gunroot.get(hostSoul);
-      let theitem = this.$gunroot.get(itemSoul);
-      let itm = await hoster.get(itemType).set(theitem);
-      let hstr = await theitem.get(hostType).set(hoster)
-      return {hstr,itm}
-    },
-
-    async see(item) {
-      let {$user, $gunroot, $soul, $root, $gun} = this;
-      if ($root.loggedIn) {
-
-        let key = $soul(item);
-
-        if (!$root.seen[key]) {
-
-          let it = $gunroot.get(key);
-          let its = await $user.get('feeds').get('seen').set(it)
-          let pubit = await $gun.get('seen').get(key).get($user.is.pub).put('seen')
-
-        } else {
-
-          await $user.get('feeds').get('seen').get(key).put(null);
-          $gun.get('seen').get(key).get($user.is.pub).put(null)
-          delete $root.seen[key];
-
-        }
-
-      }
-    },
-
-    select(item) {
-      if (item == this.selected || !item) {
-        this.selected=null;
-        this.$router.push({
-          path:'',
-          query: {},
-        })
       } else {
-        this.selected = item;
-        this.$router.push({
-          path:'',
-          query: {
-            item: this.$soul(item)
-          },
-        })
+        this.$store.selected = null
       }
-    }
+    },
   }
 })

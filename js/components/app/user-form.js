@@ -45,7 +45,7 @@ export default {
       this.$user.create(this.username,this.password,this.signedUp)
     },
     loggedIn(ack) {
-      this.$root.loggedIn=true;
+      this.$store.loggedIn=true;
       this.$root.$emit('notify', 'Вы вошли в систему!')
       this.$user.get('title').put(this.username)
       this.$user.get('type').put('player')

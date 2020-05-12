@@ -91,11 +91,11 @@ export default {
         items: this.items,
         host: this.host,
         type: this.type,
-        show: this.$root.show,
+        show: this.$store.show,
         showSeen: this.showSeen,
-        seen: this.$root.seen,
+        seen: this.$store.seen,
         search: this.search,
-        rootSearch: this.$root.search,
+        rootSearch: this.$store.search,
         typeField: this.typeField,
         sortAB: this.sortAB,
         page:this.page,
@@ -152,7 +152,7 @@ export default {
           <span>AB</span>
         </v-btn>
 
-        <v-btn v-if="$root.loggedIn"
+        <v-btn v-if="$store.loggedIn"
           :color="showSeen ? 'black':'grey'" @click="showSeen=!showSeen" icon>
           <v-icon v-if="showSeen">
             mdi-eye
@@ -189,15 +189,15 @@ export default {
           </v-col>
         </v-expand-transition>
 
-          <v-col v-if="$root.toLink"
+          <v-col v-if="$store.toLink"
             style="position:sticky; top:0; z-index:8"
             class="py-0"
-            @click="$root.toLink=null"
+            @click="$store.toLink=null"
             >
             <item-card
                   key="tolink"
                  :selected="true"
-                 :item="$root.toLink"
+                 :item="$store.toLink"
                 ></item-card>
           </v-col>
 

@@ -31,9 +31,9 @@ export default {
   watch: {
     search(letters) {
       if(letters && this.$refs.form.validate()) {
-        this.$root.search=letters.toLowerCase();
+        this.$store.search=letters.toLowerCase();
       } else {
-        this.$root.search=''
+        this.$store.search=''
       }
     }
   },
@@ -44,7 +44,7 @@ export default {
     reset() {
       this.$emit('reset');
       this.$refs.form.reset()
-      this.$root.search='';
+      this.$store.search='';
       this.$refs.form.resetValidation()
     }
   },
