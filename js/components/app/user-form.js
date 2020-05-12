@@ -9,7 +9,7 @@ export default {
     }
   },
   template: `
-      <v-snackbar color="grey lighten-3" v-model="$root.auth" multi-line flat vertical :timeout="0" top>
+      <v-snackbar color="grey lighten-3" v-model="$store.auth" multi-line flat vertical :timeout="0" top>
 
         <v-form model="validUser">
 
@@ -23,7 +23,7 @@ export default {
               <v-btn v-if="userExists" @click="signIn()">{{$t('signIn')}}</v-btn>
             </v-col>
             <v-col cols="2">
-              <v-btn icon @click="$root.auth=false"><v-icon>mdi-close</v-icon></v-btn>
+              <v-btn icon @click="$store.auth=false"><v-icon>mdi-close</v-icon></v-btn>
             </v-col>
           </v-row>
 

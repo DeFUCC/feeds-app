@@ -33,7 +33,7 @@ export default {
 
       <v-btn @click="$store.show.user=true" text v-if=" $store.loggedIn">{{is.alias}} <v-icon right>mdi-dots-vertical</v-icon></v-btn>
 
-      <v-btn icon v-if="!$store.loggedIn" @click="$root.auth=true">
+      <v-btn icon v-if="!$store.loggedIn" @click="$store.auth=true">
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
     </v-item-group>

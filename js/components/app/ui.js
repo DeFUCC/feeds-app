@@ -25,7 +25,7 @@ export default {
     <div style="scroll-snap-align:start">
       <notify />
 
-      <user-form v-if="$root.auth && !$store.loggedIn" />
+      <user-form v-if="$store.auth && !$store.loggedIn" />
 
       <user-drawer v-if="$store.loggedIn" />
 

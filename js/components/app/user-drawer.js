@@ -79,7 +79,7 @@ export default {
         if(!this.$user._.sea) {
           this.$root.$emit('notify', 'Вы вышли!');
           this.$store.loggedIn=false;
-          this.$root.auth=false;
+          this.$store.auth=false;
         }
       },1000)
     },
