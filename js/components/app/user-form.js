@@ -1,3 +1,5 @@
+import { getUser } from '../../gun-db.js'
+
 export default {
 
   data() {
@@ -32,7 +34,7 @@ export default {
   `,
   watch: {
     username(name) {
-      this.$gun.back().get("~@"+this.username).once((user) => {
+      getUser(this.username,(user) => {
         this.userExists=user
       })
     },

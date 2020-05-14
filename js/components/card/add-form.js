@@ -1,3 +1,5 @@
+import { addItem, updateItem } from '../../gun-db.js'
+
 const blankItem = {
     title:'',
     description:'',
@@ -15,7 +17,7 @@ export default {
     host: Object,
     type:{
       type: String,
-      default:'icon',
+      default:'project',
     },
   },
   data() {
@@ -23,7 +25,6 @@ export default {
       valid:false,
       item: {...blankItem},
       search:null,
-      creator:false,
       author:false,
       encrypt:false,
     }
@@ -34,7 +35,6 @@ export default {
     } else {
       this.item.type=this.type;
     }
-
   },
   template:`
     <v-container class="py-0" style="background-color:#eee">
@@ -70,20 +70,13 @@ export default {
           <v-switch
             class="mt-0"
             v-if="$store.loggedIn"
-            v-model="creator"
-            prepend-icon="mdi-account-outline"
-          ></v-switch>
-
-          <v-switch
-            class="mt-0"
-            v-if="$store.loggedIn && creator"
             v-model="author"
             prepend-icon="mdi-account-lock-outline"
           ></v-switch>
 
           <v-switch
             class="mt-0"
-            v-if="false && $store.loggedIn && creator && author"
+            v-if="false && $store.loggedIn && author"
             v-model="encrypt"
             prepend-icon="mdi-lock"
           ></v-switch>
@@ -127,48 +120,25 @@ export default {
 
     },
     async updateItem() {
-      let {item, $gunroot, $root, $soul, $state, $user, creator} = this;
-      let it = {...item}
+      let it = {...this.item}
 
       if (!this.validate(it)) {
         this.$root.$emit('notify', 'Не правильно заполнены поля')
         return
       }
 
-
-      it.updatedAt = $state();
-
-      if ($store.loggedIn && creator) {
-        it.updatedBy = $user.is.pub;
-      } else {
-        it.updatedBy = '';
-      }
-
-      $gunroot.get($soul(item)).put(it, (msg) => {
+      updateItem(it, (msg) => {
         this.$root.$emit('notify', msg)
         if(!msg.lack) {
           this.$emit('edited',it)
         }
       })
+
     },
     async createItem() {
-      let {host, item, type, $gun, $soul, $state, $user, creator, author} = this;
-      let it = {...item}
-      it.createdAt = $state();
-
-      if ($user.is && creator) {
-        it.createdBy = $user.is.pub;
-        if (author) {
-          it = await $user.get(type).set(it)
-        }
-      }
-
-       it = await $gun.get(type).set(it);
-       this.reset(it);
-       if (host) {
-        it = await this.$store.interlink(host.type,$soul(host),type,$soul(it))
-       }
-
+      let {host, item, type, author} = this;
+      addItem({ item, type, author, host })
+      this.reset();
     },
 
     reset(status) {

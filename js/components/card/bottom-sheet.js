@@ -55,7 +55,7 @@ export default {
         <v-expand-transition>
 
               <add-form v-if="edit"
-                @edited="updateItem"
+                @edited="edit=false"
                 @added="edit=false"
                 :edit="item"
                 :type="item.type">
@@ -85,10 +85,6 @@ export default {
 
   `,
   methods: {
-    updateItem(edited) {
-      this.item=edited;
-      this.edit=false;
-    },
     activateLinking(ev) {
       this.linking = ev
     }

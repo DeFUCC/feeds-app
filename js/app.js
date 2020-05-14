@@ -1,4 +1,5 @@
 import gun from './gun-db.js'
+import {getItem} from './gun-db.js'
 import router from './router.js'
 import store from './store.js'
 import feed from './components/feed.js'
@@ -59,7 +60,7 @@ const app = new Vue({
     },
     parseRoute(to) {
       if(to.query.item) {
-        this.$gunroot.get(to.query.item).once(data => {
+        getItem( to.query.item, data => {
           if (data) {
             this.$store.selected = data
           }

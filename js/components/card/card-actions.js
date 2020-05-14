@@ -1,3 +1,4 @@
+import { countLinks } from '../../gun-db.js'
 
 export default {
   props: {
@@ -26,7 +27,7 @@ export default {
 
     for (let link of this.links) {
       $set(this.linksCount,link,0)
-      $gunroot.get($soul(item)).get(link).map().once((data,key) => {
+      countLinks( item, link, () => {
         this.linksCount[link]++
       })
     }

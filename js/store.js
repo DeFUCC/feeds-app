@@ -1,4 +1,4 @@
-import {interlink} from './gun-db.js'
+import {interlink,see} from './gun-db.js'
 
 const store = new Vue({
   data: {
@@ -25,31 +25,25 @@ const store = new Vue({
       }
     },
     interlink,
-    async linkTo(itemType,item) {
-      await interlink(
-        this.toLink.type,
-        this.$soul(this.toLink),
-        itemType,
-        item
-      );
+    async linkTo(item) {
+      await interlink({
+        host:this.toLink,
+        item,
+      });
       this.toLink=null;
     },
     async see(item) {
-      let {$user, $gunroot, $soul, seen, $gun} = this;
-        let key = $soul(item);
-        if (!seen[key]) {
-          let it = $gunroot.get(key);
-          let its = await $user.get('feeds').get('seen').set(it)
-          let pubit = await $gun.get('seen').get(key).get($user.is.pub).put('seen')
-        } else {
-          await $user.get('feeds').get('seen').get(key).put(null);
-          $gun.get('seen').get(key).get($user.is.pub).put(null)
-          delete seen[key];
-        }
+      await see(item,this.seen)
     },
   }
 })
 
 Vue.prototype.$store = store;
+Vue.prototype.$moment = moment;
+moment.locale('ru')
+Vue.prototype.$color = new ColorHash({
+  saturation:[0.25, 0.35, 0.5],
+  lightness: [0.65, 0.75, 0.85]
+});
 
 export default store

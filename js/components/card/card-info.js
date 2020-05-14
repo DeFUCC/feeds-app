@@ -1,4 +1,3 @@
-
 export default {
   name:'card-info',
   props: {
@@ -16,18 +15,13 @@ export default {
   created() {
     if (this.item.createdBy) {
       this.$gun.user(this.item.createdBy).on((user) => {
-        if (user && user.alias) {
-          this.creator = user.alias
-          this.creatorLink = window.location.origin + '#/?item=~'+ user.pub;
-        }
+        this.creator = user?.alias
+        this.creatorLink = window.location.origin + '#/?item=~'+ user?.pub;
       })
     }
-
     if (this.item.updatedBy) {
       this.$gun.user(this.item.updatedBy).on((user) => {
-        if (user && user.alias) {
-          this.editor = user.alias
-        }
+          this.editor = user?.alias
       })
     }
   },
@@ -60,7 +54,4 @@ export default {
     </v-card-actions>
   </v-expand-transition>
   `,
-  methods: {
-
-  },
 }

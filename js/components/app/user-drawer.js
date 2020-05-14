@@ -1,9 +1,4 @@
 export default {
-
-  data() {
-    return {
-    }
-  },
   template: `
     <v-navigation-drawer style="z-index:100"
         v-model="$store.show.user"
@@ -66,13 +61,6 @@ export default {
         </v-list>
       </v-navigation-drawer>
   `,
-  watch: {
-    username(name) {
-      this.$gun.get("~@"+this.username).once((user) => {
-        this.userExists=user
-      })
-    }
-  },
   methods: {
     checkLeave() {
       setTimeout(() => {
@@ -81,7 +69,7 @@ export default {
           this.$store.loggedIn=false;
           this.$store.auth=false;
         }
-      },1000)
+      },500)
     },
   }
 }

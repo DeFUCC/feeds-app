@@ -2,7 +2,7 @@ export default {
   props: [],
   data() {
     return {
-      peers:this.$gun.back('opt.peers'),
+      
     }
   },
   watch: {
