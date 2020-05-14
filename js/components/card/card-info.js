@@ -1,3 +1,4 @@
+
 export default {
   name:'card-info',
   props: {
@@ -15,13 +16,18 @@ export default {
   created() {
     if (this.item.createdBy) {
       this.$gun.user(this.item.createdBy).on((user) => {
-        this.creator = user?.alias
-        this.creatorLink = window.location.origin + '#/?item=~'+ user?.pub;
+        if (user && user.alias) {
+          this.creator = user.alias
+          this.creatorLink = window.location.origin + '#/?item=~'+ user.pub;
+        }
       })
     }
+
     if (this.item.updatedBy) {
       this.$gun.user(this.item.updatedBy).on((user) => {
-          this.editor = user?.alias
+        if (user && user.alias) {
+          this.editor = user.alias
+        }
       })
     }
   },
@@ -46,7 +52,7 @@ export default {
       </span>
       <v-spacer></v-spacer>
       <v-btn icon
-        v-if="$store.loggedIn"  @click="$emit('edit')">
+        v-if="$root.loggedIn"  @click="$emit('edit')">
           <v-icon>
             mdi-pencil-outline
           </v-icon>
@@ -54,4 +60,7 @@ export default {
     </v-card-actions>
   </v-expand-transition>
   `,
+  methods: {
+
+  },
 }

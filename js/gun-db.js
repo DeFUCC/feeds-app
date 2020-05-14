@@ -66,7 +66,7 @@ export function getItem( soul, cb) {
   gun.get(soul).once(cb)
 }
 
-export function getUser (name, cb) {
+export function findUser (name, cb) {
   gun.get('~@' + name).once(cb)
 }
 

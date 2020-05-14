@@ -1,4 +1,4 @@
-import { getUser } from '../../gun-db.js'
+import { findUser } from '../../gun-db.js'
 
 export default {
 
@@ -34,7 +34,7 @@ export default {
   `,
   watch: {
     username(name) {
-      getUser(this.username,(user) => {
+      findUser(this.username,(user) => {
         this.userExists=user
       })
     },
