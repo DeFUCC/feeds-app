@@ -1,7 +1,7 @@
 import itemCard from "./card/item-card.js";
 import addForm from "./card/add-form.js";
 import intersect from '../assets/vue-intersect.js'
-
+import {getTypeItems} from '../gun-db.js'
 
 export default {
   props: {
@@ -26,6 +26,7 @@ export default {
       showSeen: false,
       sortAB: false,
       currentLetter: "",
+      itemQuery:'',
       page: {
         size:12,
         start: 0,
@@ -34,41 +35,27 @@ export default {
         total: 0,
       },
       more: false,
-      loading:false,
+      loading:true,
     };
   },
   created() {
-
-    if (window.Worker) {
-      this.feedWorker = new Worker("./js/worker.js");
-      this.feedWorker.onmessage = e => {
-        this.filteredItems = e.data.feed;
-        this.page.total = e.data.total;
-        this.page.shown = e.data.shown;
-        this.more = e.data.more;
-      };
-    } else {
-      console.log("no worker support");
-    }
-
-    let { $gunroot, $gun, $soul, host } = this;
-    let gun;
-    if (host) {
-      gun = $gunroot.get($soul(host));
-    } else {
-      gun = $gun;
-    }
-
-    this.activeFeed = gun.get(this.type).map();
-
-    this.activeFeed.on( (data, key) => {
-        this.$set(this.items, key, data);
-        this.$nextTick(this.updateFeed);
-      });
-
-//    this.sortAB = this.$root.types[this.type].sort == 'AB'
+    this.createWorker();
+    this.itemQuery = getTypeItems(this.type, this.host, (data, key) => {
+      this.$set(this.items, key, data);
+    //  this.$nextTick(this.updateFeed);
+    })
   },
   watch: {
+    host: {
+      handler() {
+        this.itemQuery.off()
+        this.items = {};
+        this.itemQuery = getTypeItems(this.type, this.host, (data, key) => {
+          this.$set(this.items, key, data);
+        //  this.$nextTick(this.updateFeed);
+        })
+      }
+    },
     page: {
       deep:true,
       handler() {
@@ -102,10 +89,20 @@ export default {
       };
     }
   },
-  mounted() {
-
-  },
   methods: {
+    createWorker() {
+      if (window.Worker) {
+        this.feedWorker = new Worker("./js/worker.js");
+        this.feedWorker.onmessage = e => {
+          this.filteredItems = e.data.feed;
+          this.page.total = e.data.total;
+          this.page.shown = e.data.shown;
+          this.more = e.data.more;
+        };
+      } else {
+        console.log("no worker support");
+      }
+    },
     updateFeed() {
       this.feedWorker.postMessage(this.feed);
     },
@@ -129,21 +126,17 @@ export default {
       this.loading=true
       this.page.end = this.page.end + this.page.size
     },
-
-      log:console.log,
   },
 
   template: `
   <v-container ref="feeder" style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
     <v-row class="d-flex">
-
       <v-col class="ma-1 pl-2 pt-1 flex-shrink-1">
         <h3 @click="$refs.feeder.scrollIntoView({inline: 'start', behavior: 'smooth'})" class="subtitle-1 pointer">
           {{getLinkDesc(type)}}
         </h3>
       </v-col>
       <v-spacer></v-spacer>
-
       <v-col  class="pa-0 mr-2 d-flex flex-grow-1 flex-nowrap text-end">
 
         <v-btn
@@ -173,7 +166,7 @@ export default {
       </v-col>
     </v-row>
 
-      <v-row ref="frame" class="feed-scroller" :style="{maxHeight: host ? '30vh' : '90vh'}" style="overflow-y:scroll; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
+      <v-row ref="frame" class="feed-scroller" :style="{overflowY: host ? 'visible' : 'scroll'}" style="max-height:90vh; scroll-snap-type: y mandatory; overscroll-y-behavior:none;">
 
         <v-expand-transition>
           <v-col class="py-0"
@@ -210,13 +203,14 @@ export default {
               :key="item.createdAt"
               >
                 <item-card
+                    :host="host"
                     transition="slide-y-transition"
                     @open="item.open=true"
                     @unclose="$set(item,'unclosed', true)"
                     @close="$set(item,'unclosed', false)"
-                   :selected="selected==item"
-                   :item="item"
-                   :key="item.createdAt+item.updatedAt"
+                    :selected="selected==item"
+                    :item="item"
+                    :key="item.createdAt+item.updatedAt"
                    >
                  </item-card>
 
@@ -234,7 +228,7 @@ export default {
   </v-container>
   `,
   beforeDestroy() {
-//    this.activeFeed.off()
-//    this.feedWorker.terminate();
+    this.itemQuery.off()
+    this.feedWorker.terminate();
   }
 };

@@ -9,6 +9,7 @@ export default {
     item:Object,
     selected:Boolean,
     more:Boolean,
+    host:Object,
   },
   components:{
     cardActions,
@@ -54,7 +55,7 @@ export default {
           :raised="selected || linking"
           :outlined="!selected"
           :style="{borderLeft: '4px solid ' + $color.hex( $soul(item) ), borderRight: item.createdBy ? privateBorder + 'px solid' + $color.hex( '~' + item.createdBy ) : 'none' }">
-
+        
             <card-title
               style="position:sticky;top:0; background-color:#fff; z-index:5;"
               :item="item"

@@ -41,19 +41,19 @@ export default {
               <v-list-item-content>
 
                   <v-list-item-title class="title">
-                    Словарь
+                    Ленты
                   </v-list-item-title>
 
               </v-list-item-content>
             </v-list-item>
           </router-link>
 
-          <router-link to="/game" style="text-decoration:none">
+          <router-link to="/designs" style="text-decoration:none">
             <v-list-item>
               <v-list-item-content>
 
                   <v-list-item-title class="title">
-                    Игры
+                    Программы
                   </v-list-item-title>
 
               </v-list-item-content>

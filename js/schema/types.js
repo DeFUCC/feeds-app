@@ -25,6 +25,7 @@ export const types = {
     name:'Проект',
     title:'Проекты',
     sort:'AB',
+    host: 'design',
     links:['design','object','event'],
     fields: {
       default: {
@@ -45,6 +46,7 @@ export const types = {
     name:'Объект',
     title:'Объекты',
     sort:'AB',
+    host: 'project',
     links:['project'],
     description:'Физический предмет',
     fields: {
@@ -66,6 +68,7 @@ export const types = {
     name:'Событие',
     title:'События',
     sort:null,
+    host:'project',
     links:['project'],
     fields: {
       default: {

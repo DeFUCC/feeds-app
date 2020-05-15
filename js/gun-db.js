@@ -70,8 +70,20 @@ export function findUser (name, cb) {
   gun.get('~@' + name).once(cb)
 }
 
-export function countLinks (item, link, cb) {
+export function countLinks ( item, link, cb ) {
   gun.get(Gun.node.soul(item)).get(link).map().once(cb)
+}
+
+export function getTypeItems ( type, host, cb ) {
+  let g;
+  if (host) {
+    g = gun.get(Gun.node.soul(host));
+  } else {
+    g = gun.get(path);
+  }
+  let query = g.get(type).map()
+  query.on(cb)
+  return query
 }
 
 export default gun

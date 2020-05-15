@@ -127,7 +127,7 @@ export default {
         return
       }
 
-      updateItem(it, (msg) => {
+      await updateItem(it, (msg) => {
         this.$root.$emit('notify', msg)
         if(!msg.lack) {
           this.$emit('edited',it)
@@ -137,7 +137,7 @@ export default {
     },
     async createItem() {
       let {host, item, type, author} = this;
-      addItem({ item, type, author, host })
+      await addItem({ item, type, author, host })
       this.reset();
     },
 

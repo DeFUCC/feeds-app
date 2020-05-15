@@ -12,7 +12,7 @@ export default {
       ahref:'',
     }
   },
-  computed:{
+  computed: {
     theTitle() {
       let {title , stress } = this.item
       if (this.item.alias) {return this.item.alias}
@@ -29,8 +29,8 @@ export default {
       return parts.join('')
     },
     theType() {
-      return this.$root.types[this.item.type].name
-    }
+      return this.$root.types[this.item.type]
+    },
   },
   template:`
   <v-card-title
@@ -39,7 +39,7 @@ export default {
     :class="{closed}">
 
     <span style="max-width:85%">
-      <h5 v-if="sheet">{{theType}}</h5>
+      <h5 v-if="sheet">{{theType.name}}</h5>
       <h2
         :style="{opacity:$store.toLink && $store.toLink!=item ? '0.5' : '1'}"
         v-if="item.title"
