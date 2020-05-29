@@ -15,10 +15,10 @@ export default {
     <v-card class="ma-3" v-for="(design, key) in designs" :key="key">
 
       <v-list-item>
-        <v-list-item-avatar color="#eee" v-text="design.title.substr(0,2)"></v-list-item-avatar>
+
         <v-list-item-content>
           <v-list-item-title v-text="design.title"  class="headline" />
-          <v-list-item-subtitle v-text="design.description"  />
+          <v-list-item-content v-text="design.description"  />
         </v-list-item-content>
         <v-list-item-avatar color="#eee"></v-list-item-avatar>
       </v-list-item>
