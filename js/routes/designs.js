@@ -1,60 +1,39 @@
-import {types} from '../schema/types.js'
+import {getTypeItems} from '../gun-db.js'
 
 export default {
+  components: {
+
+  },
   data() {
     return {
-      types,
+      designs:{},
     }
   },
   template: `
   <v-sheet>
 
-      <v-sheet v-if="true">
-        <v-btn tile depressed color="#bbb" small
-          :text="!type.active" v-for="type in types"
-          :key="type.title"
-          @click="type.active=!type.active">
-          {{type.title}}
-        </v-btn>
-      </v-sheet>
+    <v-card class="ma-3" v-for="(design, key) in designs" :key="key">
 
-      <v-card color="#eee" >
+      <v-list-item>
+        <v-list-item-avatar color="#eee" v-text="design.title.substr(0,2)"></v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title v-text="design.title"  class="headline" />
+          <v-list-item-subtitle v-text="design.description"  />
+        </v-list-item-content>
+        <v-list-item-avatar color="#eee"></v-list-item-avatar>
+      </v-list-item>
 
-          <v-slide-x-transition tag="v-row" class="flex-nowrap" style="overflow-x:scroll;overflow-y:hidden; scroll-snap-type: x mandatory; height:100vh" group >
-
-
-            <v-col :ref="'ref'+type.type" style="flex:1 1 320px; min-width:320px; scroll-snap-align: start;" v-for="(type,key) in activeTypes" :key="type.type">
-
-                <feed :host="$store.selected" :base="true" :type="type.type" :key="key"></feed>
-
-            </v-col>
-            </v-slide-x-transition>
-
-
-      </v-card>
+    </v-card>
 
   </v-sheet>
   `,
   created() {
-    for (let type in this.types) {
-      this.$set(this.types[type],'active',false)
-    };
-    this.types.design.active = true
-  },
-  computed: {
-    activeTypes() {
-      let active={};
-      for (let type in this.types) {
-        if (this.types[type].active) {
-          active[type]=this.types[type]
-        }
-      }
-      return active
-    }
+    getTypeItems('design',undefined, (data,key) => {
+      this.$set(this.designs,key,data)
+    })
   },
   methods: {
-    scrollRight() {
-      this.$refs.refdesign[0].scrollIntoView({inline: 'start', behavior: 'smooth'})
-    }
+
   },
+
 };

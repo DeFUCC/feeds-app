@@ -46,27 +46,17 @@ export default {
     })
   },
   watch: {
-    host: {
-      handler() {
-        this.itemQuery.off()
-        this.items = {};
-        this.itemQuery = getTypeItems(this.type, this.host, (data, key) => {
-          this.$set(this.items, key, data);
-        //  this.$nextTick(this.updateFeed);
-        })
-      }
-    },
     page: {
       deep:true,
       handler() {
-        this.feedWorker.postMessage(this.feed);
+        this.updateFeed();
       }
     },
     items() {
       this.loading=false
     },
-    feed(feed) {
-      this.feedWorker.postMessage(feed);
+    feed() {
+      this.updateFeed()
     }
   },
   computed: {
@@ -131,6 +121,7 @@ export default {
   template: `
   <v-container ref="feeder" style="overscroll-behavior:none; background-color:#eee" :class="{'pa-0':!base, 'py-0':base}" >
     <v-row class="d-flex">
+
       <v-col class="ma-1 pl-2 pt-1 flex-shrink-1">
         <h3 @click="$refs.feeder.scrollIntoView({inline: 'start', behavior: 'smooth'})" class="subtitle-1 pointer">
           {{getLinkDesc(type)}}

@@ -54,11 +54,7 @@ export async function addItem({ item, type, author, host })  {
 
 export async function updateItem ( item, cb ) {
   item.updatedAt = Gun.state();
-  if (gun.user().is) {
-    item.updatedBy = gun.user().is.pub;
-  } else {
-    item.updatedBy = '';
-  }
+  item.updatedBy = gun.user().is ? gun.user().is.pub : '';
   gun.get(Gun.node.soul(item)).put(item, cb)
 }
 
@@ -75,12 +71,7 @@ export function countLinks ( item, link, cb ) {
 }
 
 export function getTypeItems ( type, host, cb ) {
-  let g;
-  if (host) {
-    g = gun.get(Gun.node.soul(host));
-  } else {
-    g = gun.get(path);
-  }
+  let g = host ? gun.get(Gun.node.soul(host)) : gun.get(path);
   let query = g.get(type).map()
   query.on(cb)
   return query
