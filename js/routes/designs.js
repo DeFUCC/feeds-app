@@ -16,10 +16,12 @@ export default {
 
       <v-list-item>
 
-        <v-list-item-content>
-          <v-list-item-title v-text="design.title"  class="headline" />
-          <v-list-item-content v-text="design.description"  />
-        </v-list-item-content>
+
+          <router-link tag="v-list-item-content" :to="'design/'+key">
+            <v-list-item-title  v-text="design.title"  class="headline" />
+            <v-list-item-content v-text="design.description"  />
+          </router-link>
+        
         <v-list-item-avatar color="#eee"></v-list-item-avatar>
       </v-list-item>
 

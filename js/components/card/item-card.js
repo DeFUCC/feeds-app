@@ -4,58 +4,61 @@ import cardInfo from './card-info.js'
 import cardTitle from './card-title.js'
 
 export default {
-  name:'item-card',
+  name: 'item-card',
   props: {
-    item:Object,
-    selected:Boolean,
-    more:Boolean,
-    host:Object,
+    item: Object,
+    selected: Boolean,
+    more: Boolean,
+    host: Object
   },
-  components:{
+  components: {
     cardActions,
     addForm,
     cardInfo,
-    cardTitle,
+    cardTitle
   },
   data() {
     return {
-      links:{},
-      linking:false,
+      links: {},
+      linking: false,
       open: {
-        add:false,
-        more:false,
+        add: false,
+        more: false
       },
       edit: false,
-      creator:null,
-      type:'',
+      creator: null,
+      type: ''
     }
   },
   mounted() {
-    if(this.more) {
-      this.open.more=true;
+    if (this.more) {
+      this.open.more = true;
     }
   },
   computed: {
     privateBorder() {
-      let px=0;
-      let step=4;
+      let px = 0;
+      let step = 4;
       if (this.item.createdBy) {
-        px+=step
+        px += step
       }
       if (this.$soul(this.item).includes('~')) {
-        px+=step
+        px += step
       }
       return px
     }
   },
-  template:`
+  template: `
         <v-card
           transition="slide-y-transition"
           :id="$soul(item)"
           :raised="selected || linking"
           :outlined="!selected"
-          :style="{borderLeft: '4px solid ' + $color.hex( $soul(item) ), borderRight: item.createdBy ? privateBorder + 'px solid' + $color.hex( '~' + item.createdBy ) : 'none' }">
-        
+          :style="{
+            borderLeft: '4px solid ' + $color.hex( $soul(item) ),
+            borderRight: item.createdBy ? privateBorder + 'px solid' + $color.hex( '~' + item.createdBy ) : 'none'
+          }">
+
             <card-title
               style="position:sticky;top:0; background-color:#fff; z-index:5;"
               :item="item"
@@ -109,14 +112,14 @@ export default {
 
   methods: {
     updateItem(edited) {
-      this.item=edited;
-      this.edit=false;
+      this.item = edited;
+      this.edit = false;
     },
     toggleType(type) {
-      if (this.type==type) {
-        this.type=null
+      if (this.type == type) {
+        this.type = null
       } else {
-        this.type=type
+        this.type = type
       }
     },
     activateLinking(ev) {

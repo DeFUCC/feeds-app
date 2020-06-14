@@ -5,10 +5,10 @@ const filterFeed = ({
   rootSearch,
   search,
   page,
-  show=true,
-  showSeen=false,
+  show = true,
+  showSeen = false,
   typeField,
-  sortAB=true
+  sortAB = true
 }) => {
   let feed = {};
   let more = false;
@@ -20,19 +20,23 @@ const filterFeed = ({
 
   entries.sort(sortState)
 
-  if (sortAB) { entries.sort(sortByAB) }
+  if (sortAB) {
+    entries.sort(sortByAB)
+  }
 
   for (let entry of entries) {
     let key = entry[0];
     let item = entry[1];
 
     if (!item) {
-        console.log(item)
+      console.log(item)
     }
 
-    if (!item || item.VOID || !item[typeField]) { continue }
+    if (!item || item.VOID || !item[typeField]) {
+      continue
+    }
 
-    if (!showSeen && seen && seen[key]  ) {
+    if (!showSeen && seen && seen[key]) {
       continue
     }
 
@@ -40,7 +44,7 @@ const filterFeed = ({
       continue
     }
 
-  /*
+    /*
     if ((show.banned && !item.banned) ||(!show.banned && item.banned)) {
       continue
     }
@@ -55,33 +59,27 @@ const filterFeed = ({
 
     if (page) {
       clean++;
-      if (clean<page.start) {
+      if (clean < page.start) {
         continue
       }
       shown++;
       if (clean > page.end) {
-        more=true;
+        more = true;
         break
       }
     }
 
-    feed[key]=item
+    feed[key] = item
   }
 
-
-  postMessage({
-    feed,
-    shown:shown,
-    total,
-    more,
-  })
+  postMessage({feed, shown: shown, total, more})
 }
 
 onmessage = (e) => {
-    filterFeed(e.data)
+  filterFeed(e.data)
 }
 
-function sortState (a,b) {
+function sortState(a, b) {
   if (a[1].createdAt > b[1].createdAt) {
     return -1
   } else {
@@ -89,35 +87,41 @@ function sortState (a,b) {
   }
 }
 
-function sortByAB (a,b)  {
-    let aTitle = a[1].title
-    let bTitle = b[1].title
-    if (typeof a[1].title == 'string') {
-      aTitle = aTitle.toLowerCase();
-    }
-    if (typeof b[1].title == 'string') {
-      bTitle = bTitle.toLowerCase();
-    }
+function sortByAB(a, b) {
+  let aTitle = a[1].title
+  let bTitle = b[1].title
+  if (typeof a[1].title == 'string') {
+    aTitle = aTitle.toLowerCase();
+  }
+  if (typeof b[1].title == 'string') {
+    bTitle = bTitle.toLowerCase();
+  }
 
-    if ( aTitle > bTitle ) {
+  if (aTitle > bTitle) {
+    return 1;
+  }
+  if (aTitle < bTitle) {
+    return -1;
+  }
+  if (aTitle == bTitle) {
+    let aDesc = a[1].description.toLowerCase();
+    let bDesc = b[1].description.toLowerCase();
+    if (aDesc > bDesc) {
       return 1;
     }
-    if (aTitle < bTitle) {
+    if (aDesc < bDesc) {
       return -1;
     }
-    if (aTitle==bTitle) {
-      let aDesc = a[1].description.toLowerCase();
-      let bDesc = b[1].description.toLowerCase();
-      if ( aDesc > bDesc ) {
-        return 1;
-      }
-      if (aDesc < bDesc) {
-        return -1;
-      }
-    }
-    return 0;
+  }
+  return 0;
 };
 
-function cleanMap (obj)  {
-      return Object.entries(obj).reduce((a,[k,v]) => (v === null ? a : {...a, [k]:v}), {})
+function cleanMap(obj) {
+  return Object.entries(obj).reduce((a, [k, v]) => (
+    v === null
+    ? a
+    : {
+      ...a,
+      [k]: v
+    }), {})
 }

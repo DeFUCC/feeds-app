@@ -7,12 +7,12 @@ export default {
   props: {
     type: String,
     host: Object,
-    base: Boolean,
+    base: Boolean
   },
   components: {
     itemCard,
     addForm,
-    intersect,
+    intersect
   },
   data() {
     return {
@@ -20,40 +20,40 @@ export default {
       search: '',
       items: {},
       filteredItems: [],
-      activeFeed:'',
+      activeFeed: '',
       batch: 20,
       add: false,
       showSeen: false,
       sortAB: false,
       currentLetter: "",
-      itemQuery:'',
+      itemQuery: '',
       page: {
-        size:12,
+        size: 12,
         start: 0,
-        end:12,
+        end: 12,
         shown: 0,
-        total: 0,
+        total: 0
       },
       more: false,
-      loading:true,
+      loading: true
     };
   },
   created() {
     this.createWorker();
     this.itemQuery = getTypeItems(this.type, this.host, (data, key) => {
       this.$set(this.items, key, data);
-    //  this.$nextTick(this.updateFeed);
+      //  this.$nextTick(this.updateFeed);
     })
   },
   watch: {
     page: {
-      deep:true,
+      deep: true,
       handler() {
         this.updateFeed();
       }
     },
     items() {
-      this.loading=false
+      this.loading = false
     },
     feed() {
       this.updateFeed()
@@ -75,7 +75,7 @@ export default {
         rootSearch: this.$store.search,
         typeField: this.typeField,
         sortAB: this.sortAB,
-        page:this.page,
+        page: this.page
       };
     }
   },
@@ -112,10 +112,10 @@ export default {
         return this.$root.types[link].title;
       }
     },
-    loadMore(){
-      this.loading=true
+    loadMore() {
+      this.loading = true
       this.page.end = this.page.end + this.page.size
-    },
+    }
   },
 
   template: `

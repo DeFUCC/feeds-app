@@ -1,38 +1,19 @@
-
 export default {
   props: {
-    item:Object,
-    closed:Boolean,
-    sheet:Boolean,
-    open:Boolean,
+    item: Object,
+    closed: Boolean,
+    sheet: Boolean,
+    open: Boolean
   },
   data() {
-    return{
-      note:'',
-      ahref:'',
-    }
+    return {note: '', ahref: ''}
   },
   computed: {
-    theTitle() {
-      let {title , stress } = this.item
-      if (this.item.alias) {return this.item.alias}
-      if (!title) {return null}
-      if (!stress || typeof title != 'string') { return title }
-      let arr = title.split('');
-      let parts = [];
-      if (arr.length > 0) {
-        arr[0] = arr[0].toUpperCase();
-        parts[0] = arr.slice(0, stress+1).join('');
-        parts[1] = '\u0301';
-        parts[2] = arr.slice(stress+1).join('');
-      }
-      return parts.join('')
-    },
     theType() {
       return this.$root.types[this.item.type]
-    },
+    }
   },
-  template:`
+  template: `
   <v-card-title
     @click="$store.select(item)"
     class="pointer py-1 px-2"
@@ -46,7 +27,7 @@ export default {
         :class="{title:item.type!='icon',
       'display-2':item.type=='icon'}"
       >
-        {{theTitle}}
+        {{item.title}}
       </h2>
 
     </span>
@@ -78,13 +59,13 @@ export default {
   methods: {
     link() {
       let {$root, item} = this
-      if ($store.toLink==item) {
-        $store.toLink=null
-        this.$emit('linking',false)
+      if ($store.toLink == item) {
+        $store.toLink = null
+        this.$emit('linking', false)
       } else {
-        $store.toLink=item;
-        this.$emit('linking',true)
+        $store.toLink = item;
+        this.$emit('linking', true)
       }
-    },
+    }
   }
 }
