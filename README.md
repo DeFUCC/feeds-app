@@ -13,7 +13,7 @@ JS stack:
   - [Vue Router](https://router.vuejs.org/)
   - [Vue i18n](https://kazupon.github.io/vue-i18n/)
   - [Vuetify](https://vuetifyjs.com/en/)
-    - [Material Desing icons](https://materialdesignicons.com/)
+    - [Material Design icons](https://materialdesignicons.com/)
   - [Vue Formulate](https://vueformulate.com/) to be added
   - [D3 graph visualization](https://observablehq.com/@d3/disjoint-force-directed-graph?collection=@d3/d3-force) with [vue-d3-network](https://github.com/emiliorizzo/vue-d3-network)
 
